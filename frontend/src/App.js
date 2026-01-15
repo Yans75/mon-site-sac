@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { AdminProvider } from "./context/AdminContext";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
@@ -15,6 +16,12 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthCallback from "./pages/AuthCallback";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminProductForm from "./pages/admin/AdminProductForm";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminMessages from "./pages/admin/AdminMessages";
 
 function AppRouter() {
   const location = useLocation();
@@ -27,6 +34,16 @@ function AppRouter() {
   
   return (
     <Routes>
+      {/* Admin Routes (no Layout) */}
+      <Route path="/admin" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/products" element={<AdminProducts />} />
+      <Route path="/admin/products/new" element={<AdminProductForm />} />
+      <Route path="/admin/products/edit/:productId" element={<AdminProductForm />} />
+      <Route path="/admin/orders" element={<AdminOrders />} />
+      <Route path="/admin/messages" element={<AdminMessages />} />
+      
+      {/* Public Routes */}
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="shop" element={<Shop />} />
@@ -48,21 +65,23 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <CartProvider>
-          <div className="grain-overlay" />
-          <Toaster 
-            position="top-right" 
-            toastOptions={{
-              style: {
-                background: '#F9F8F6',
-                border: '1px solid #E5E0D8',
-                color: '#2D2D2D',
-                fontFamily: 'Outfit, sans-serif',
-              },
-            }}
-          />
-          <AppRouter />
-        </CartProvider>
+        <AdminProvider>
+          <CartProvider>
+            <div className="grain-overlay" />
+            <Toaster 
+              position="top-right" 
+              toastOptions={{
+                style: {
+                  background: '#F9F8F6',
+                  border: '1px solid #E5E0D8',
+                  color: '#2D2D2D',
+                  fontFamily: 'Outfit, sans-serif',
+                },
+              }}
+            />
+            <AppRouter />
+          </CartProvider>
+        </AdminProvider>
       </AuthProvider>
     </BrowserRouter>
   );
