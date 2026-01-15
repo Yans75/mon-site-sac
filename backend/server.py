@@ -248,6 +248,157 @@ async def delete_product(product_id: str):
         raise HTTPException(status_code=404, detail="Product not found")
     return {"message": "Product deleted"}
 
+# ============== ADMIN ROUTES ==============
+
+class AdminLogin(BaseModel):
+    email: str
+    password: str
+
+class AdminProductCreate(BaseModel):
+    name: str
+    description: str
+    price: float
+    images: List[str] = []
+    category: str = "handbag"
+    material: str = ""
+    craftsmanship_time: str = ""
+    limited_pieces: int = 10
+    stock: int = 10
+    featured: bool = False
+
+async def verify_admin_token(request: Request) -> bool:
+    auth_header = request.headers.get("Authorization", "")
+    if not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Non autorisé")
+    
+    token = auth_header[7:]
+    payload = decode_jwt_token(token)
+    if not payload or not payload.get("is_admin"):
+        raise HTTPException(status_code=401, detail="Accès admin requis")
+    return True
+
+@api_router.post("/admin/login")
+async def admin_login(credentials: AdminLogin):
+    if credentials.email == ADMIN_EMAIL and credentials.password == ADMIN_PASSWORD:
+        token = jwt.encode({
+            "email": credentials.email,
+            "is_admin": True,
+            "exp": datetime.now(timezone.utc) + timedelta(hours=24)
+        }, JWT_SECRET, algorithm=JWT_ALGORITHM)
+        return {"token": token, "message": "Connexion réussie"}
+    raise HTTPException(status_code=401, detail="Identifiants incorrects")
+
+@api_router.get("/admin/verify")
+async def verify_admin(request: Request):
+    await verify_admin_token(request)
+    return {"valid": True}
+
+@api_router.get("/admin/products")
+async def admin_get_products(request: Request):
+    await verify_admin_token(request)
+    products = await db.products.find({}, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return products
+
+@api_router.post("/admin/products")
+async def admin_create_product(request: Request, product_data: AdminProductCreate):
+    await verify_admin_token(request)
+    product = Product(**product_data.model_dump())
+    doc = product.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.products.insert_one(doc)
+    return {"product_id": product.product_id, "message": "Produit créé"}
+
+@api_router.put("/admin/products/{product_id}")
+async def admin_update_product(request: Request, product_id: str, product_data: AdminProductCreate):
+    await verify_admin_token(request)
+    update_data = product_data.model_dump()
+    update_data['updated_at'] = datetime.now(timezone.utc).isoformat()
+    result = await db.products.update_one(
+        {"product_id": product_id},
+        {"$set": update_data}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Produit non trouvé")
+    return {"message": "Produit mis à jour"}
+
+@api_router.delete("/admin/products/{product_id}")
+async def admin_delete_product(request: Request, product_id: str):
+    await verify_admin_token(request)
+    result = await db.products.delete_one({"product_id": product_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Produit non trouvé")
+    return {"message": "Produit supprimé"}
+
+@api_router.get("/admin/orders")
+async def admin_get_orders(request: Request):
+    await verify_admin_token(request)
+    orders = await db.orders.find({}, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return orders
+
+@api_router.get("/admin/messages")
+async def admin_get_messages(request: Request):
+    await verify_admin_token(request)
+    messages = await db.contact_messages.find({}, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return messages
+
+@api_router.get("/admin/stats")
+async def admin_get_stats(request: Request):
+    await verify_admin_token(request)
+    products_count = await db.products.count_documents({})
+    orders_count = await db.orders.count_documents({})
+    messages_count = await db.contact_messages.count_documents({})
+    users_count = await db.users.count_documents({})
+    
+    # Calculate total revenue from paid orders
+    paid_orders = await db.orders.find({"payment_status": "paid"}, {"total": 1}).to_list(100)
+    total_revenue = sum(order.get("total", 0) for order in paid_orders)
+    
+    return {
+        "products": products_count,
+        "orders": orders_count,
+        "messages": messages_count,
+        "users": users_count,
+        "revenue": total_revenue
+    }
+
+# ============== IMAGE UPLOAD ROUTES ==============
+
+@api_router.post("/upload/image")
+async def upload_image(request: Request, file: UploadFile = File(...)):
+    await verify_admin_token(request)
+    
+    # Validate file type
+    allowed_types = ["image/jpeg", "image/png", "image/webp", "image/gif"]
+    if file.content_type not in allowed_types:
+        raise HTTPException(status_code=400, detail="Type de fichier non autorisé")
+    
+    # Generate unique filename
+    ext = file.filename.split(".")[-1] if "." in file.filename else "jpg"
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    filepath = UPLOADS_DIR / filename
+    
+    # Save file
+    with open(filepath, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    # Return the URL
+    return {"url": f"/api/uploads/{filename}", "filename": filename}
+
+@api_router.get("/uploads/{filename}")
+async def get_uploaded_image(filename: str):
+    filepath = UPLOADS_DIR / filename
+    if not filepath.exists():
+        raise HTTPException(status_code=404, detail="Image non trouvée")
+    return FileResponse(filepath)
+
+@api_router.delete("/upload/image/{filename}")
+async def delete_image(request: Request, filename: str):
+    await verify_admin_token(request)
+    filepath = UPLOADS_DIR / filename
+    if filepath.exists():
+        filepath.unlink()
+    return {"message": "Image supprimée"}
+
 # ============== CART ROUTES ==============
 
 @api_router.get("/cart/{session_id}")
