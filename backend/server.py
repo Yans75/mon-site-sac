@@ -705,16 +705,16 @@ async def seed_data():
     products = [
         {
             "product_id": "prod_001",
-            "name": "Luna Tote",
-            "description": "A timeless silhouette crafted from the finest organic cotton yarn. Each Luna Tote takes over 40 hours of meticulous handwork, featuring our signature woven texture that only grows more beautiful with time. The perfect companion for those who appreciate slow, intentional fashion.",
+            "name": "Cabas Luna",
+            "description": "Une silhouette intemporelle confectionnée à partir du fil de coton biologique le plus fin. Chaque Cabas Luna nécessite plus de 40 heures de travail méticuleux, arborant notre texture tissée signature qui ne fait que s'embellir avec le temps. Le compagnon idéal pour celles qui apprécient la mode lente et intentionnelle.",
             "price": 485.00,
             "images": [
                 "https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85",
                 "https://images.unsplash.com/photo-1740733543154-ae59aa01e6ca?crop=entropy&cs=srgb&fm=jpg&q=85"
             ],
             "category": "tote",
-            "material": "Organic Cotton Yarn",
-            "craftsmanship_time": "40+ hours",
+            "material": "Fil de Coton Biologique",
+            "craftsmanship_time": "40+ heures",
             "limited_pieces": 12,
             "stock": 5,
             "featured": True,
@@ -722,15 +722,15 @@ async def seed_data():
         },
         {
             "product_id": "prod_002",
-            "name": "Selene Clutch",
-            "description": "An evening essential that whispers elegance. The Selene Clutch is hand-crocheted using premium merino wool blend, featuring an intricate lace pattern passed down through generations. A statement piece for the woman who knows the value of heritage.",
+            "name": "Pochette Selene",
+            "description": "Un essentiel de soirée qui murmure l'élégance. La Pochette Selene est crochetée à la main avec un mélange de laine mérinos premium, arborant un motif de dentelle complexe transmis de génération en génération. Une pièce de caractère pour la femme qui connaît la valeur du patrimoine.",
             "price": 295.00,
             "images": [
                 "https://images.unsplash.com/photo-1740733543156-e4b879e29076?crop=entropy&cs=srgb&fm=jpg&q=85"
             ],
             "category": "clutch",
-            "material": "Merino Wool Blend",
-            "craftsmanship_time": "25+ hours",
+            "material": "Mélange Laine Mérinos",
+            "craftsmanship_time": "25+ heures",
             "limited_pieces": 8,
             "stock": 3,
             "featured": True,
@@ -738,15 +738,15 @@ async def seed_data():
         },
         {
             "product_id": "prod_003",
-            "name": "Aurora Shoulder Bag",
-            "description": "Where contemporary meets tradition. The Aurora features a structured form achieved through hours of careful shaping, using naturally dyed cotton threads. Its adjustable strap allows for versatile wear, from day meetings to evening gatherings.",
+            "name": "Sac Aurora",
+            "description": "Là où le contemporain rencontre la tradition. L'Aurora présente une forme structurée obtenue grâce à des heures de mise en forme minutieuse, utilisant des fils de coton teints naturellement. Sa bandoulière ajustable permet un port polyvalent, des réunions de jour aux soirées élégantes.",
             "price": 425.00,
             "images": [
                 "https://images.unsplash.com/photo-1722510825279-6651572d8fd6?crop=entropy&cs=srgb&fm=jpg&q=85"
             ],
             "category": "shoulder",
-            "material": "Naturally Dyed Cotton",
-            "craftsmanship_time": "35+ hours",
+            "material": "Coton Teint Naturellement",
+            "craftsmanship_time": "35+ heures",
             "limited_pieces": 15,
             "stock": 7,
             "featured": True,
@@ -754,15 +754,15 @@ async def seed_data():
         },
         {
             "product_id": "prod_004",
-            "name": "Iris Mini Bag",
-            "description": "Small in size, grand in statement. The Iris Mini is a testament to precision craftsmanship, featuring over 200 hand-tied knots per square inch. Perfect for carrying your essentials while making an unforgettable impression.",
+            "name": "Mini Sac Iris",
+            "description": "Petit par la taille, grand par l'impact. Le Mini Iris est un témoignage de l'artisanat de précision, avec plus de 200 nœuds noués à la main par centimètre carré. Parfait pour transporter vos essentiels tout en faisant une impression inoubliable.",
             "price": 245.00,
             "images": [
                 "https://images.unsplash.com/photo-1740733543154-ae59aa01e6ca?crop=entropy&cs=srgb&fm=jpg&q=85"
             ],
             "category": "mini",
-            "material": "Premium Linen Yarn",
-            "craftsmanship_time": "20+ hours",
+            "material": "Fil de Lin Premium",
+            "craftsmanship_time": "20+ heures",
             "limited_pieces": 20,
             "stock": 10,
             "featured": False,
@@ -770,15 +770,15 @@ async def seed_data():
         },
         {
             "product_id": "prod_005",
-            "name": "Terra Weekender",
-            "description": "For the unhurried traveler. Our largest creation, the Terra Weekender, combines robust construction with the softness only handmade pieces can offer. Each bag is signed and numbered by the artisan who brought it to life.",
+            "name": "Week-end Terra",
+            "description": "Pour la voyageuse qui prend son temps. Notre plus grande création, le Week-end Terra, allie robustesse et douceur que seules les pièces artisanales peuvent offrir. Chaque sac est signé et numéroté par l'artisan qui lui a donné vie.",
             "price": 685.00,
             "images": [
                 "https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85"
             ],
             "category": "weekender",
-            "material": "Jute & Cotton Blend",
-            "craftsmanship_time": "60+ hours",
+            "material": "Mélange Jute & Coton",
+            "craftsmanship_time": "60+ heures",
             "limited_pieces": 6,
             "stock": 2,
             "featured": True,
@@ -786,15 +786,15 @@ async def seed_data():
         },
         {
             "product_id": "prod_006",
-            "name": "Stella Crossbody",
-            "description": "Freedom in every step. The Stella Crossbody offers hands-free elegance with its adjustable braided strap and compact yet thoughtful interior. A daily companion for the modern woman who moves with purpose.",
+            "name": "Bandoulière Stella",
+            "description": "La liberté à chaque pas. La Bandoulière Stella offre une élégance mains libres avec sa lanière tressée ajustable et son intérieur compact mais pensé. Un compagnon quotidien pour la femme moderne qui avance avec détermination.",
             "price": 365.00,
             "images": [
                 "https://images.unsplash.com/photo-1740733543156-e4b879e29076?crop=entropy&cs=srgb&fm=jpg&q=85"
             ],
             "category": "crossbody",
-            "material": "Recycled Cotton Yarn",
-            "craftsmanship_time": "30+ hours",
+            "material": "Fil de Coton Recyclé",
+            "craftsmanship_time": "30+ heures",
             "limited_pieces": 18,
             "stock": 8,
             "featured": False,
