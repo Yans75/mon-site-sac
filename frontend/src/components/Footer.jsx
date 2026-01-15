@@ -10,18 +10,18 @@ const Footer = () => {
           <div className="md:col-span-2">
             <h2 className="font-heading text-3xl text-charcoal mb-4">ArtemCreations</h2>
             <p className="font-body text-sm text-charcoal/70 max-w-sm leading-relaxed">
-              Handcrafted with love and dedication. Each piece tells a story of patience, 
-              skill, and the timeless beauty of artisanal work.
+              Confectionné avec amour et dévouement. Chaque pièce raconte une histoire de patience, 
+              de savoir-faire et de la beauté intemporelle du travail artisanal.
             </p>
             <p className="font-accent text-xl text-terracotta mt-6">
-              "Made by hand, worn with heart"
+              "Fait main, porté avec le cœur"
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="font-body text-sm uppercase tracking-widest text-charcoal mb-6">
-              Explore
+              Explorer
             </h3>
             <nav className="flex flex-col gap-3">
               <Link 
@@ -29,28 +29,28 @@ const Footer = () => {
                 data-testid="footer-shop"
                 className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
               >
-                Shop Collection
+                La Collection
               </Link>
               <Link 
                 to="/about" 
                 data-testid="footer-about"
                 className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
               >
-                Our Story
+                Notre Histoire
               </Link>
               <Link 
                 to="/craftsmanship" 
                 data-testid="footer-craftsmanship"
                 className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
               >
-                Craftsmanship
+                Savoir-Faire
               </Link>
               <Link 
                 to="/contact" 
                 data-testid="footer-contact"
                 className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
               >
-                Contact Us
+                Nous Contacter
               </Link>
             </nav>
           </div>
@@ -58,7 +58,7 @@ const Footer = () => {
           {/* Connect */}
           <div>
             <h3 className="font-body text-sm uppercase tracking-widest text-charcoal mb-6">
-              Connect
+              Suivez-nous
             </h3>
             <div className="flex gap-4 mb-6">
               <a 
@@ -96,20 +96,20 @@ const Footer = () => {
         {/* Bottom */}
         <div className="border-t border-charcoal/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="font-body text-xs text-charcoal/50">
-            © {new Date().getFullYear()} ArtemCreations. All rights reserved.
+            © {new Date().getFullYear()} ArtemCreations. Tous droits réservés.
           </p>
           <div className="flex gap-6">
             <Link 
               to="/privacy" 
               className="font-body text-xs text-charcoal/50 hover:text-charcoal transition-colors"
             >
-              Privacy Policy
+              Politique de confidentialité
             </Link>
             <Link 
               to="/terms" 
               className="font-body text-xs text-charcoal/50 hover:text-charcoal transition-colors"
             >
-              Terms of Service
+              Conditions générales
             </Link>
           </div>
         </div>

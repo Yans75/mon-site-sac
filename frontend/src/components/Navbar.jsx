@@ -25,12 +25,12 @@ const Navbar = () => {
   }, [location]);
 
   const leftLinks = [
-    { to: '/shop', label: 'Shop' },
-    { to: '/craftsmanship', label: 'Craftsmanship' },
+    { to: '/shop', label: 'Boutique' },
+    { to: '/craftsmanship', label: 'Savoir-Faire' },
   ];
 
   const rightLinks = [
-    { to: '/about', label: 'About' },
+    { to: '/about', label: 'Notre Histoire' },
     { to: '/contact', label: 'Contact' },
   ];
 
