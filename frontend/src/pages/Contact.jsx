@@ -28,13 +28,13 @@ const Contact = () => {
 
     try {
       await axios.post(`${API}/contact`, formData);
-      toast.success('Message sent!', {
-        description: "We'll be in touch soon."
+      toast.success('Message envoyé !', {
+        description: "Nous vous répondrons très bientôt."
       });
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
-      toast.error('Could not send message', {
-        description: 'Please try again later.'
+      toast.error('Impossible d\'envoyer le message', {
+        description: 'Veuillez réessayer plus tard.'
       });
     } finally {
       setSending(false);
@@ -52,14 +52,14 @@ const Contact = () => {
             className="max-w-2xl"
           >
             <span className="font-accent text-2xl text-terracotta mb-4 block">
-              Let's Connect
+              Restons en Contact
             </span>
             <h1 className="font-heading text-5xl md:text-6xl text-charcoal mb-6">
-              Get in Touch
+              Contactez-nous
             </h1>
             <p className="font-body text-lg text-charcoal/70 leading-relaxed">
-              Have a question about our bags? Interested in a custom order? 
-              We'd love to hear from you.
+              Une question sur nos sacs ? Intéressé(e) par une commande personnalisée ? 
+              Nous serions ravis d'échanger avec vous.
             </p>
           </motion.div>
         </div>
@@ -76,12 +76,12 @@ const Contact = () => {
               transition={{ duration: 0.6 }}
             >
               <h2 className="font-heading text-3xl text-charcoal mb-8">
-                Send a Message
+                Envoyez un Message
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <Label htmlFor="name" className="font-body text-sm text-charcoal/70 mb-2 block">
-                    Your Name
+                    Votre Nom
                   </Label>
                   <Input
                     id="name"
@@ -92,13 +92,13 @@ const Contact = () => {
                     required
                     data-testid="contact-name"
                     className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none py-3"
-                    placeholder="Elena Smith"
+                    placeholder="Marie Dupont"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="email" className="font-body text-sm text-charcoal/70 mb-2 block">
-                    Email Address
+                    Adresse Email
                   </Label>
                   <Input
                     id="email"
@@ -109,13 +109,13 @@ const Contact = () => {
                     required
                     data-testid="contact-email"
                     className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none py-3"
-                    placeholder="elena@example.com"
+                    placeholder="marie@exemple.com"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="subject" className="font-body text-sm text-charcoal/70 mb-2 block">
-                    Subject
+                    Sujet
                   </Label>
                   <Input
                     id="subject"
@@ -125,13 +125,13 @@ const Contact = () => {
                     onChange={handleChange}
                     data-testid="contact-subject"
                     className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none py-3"
-                    placeholder="Custom order inquiry"
+                    placeholder="Demande de commande personnalisée"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="message" className="font-body text-sm text-charcoal/70 mb-2 block">
-                    Your Message
+                    Votre Message
                   </Label>
                   <Textarea
                     id="message"
@@ -142,7 +142,7 @@ const Contact = () => {
                     rows={6}
                     data-testid="contact-message"
                     className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none resize-none"
-                    placeholder="Tell us about your inquiry..."
+                    placeholder="Décrivez votre demande..."
                   />
                 </div>
 
@@ -152,9 +152,9 @@ const Contact = () => {
                   data-testid="contact-submit"
                   className="btn-primary flex items-center gap-2"
                 >
-                  {sending ? 'Sending...' : (
+                  {sending ? 'Envoi en cours...' : (
                     <>
-                      Send Message
+                      Envoyer le Message
                       <Send size={14} />
                     </>
                   )}
@@ -170,7 +170,7 @@ const Contact = () => {
               className="lg:pl-8"
             >
               <h2 className="font-heading text-3xl text-charcoal mb-8">
-                Contact Info
+                Informations
               </h2>
 
               <div className="space-y-8">
@@ -183,10 +183,10 @@ const Contact = () => {
                       Email
                     </h3>
                     <a 
-                      href="mailto:hello@artemcreations.com"
+                      href="mailto:bonjour@artemcreations.com"
                       className="font-body text-charcoal hover:text-terracotta transition-colors"
                     >
-                      hello@artemcreations.com
+                      bonjour@artemcreations.com
                     </a>
                   </div>
                 </div>
@@ -197,18 +197,18 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-body text-sm uppercase tracking-widest text-charcoal/60 mb-1">
-                      Studio
+                      Atelier
                     </h3>
                     <p className="font-body text-charcoal">
-                      123 Artisan Lane<br />
-                      Brooklyn, NY 11201
+                      123 Rue des Artisans<br />
+                      75011 Paris, France
                     </p>
                   </div>
                 </div>
 
                 <div className="pt-8 border-t border-muted">
                   <h3 className="font-body text-sm uppercase tracking-widest text-charcoal/60 mb-4">
-                    Follow Us
+                    Suivez-nous
                   </h3>
                   <div className="flex gap-4">
                     <a 
@@ -234,12 +234,12 @@ const Contact = () => {
 
                 <div className="pt-8 border-t border-muted">
                   <h3 className="font-body text-sm uppercase tracking-widest text-charcoal/60 mb-4">
-                    Studio Hours
+                    Horaires de l'Atelier
                   </h3>
                   <div className="space-y-2 font-body text-charcoal/70">
-                    <p>Monday - Friday: 10am - 6pm</p>
-                    <p>Saturday: By appointment</p>
-                    <p>Sunday: Closed</p>
+                    <p>Lundi - Vendredi : 10h - 18h</p>
+                    <p>Samedi : Sur rendez-vous</p>
+                    <p>Dimanche : Fermé</p>
                   </div>
                 </div>
               </div>
@@ -247,12 +247,12 @@ const Contact = () => {
               {/* Note */}
               <div className="mt-12 p-6 bg-pale-sand">
                 <p className="font-accent text-lg text-terracotta mb-2">
-                  A note on custom orders
+                  À propos des commandes personnalisées
                 </p>
                 <p className="font-body text-sm text-charcoal/70 leading-relaxed">
-                  We welcome custom orders for those seeking something truly unique. 
-                  Lead times typically range from 4-8 weeks depending on complexity. 
-                  Contact us to discuss your vision.
+                  Nous accueillons avec plaisir les commandes personnalisées pour ceux qui 
+                  recherchent quelque chose de vraiment unique. Les délais varient généralement 
+                  de 4 à 8 semaines selon la complexité. Contactez-nous pour discuter de votre vision.
                 </p>
               </div>
             </motion.div>

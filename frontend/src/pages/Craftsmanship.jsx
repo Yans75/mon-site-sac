@@ -4,26 +4,26 @@ const Craftsmanship = () => {
   const steps = [
     {
       number: '01',
-      title: 'Selecting the Yarn',
-      description: 'We source only the finest organic and recycled yarns from ethical suppliers. Each fiber is chosen for its texture, durability, and beauty.',
+      title: 'Sélection du Fil',
+      description: 'Nous sélectionnons uniquement les fils biologiques et recyclés les plus fins auprès de fournisseurs éthiques. Chaque fibre est choisie pour sa texture, sa durabilité et sa beauté.',
       image: 'https://images.unsplash.com/photo-1666112512232-f763ceeb5ec8?crop=entropy&cs=srgb&fm=jpg&q=85'
     },
     {
       number: '02',
-      title: 'Planning the Design',
-      description: 'Every bag begins with a vision. Sketches, color studies, and pattern planning ensure each piece will be both beautiful and functional.',
+      title: 'Conception du Design',
+      description: 'Chaque sac commence par une vision. Croquis, études de couleurs et planification des motifs garantissent que chaque pièce sera à la fois belle et fonctionnelle.',
       image: 'https://images.unsplash.com/photo-1636545767112-27892db3d13f?crop=entropy&cs=srgb&fm=jpg&q=85'
     },
     {
       number: '03',
-      title: 'The Making',
-      description: 'This is where the magic happens. Hour after hour of careful handiwork—crocheting, weaving, shaping—transforms raw yarn into art.',
+      title: 'La Confection',
+      description: 'C\'est là que la magie opère. Heure après heure de travail minutieux — crochet, tissage, mise en forme — transforment le fil brut en œuvre d\'art.',
       image: 'https://images.unsplash.com/photo-1647032713597-1dcfaa15b725?crop=entropy&cs=srgb&fm=jpg&q=85'
     },
     {
       number: '04',
-      title: 'Finishing Touches',
-      description: 'Hardware is attached, linings are sewn, and each bag is inspected for perfection. Finally, the artisan signs their work.',
+      title: 'Les Finitions',
+      description: 'Les accessoires sont fixés, les doublures cousues, et chaque sac est inspecté pour atteindre la perfection. Enfin, l\'artisan signe son œuvre.',
       image: 'https://images.unsplash.com/photo-1737888828619-96e0f50302f4?crop=entropy&cs=srgb&fm=jpg&q=85'
     }
   ];
@@ -39,17 +39,17 @@ const Craftsmanship = () => {
             className="max-w-3xl"
           >
             <span className="font-accent text-2xl text-terracotta mb-4 block">
-              The Art of Making
+              L'Art de Créer
             </span>
             <h1 className="font-heading text-5xl md:text-6xl text-charcoal mb-6 leading-tight">
-              Craftsmanship that
+              Un savoir-faire qui
               <br />
-              <span className="italic">tells a story</span>
+              <span className="italic">raconte une histoire</span>
             </h1>
             <p className="font-body text-lg text-charcoal/70 leading-relaxed">
-              Every ArtemCreations bag is born from hours of patient, skilled handiwork. 
-              There are no shortcuts, no machines replacing human touch. Just yarn, hands, 
-              and time—the ingredients of something truly special.
+              Chaque sac ArtemCreations naît d'heures de travail patient et qualifié. 
+              Pas de raccourcis, pas de machines remplaçant le toucher humain. Juste du fil, 
+              des mains et du temps — les ingrédients de quelque chose de vraiment spécial.
             </p>
           </motion.div>
         </div>
@@ -62,21 +62,21 @@ const Craftsmanship = () => {
             <div>
               <p className="font-heading text-5xl md:text-6xl">40+</p>
               <p className="font-body text-xs uppercase tracking-widest text-stone-white/60 mt-2">
-                Hours Average
+                Heures en moyenne
               </p>
             </div>
             <div className="hidden md:block w-px h-16 bg-stone-white/20" />
             <div>
               <p className="font-heading text-5xl md:text-6xl">200+</p>
               <p className="font-body text-xs uppercase tracking-widest text-stone-white/60 mt-2">
-                Knots Per Inch
+                Nœuds au centimètre
               </p>
             </div>
             <div className="hidden md:block w-px h-16 bg-stone-white/20" />
             <div>
               <p className="font-heading text-5xl md:text-6xl">100%</p>
               <p className="font-body text-xs uppercase tracking-widest text-stone-white/60 mt-2">
-                Handmade
+                Fait Main
               </p>
             </div>
           </div>
@@ -135,27 +135,28 @@ const Craftsmanship = () => {
             className="text-center mb-16"
           >
             <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-4">
-              Our Materials
+              Nos Matières
             </h2>
             <p className="font-body text-charcoal/60 max-w-2xl mx-auto">
-              We believe great craft starts with great materials. Every yarn we use 
-              is carefully selected for quality, sustainability, and beauty.
+              Nous croyons qu'un grand artisanat commence par de grandes matières. 
+              Chaque fil que nous utilisons est soigneusement sélectionné pour sa qualité, 
+              sa durabilité et sa beauté.
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Organic Cotton',
-                description: 'Soft, breathable, and grown without harmful chemicals. Our go-to for everyday bags.'
+                name: 'Coton Biologique',
+                description: 'Doux, respirant et cultivé sans produits chimiques nocifs. Notre choix pour les sacs du quotidien.'
               },
               {
-                name: 'Recycled Fibers',
-                description: 'Giving new life to textile waste. Beautiful, durable, and kind to the planet.'
+                name: 'Fibres Recyclées',
+                description: 'Donner une nouvelle vie aux déchets textiles. Beau, durable et respectueux de la planète.'
               },
               {
-                name: 'Premium Wool',
-                description: 'Ethically sourced from trusted farms. Perfect for pieces that need extra warmth and texture.'
+                name: 'Laine Premium',
+                description: 'Provenant de fermes éthiques de confiance. Parfaite pour les pièces qui nécessitent chaleur et texture.'
               }
             ].map((material, index) => (
               <motion.div
@@ -187,11 +188,11 @@ const Craftsmanship = () => {
             viewport={{ once: true }}
           >
             <p className="font-heading text-3xl md:text-4xl text-charcoal italic mb-8 leading-relaxed">
-              "The beauty of handmade is in the imperfections—the subtle variations 
-              that prove human hands were here, creating something with care."
+              "La beauté du fait main réside dans les imperfections — les subtiles variations 
+              qui prouvent que des mains humaines étaient là, créant quelque chose avec soin."
             </p>
             <cite className="font-accent text-xl text-terracotta not-italic">
-              — Elena, Master Artisan
+              — Elena, Maître Artisane
             </cite>
           </motion.blockquote>
         </div>
