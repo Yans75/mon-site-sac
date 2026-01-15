@@ -35,11 +35,11 @@ const ProductDetail = () => {
     setAdding(true);
     const success = await addToCart(productId, quantity);
     if (success) {
-      toast.success('Added to your bag', {
+      toast.success('Ajouté au panier', {
         description: `${product.name} × ${quantity}`,
       });
     } else {
-      toast.error('Could not add to bag');
+      toast.error('Impossible d\'ajouter au panier');
     }
     setAdding(false);
   };
@@ -65,9 +65,9 @@ const ProductDetail = () => {
     return (
       <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="font-heading text-3xl text-charcoal mb-4">Product not found</h1>
+          <h1 className="font-heading text-3xl text-charcoal mb-4">Produit introuvable</h1>
           <Link to="/shop" className="btn-primary">
-            Back to Shop
+            Retour à la Boutique
           </Link>
         </div>
       </div>
@@ -84,7 +84,7 @@ const ProductDetail = () => {
           className="inline-flex items-center gap-2 text-charcoal/60 hover:text-charcoal transition-colors mb-8"
         >
           <ArrowLeft size={16} />
-          <span className="font-body text-sm">Back to Collection</span>
+          <span className="font-body text-sm">Retour à la Collection</span>
         </Link>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
@@ -129,7 +129,7 @@ const ProductDetail = () => {
             {/* Limited Edition Badge */}
             {product.limited_pieces && (
               <span className="inline-block bg-terracotta/10 text-terracotta font-body text-xs uppercase tracking-widest px-3 py-1 mb-4">
-                Limited to {product.limited_pieces} pieces
+                Limité à {product.limited_pieces} pièces
               </span>
             )}
 
@@ -138,7 +138,7 @@ const ProductDetail = () => {
             </h1>
 
             <p className="font-heading text-2xl text-charcoal mb-6">
-              ${product.price?.toFixed(2)}
+              {product.price?.toFixed(2)} €
             </p>
 
             <div className="prose max-w-none mb-8">
@@ -151,21 +151,21 @@ const ProductDetail = () => {
             <div className="border-t border-b border-muted py-6 mb-8 space-y-3">
               {product.material && (
                 <div className="flex justify-between">
-                  <span className="font-body text-sm text-charcoal/60">Material</span>
+                  <span className="font-body text-sm text-charcoal/60">Matière</span>
                   <span className="font-body text-sm text-charcoal">{product.material}</span>
                 </div>
               )}
               {product.craftsmanship_time && (
                 <div className="flex justify-between">
-                  <span className="font-body text-sm text-charcoal/60">Craftsmanship Time</span>
+                  <span className="font-body text-sm text-charcoal/60">Temps de confection</span>
                   <span className="font-body text-sm text-charcoal">{product.craftsmanship_time}</span>
                 </div>
               )}
               {product.stock !== undefined && (
                 <div className="flex justify-between">
-                  <span className="font-body text-sm text-charcoal/60">Availability</span>
+                  <span className="font-body text-sm text-charcoal/60">Disponibilité</span>
                   <span className={`font-body text-sm ${product.stock <= 3 ? 'text-terracotta' : 'text-charcoal'}`}>
-                    {product.stock > 0 ? `${product.stock} in stock` : 'Sold out'}
+                    {product.stock > 0 ? `${product.stock} en stock` : 'Épuisé'}
                   </span>
                 </div>
               )}
@@ -175,7 +175,7 @@ const ProductDetail = () => {
             {product.stock > 0 ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <span className="font-body text-sm text-charcoal/60">Quantity</span>
+                  <span className="font-body text-sm text-charcoal/60">Quantité</span>
                   <div className="flex items-center border border-muted">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -204,10 +204,10 @@ const ProductDetail = () => {
                   className="w-full btn-primary py-4 flex items-center justify-center gap-2"
                 >
                   {adding ? (
-                    'Adding...'
+                    'Ajout en cours...'
                   ) : (
                     <>
-                      Add to Bag
+                      Ajouter au Panier
                       <Check size={16} />
                     </>
                   )}
@@ -218,20 +218,20 @@ const ProductDetail = () => {
                 disabled
                 className="w-full bg-muted text-charcoal/50 px-8 py-4 rounded-full uppercase tracking-widest text-xs cursor-not-allowed"
               >
-                Sold Out
+                Épuisé
               </button>
             )}
 
             {/* Extra Info */}
             <div className="mt-8 space-y-3">
               <p className="font-body text-xs text-charcoal/50 flex items-center gap-2">
-                <Check size={12} /> Free shipping on orders over $200
+                <Check size={12} /> Livraison gratuite dès 200€
               </p>
               <p className="font-body text-xs text-charcoal/50 flex items-center gap-2">
-                <Check size={12} /> Certificate of authenticity included
+                <Check size={12} /> Certificat d'authenticité inclus
               </p>
               <p className="font-body text-xs text-charcoal/50 flex items-center gap-2">
-                <Check size={12} /> Signed by the artisan
+                <Check size={12} /> Signé par l'artisan
               </p>
             </div>
           </motion.div>

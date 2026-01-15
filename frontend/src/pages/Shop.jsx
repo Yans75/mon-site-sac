@@ -11,13 +11,13 @@ const Shop = () => {
   const [filter, setFilter] = useState('all');
 
   const categories = [
-    { value: 'all', label: 'All Pieces' },
-    { value: 'tote', label: 'Totes' },
-    { value: 'clutch', label: 'Clutches' },
-    { value: 'shoulder', label: 'Shoulder Bags' },
-    { value: 'crossbody', label: 'Crossbody' },
-    { value: 'mini', label: 'Mini Bags' },
-    { value: 'weekender', label: 'Weekenders' },
+    { value: 'all', label: 'Toutes les Pièces' },
+    { value: 'tote', label: 'Cabas' },
+    { value: 'clutch', label: 'Pochettes' },
+    { value: 'shoulder', label: 'Sacs à Épaule' },
+    { value: 'crossbody', label: 'Bandoulières' },
+    { value: 'mini', label: 'Mini Sacs' },
+    { value: 'weekender', label: 'Week-end' },
   ];
 
   useEffect(() => {
@@ -49,10 +49,10 @@ const Shop = () => {
             className="max-w-2xl"
           >
             <h1 className="font-heading text-5xl md:text-6xl text-charcoal mb-4">
-              The Collection
+              La Collection
             </h1>
             <p className="font-body text-lg text-charcoal/70">
-              Each piece is handcrafted in limited quantities. When they're gone, they're gone.
+              Chaque pièce est confectionnée à la main en quantité limitée. Une fois épuisées, elles ne reviendront pas.
             </p>
           </motion.div>
         </div>
@@ -95,7 +95,7 @@ const Shop = () => {
           ) : products.length === 0 ? (
             <div className="text-center py-20">
               <p className="font-body text-charcoal/60">
-                No products found in this category.
+                Aucun produit trouvé dans cette catégorie.
               </p>
             </div>
           ) : (
@@ -116,16 +116,16 @@ const Shop = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <h3 className="font-heading text-2xl text-charcoal mb-2">Free Shipping</h3>
-              <p className="font-body text-sm text-charcoal/60">On orders over $200</p>
+              <h3 className="font-heading text-2xl text-charcoal mb-2">Livraison Gratuite</h3>
+              <p className="font-body text-sm text-charcoal/60">Pour toute commande de plus de 200€</p>
             </div>
             <div>
-              <h3 className="font-heading text-2xl text-charcoal mb-2">Handcrafted</h3>
-              <p className="font-body text-sm text-charcoal/60">40+ hours of craftsmanship</p>
+              <h3 className="font-heading text-2xl text-charcoal mb-2">Fait Main</h3>
+              <p className="font-body text-sm text-charcoal/60">Plus de 40 heures de savoir-faire</p>
             </div>
             <div>
-              <h3 className="font-heading text-2xl text-charcoal mb-2">Certificate</h3>
-              <p className="font-body text-sm text-charcoal/60">Of authenticity included</p>
+              <h3 className="font-heading text-2xl text-charcoal mb-2">Certificat</h3>
+              <p className="font-body text-sm text-charcoal/60">D'authenticité inclus</p>
             </div>
           </div>
         </div>

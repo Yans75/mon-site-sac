@@ -34,7 +34,7 @@ const Home = () => {
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85"
-            alt="Handcrafted handbag"
+            alt="Sac à main artisanal"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-stone-white/80 via-stone-white/40 to-transparent" />
@@ -48,16 +48,16 @@ const Home = () => {
             className="max-w-xl"
           >
             <span className="font-accent text-2xl text-terracotta mb-4 block">
-              Handcrafted with love
+              Confectionné avec amour
             </span>
             <h1 className="font-heading text-5xl md:text-7xl text-charcoal leading-[1.1] mb-6">
-              Woven with
+              Tissé avec
               <br />
               <span className="italic">intention</span>
             </h1>
             <p className="font-body text-lg text-charcoal/70 mb-8 leading-relaxed">
-              Each ArtemCreations bag is a labour of love—handwoven from premium yarns, 
-              crafted over days, designed to last a lifetime.
+              Chaque sac ArtemCreations est une œuvre d'amour — tissé à la main à partir de fils 
+              premium, façonné au fil des jours, conçu pour durer toute une vie.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link 
@@ -65,7 +65,7 @@ const Home = () => {
                 data-testid="hero-shop-btn"
                 className="btn-primary inline-flex items-center gap-2"
               >
-                Discover Collection
+                Découvrir la Collection
                 <ArrowRight size={16} />
               </Link>
               <Link 
@@ -73,7 +73,7 @@ const Home = () => {
                 data-testid="hero-craftsmanship-btn"
                 className="btn-secondary"
               >
-                Our Process
+                Notre Savoir-Faire
               </Link>
             </div>
           </motion.div>
@@ -107,14 +107,15 @@ const Home = () => {
           >
             <Sparkles className="w-8 h-8 text-terracotta mx-auto mb-6" />
             <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-6">
-              Slow fashion,
+              Mode lente,
               <br />
-              timeless beauty
+              beauté intemporelle
             </h2>
             <p className="font-body text-lg text-charcoal/70 leading-relaxed">
-              In a world of fast fashion, we choose another path. Each bag begins as raw yarn and transforms 
-              through hours of patient handiwork into something unique—something that carries the warmth of 
-              human touch and the story of its maker.
+              Dans un monde de fast fashion, nous avons choisi une autre voie. Chaque sac commence 
+              comme un simple fil et se transforme, au fil des heures de travail patient, en quelque 
+              chose d'unique — quelque chose qui porte la chaleur du toucher humain et l'histoire 
+              de son créateur.
             </p>
           </motion.div>
         </div>
@@ -131,10 +132,10 @@ const Home = () => {
                 viewport={{ once: true }}
                 className="font-heading text-4xl md:text-5xl text-charcoal"
               >
-                Featured Pieces
+                Pièces en Vedette
               </motion.h2>
               <p className="font-body text-charcoal/60 mt-2">
-                Each limited to a small number of pieces
+                Chacune limitée à un nombre restreint d'exemplaires
               </p>
             </div>
             <Link 
@@ -142,7 +143,7 @@ const Home = () => {
               data-testid="view-all-btn"
               className="font-body text-sm text-charcoal/70 hover:text-terracotta transition-colors inline-flex items-center gap-2 group"
             >
-              View All
+              Voir Tout
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -178,24 +179,24 @@ const Home = () => {
               transition={{ duration: 0.8 }}
             >
               <span className="font-accent text-xl text-terracotta mb-4 block">
-                The art of making
+                L'art de créer
               </span>
               <h2 className="font-heading text-4xl md:text-5xl mb-6">
-                40+ hours of
+                Plus de 40 heures de
                 <br />
-                <span className="italic">devotion</span>
+                <span className="italic">dévouement</span>
               </h2>
               <p className="font-body text-stone-white/70 leading-relaxed mb-8">
-                Every stitch tells a story. Our artisans bring decades of experience and a deep respect 
-                for traditional techniques, ensuring each bag is not just an accessory, but a piece of 
-                wearable art.
+                Chaque point raconte une histoire. Nos artisans apportent des décennies d'expérience 
+                et un profond respect des techniques traditionnelles, garantissant que chaque sac 
+                n'est pas qu'un accessoire, mais une œuvre d'art à porter.
               </p>
               <Link 
                 to="/craftsmanship"
                 data-testid="craftsmanship-cta-btn"
                 className="inline-flex items-center gap-2 text-stone-white border border-stone-white/30 px-8 py-3 rounded-full uppercase tracking-widest text-xs hover:bg-stone-white hover:text-charcoal transition-colors duration-300"
               >
-                Discover Our Process
+                Découvrir Notre Savoir-Faire
                 <ArrowRight size={14} />
               </Link>
             </motion.div>
@@ -210,13 +211,13 @@ const Home = () => {
               <div className="aspect-square overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1647032713597-1dcfaa15b725?crop=entropy&cs=srgb&fm=jpg&q=85"
-                  alt="Artisan at work"
+                  alt="Artisan au travail"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-terracotta text-stone-white p-6">
                 <p className="font-heading text-4xl">40+</p>
-                <p className="font-body text-xs uppercase tracking-widest">Hours per bag</p>
+                <p className="font-body text-xs uppercase tracking-widest">Heures par sac</p>
               </div>
             </motion.div>
           </div>
@@ -232,20 +233,20 @@ const Home = () => {
             viewport={{ once: true }}
           >
             <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-6">
-              Ready to own something
+              Prête à posséder quelque chose
               <br />
-              <span className="italic">extraordinary?</span>
+              <span className="italic">d'extraordinaire ?</span>
             </h2>
             <p className="font-body text-charcoal/60 mb-8 max-w-xl mx-auto">
-              Join the select few who appreciate true craftsmanship. 
-              Each bag comes with a certificate of authenticity.
+              Rejoignez les rares qui apprécient le véritable artisanat. 
+              Chaque sac est accompagné d'un certificat d'authenticité.
             </p>
             <Link 
               to="/shop" 
               data-testid="cta-shop-btn"
               className="btn-primary inline-flex items-center gap-2"
             >
-              Shop Now
+              Acheter Maintenant
               <ArrowRight size={16} />
             </Link>
           </motion.div>
