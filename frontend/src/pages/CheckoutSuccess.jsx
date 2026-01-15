@@ -54,7 +54,7 @@ const CheckoutSuccess = () => {
       <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-2 border-charcoal/20 border-t-charcoal rounded-full animate-spin mx-auto mb-6" />
-          <p className="font-body text-charcoal/60">Confirming your order...</p>
+          <p className="font-body text-charcoal/60">Confirmation de votre commande...</p>
         </div>
       </div>
     );
@@ -65,14 +65,14 @@ const CheckoutSuccess = () => {
       <div className="pt-24 pb-16 min-h-screen">
         <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center py-20">
           <h1 className="font-heading text-4xl text-charcoal mb-4">
-            Something went wrong
+            Une erreur s'est produite
           </h1>
           <p className="font-body text-charcoal/60 mb-8">
-            We couldn't confirm your payment. Please check your email for confirmation 
-            or contact us if you have any questions.
+            Nous n'avons pas pu confirmer votre paiement. Veuillez vérifier vos emails 
+            pour la confirmation ou contactez-nous si vous avez des questions.
           </p>
           <Link to="/contact" className="btn-primary">
-            Contact Us
+            Nous Contacter
           </Link>
         </div>
       </div>
@@ -93,10 +93,10 @@ const CheckoutSuccess = () => {
           </div>
 
           <h1 className="font-heading text-4xl md:text-5xl text-charcoal mb-4">
-            Thank You!
+            Merci !
           </h1>
           <p className="font-body text-lg text-charcoal/60 mb-8">
-            Your order has been placed successfully. A confirmation email is on its way.
+            Votre commande a été passée avec succès. Un email de confirmation vous sera envoyé sous peu.
           </p>
 
           {/* Order Info */}
@@ -104,9 +104,9 @@ const CheckoutSuccess = () => {
             <div className="flex items-center gap-4 mb-6">
               <Package size={24} className="text-terracotta" />
               <div>
-                <h2 className="font-heading text-xl text-charcoal">What's Next?</h2>
+                <h2 className="font-heading text-xl text-charcoal">Et Maintenant ?</h2>
                 <p className="font-body text-sm text-charcoal/60">
-                  Here's what to expect
+                  Voici ce qui vous attend
                 </p>
               </div>
             </div>
@@ -117,9 +117,9 @@ const CheckoutSuccess = () => {
                   <span className="font-body text-xs">1</span>
                 </div>
                 <div>
-                  <h3 className="font-body font-medium text-charcoal">Order Confirmation</h3>
+                  <h3 className="font-body font-medium text-charcoal">Confirmation de Commande</h3>
                   <p className="font-body text-sm text-charcoal/60">
-                    You'll receive an email with your order details shortly.
+                    Vous recevrez un email avec les détails de votre commande sous peu.
                   </p>
                 </div>
               </div>
@@ -129,9 +129,9 @@ const CheckoutSuccess = () => {
                   <span className="font-body text-xs">2</span>
                 </div>
                 <div>
-                  <h3 className="font-body font-medium text-charcoal">Crafting Your Bag</h3>
+                  <h3 className="font-body font-medium text-charcoal">Confection de Votre Sac</h3>
                   <p className="font-body text-sm text-charcoal/60">
-                    Our artisan will begin handcrafting your piece with care.
+                    Notre artisane commencera à confectionner votre pièce avec le plus grand soin.
                   </p>
                 </div>
               </div>
@@ -141,9 +141,9 @@ const CheckoutSuccess = () => {
                   <span className="font-body text-xs">3</span>
                 </div>
                 <div>
-                  <h3 className="font-body font-medium text-charcoal">Shipping</h3>
+                  <h3 className="font-body font-medium text-charcoal">Expédition</h3>
                   <p className="font-body text-sm text-charcoal/60">
-                    Your order will ship within 3-5 business days.
+                    Votre commande sera expédiée sous 3 à 5 jours ouvrés.
                   </p>
                 </div>
               </div>
@@ -152,21 +152,21 @@ const CheckoutSuccess = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/shop" data-testid="continue-shopping-btn" className="btn-primary inline-flex items-center gap-2">
-              Continue Shopping
+              Continuer mes Achats
               <ArrowRight size={16} />
             </Link>
             <Link to="/" className="btn-secondary">
-              Back to Home
+              Retour à l'Accueil
             </Link>
           </div>
         </motion.div>
 
         {/* Note */}
         <div className="text-center mt-12 p-6 bg-charcoal text-stone-white">
-          <p className="font-accent text-xl mb-2">A note from us</p>
+          <p className="font-accent text-xl mb-2">Un mot de notre part</p>
           <p className="font-body text-sm text-stone-white/70">
-            Thank you for choosing handmade. Your support helps preserve traditional 
-            craftsmanship and supports independent artisans.
+            Merci d'avoir choisi le fait main. Votre soutien aide à préserver 
+            l'artisanat traditionnel et soutient les artisans indépendants.
           </p>
         </div>
       </div>

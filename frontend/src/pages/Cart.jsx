@@ -20,13 +20,13 @@ const Cart = () => {
           >
             <ShoppingBag size={64} className="mx-auto text-charcoal/20 mb-6" />
             <h1 className="font-heading text-4xl text-charcoal mb-4">
-              Your bag is empty
+              Votre panier est vide
             </h1>
             <p className="font-body text-charcoal/60 mb-8">
-              Discover our collection of handcrafted bags
+              Découvrez notre collection de sacs artisanaux
             </p>
             <Link to="/shop" data-testid="empty-cart-shop-btn" className="btn-primary inline-flex items-center gap-2">
-              Browse Collection
+              Parcourir la Collection
               <ArrowRight size={16} />
             </Link>
           </motion.div>
@@ -43,7 +43,7 @@ const Cart = () => {
           animate={{ opacity: 1, y: 0 }}
           className="font-heading text-4xl md:text-5xl text-charcoal mb-12"
         >
-          Your Bag
+          Votre Panier
         </motion.h1>
 
         <div className="grid lg:grid-cols-3 gap-12">
@@ -76,7 +76,7 @@ const Cart = () => {
                       </h3>
                     </Link>
                     <p className="font-body text-sm text-charcoal/60 mt-1">
-                      ${item.price?.toFixed(2)}
+                      {item.price?.toFixed(2)} €
                     </p>
 
                     {/* Quantity */}
@@ -115,7 +115,7 @@ const Cart = () => {
                   {/* Item Total */}
                   <div className="text-right">
                     <p className="font-heading text-lg text-charcoal">
-                      ${item.total?.toFixed(2)}
+                      {item.total?.toFixed(2)} €
                     </p>
                   </div>
                 </motion.div>
@@ -132,23 +132,23 @@ const Cart = () => {
               className="bg-pale-sand p-8 sticky top-24"
             >
               <h2 className="font-heading text-2xl text-charcoal mb-6">
-                Order Summary
+                Récapitulatif
               </h2>
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
-                  <span className="font-body text-charcoal/60">Subtotal</span>
-                  <span className="font-body text-charcoal">${cartTotal.toFixed(2)}</span>
+                  <span className="font-body text-charcoal/60">Sous-total</span>
+                  <span className="font-body text-charcoal">{cartTotal.toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-body text-charcoal/60">Shipping</span>
+                  <span className="font-body text-charcoal/60">Livraison</span>
                   <span className="font-body text-charcoal">
-                    {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? 'Gratuite' : `${shipping.toFixed(2)} €`}
                   </span>
                 </div>
                 {shipping > 0 && (
                   <p className="font-body text-xs text-terracotta">
-                    Free shipping on orders over $200
+                    Livraison gratuite dès 200€ d'achat
                   </p>
                 )}
               </div>
@@ -156,7 +156,7 @@ const Cart = () => {
               <div className="border-t border-charcoal/10 pt-4 mb-6">
                 <div className="flex justify-between">
                   <span className="font-heading text-xl text-charcoal">Total</span>
-                  <span className="font-heading text-xl text-charcoal">${total.toFixed(2)}</span>
+                  <span className="font-heading text-xl text-charcoal">{total.toFixed(2)} €</span>
                 </div>
               </div>
 
@@ -165,7 +165,7 @@ const Cart = () => {
                 data-testid="proceed-to-checkout"
                 className="btn-primary w-full flex items-center justify-center gap-2"
               >
-                Proceed to Checkout
+                Passer à la Caisse
                 <ArrowRight size={16} />
               </Link>
 
@@ -173,7 +173,7 @@ const Cart = () => {
                 to="/shop"
                 className="block text-center mt-4 font-body text-sm text-charcoal/60 hover:text-charcoal transition-colors"
               >
-                Continue Shopping
+                Continuer mes Achats
               </Link>
             </motion.div>
           </div>

@@ -26,7 +26,7 @@ const Register = () => {
     e.preventDefault();
     
     if (formData.password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      toast.error('Le mot de passe doit contenir au moins 6 caractères');
       return;
     }
 
@@ -34,11 +34,11 @@ const Register = () => {
 
     try {
       await register(formData.email, formData.password, formData.name);
-      toast.success('Account created!');
+      toast.success('Compte créé avec succès !');
       navigate('/');
     } catch (error) {
-      toast.error('Registration failed', {
-        description: error.response?.data?.detail || 'Please try again'
+      toast.error('Inscription échouée', {
+        description: error.response?.data?.detail || 'Veuillez réessayer'
       });
     } finally {
       setLoading(false);
@@ -53,10 +53,10 @@ const Register = () => {
           animate={{ opacity: 1, y: 0 }}
         >
           <h1 className="font-heading text-4xl text-charcoal mb-2 text-center">
-            Create Account
+            Créer un Compte
           </h1>
           <p className="font-body text-charcoal/60 text-center mb-8">
-            Join the ArtemCreations family
+            Rejoignez la famille ArtemCreations
           </p>
 
           {/* Google Register */}
@@ -83,7 +83,7 @@ const Register = () => {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
               />
             </svg>
-            <span className="font-body text-sm">Continue with Google</span>
+            <span className="font-body text-sm">Continuer avec Google</span>
           </button>
 
           <div className="relative mb-6">
@@ -92,7 +92,7 @@ const Register = () => {
             </div>
             <div className="relative flex justify-center">
               <span className="bg-stone-white px-4 font-body text-xs text-charcoal/50 uppercase tracking-wider">
-                Or register with email
+                Ou par email
               </span>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Register = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label htmlFor="name" className="font-body text-sm text-charcoal/70 mb-2 block">
-                Name
+                Prénom
               </Label>
               <Input
                 id="name"
@@ -111,7 +111,7 @@ const Register = () => {
                 onChange={handleChange}
                 data-testid="register-name"
                 className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none py-3"
-                placeholder="Your name"
+                placeholder="Votre prénom"
               />
             </div>
 
@@ -133,7 +133,7 @@ const Register = () => {
 
             <div>
               <Label htmlFor="password" className="font-body text-sm text-charcoal/70 mb-2 block">
-                Password
+                Mot de passe
               </Label>
               <Input
                 id="password"
@@ -144,7 +144,7 @@ const Register = () => {
                 required
                 data-testid="register-password"
                 className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none py-3"
-                placeholder="Minimum 6 characters"
+                placeholder="Minimum 6 caractères"
               />
             </div>
 
@@ -154,14 +154,14 @@ const Register = () => {
               data-testid="register-submit"
               className="btn-primary w-full py-3"
             >
-              {loading ? 'Creating account...' : 'Create Account'}
+              {loading ? 'Création...' : 'Créer mon Compte'}
             </button>
           </form>
 
           <p className="font-body text-sm text-charcoal/60 text-center mt-6">
-            Already have an account?{' '}
+            Déjà un compte ?{' '}
             <Link to="/login" className="text-terracotta hover:underline">
-              Sign in
+              Se connecter
             </Link>
           </p>
         </motion.div>

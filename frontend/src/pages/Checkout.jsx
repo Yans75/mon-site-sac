@@ -25,12 +25,12 @@ const Checkout = () => {
     e.preventDefault();
     
     if (!email) {
-      toast.error('Please enter your email');
+      toast.error('Veuillez entrer votre email');
       return;
     }
 
     if (cartItems.length === 0) {
-      toast.error('Your cart is empty');
+      toast.error('Votre panier est vide');
       return;
     }
 
@@ -53,8 +53,8 @@ const Checkout = () => {
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      toast.error('Could not process checkout', {
-        description: error.response?.data?.detail || 'Please try again'
+      toast.error('Impossible de procéder au paiement', {
+        description: error.response?.data?.detail || 'Veuillez réessayer'
       });
       setProcessing(false);
     }
@@ -73,7 +73,7 @@ const Checkout = () => {
           animate={{ opacity: 1, y: 0 }}
           className="font-heading text-4xl md:text-5xl text-charcoal mb-12"
         >
-          Checkout
+          Paiement
         </motion.h1>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
@@ -86,11 +86,11 @@ const Checkout = () => {
               {/* Contact */}
               <div>
                 <h2 className="font-heading text-2xl text-charcoal mb-6">
-                  Contact Information
+                  Coordonnées
                 </h2>
                 <div>
                   <Label htmlFor="email" className="font-body text-sm text-charcoal/70 mb-2 block">
-                    Email Address
+                    Adresse Email
                   </Label>
                   <Input
                     id="email"
@@ -100,10 +100,10 @@ const Checkout = () => {
                     required
                     data-testid="checkout-email"
                     className="w-full bg-stone-white border-muted focus:border-charcoal rounded-none py-3"
-                    placeholder="your@email.com"
+                    placeholder="votre@email.com"
                   />
                   <p className="font-body text-xs text-charcoal/50 mt-2">
-                    Order confirmation will be sent to this email
+                    La confirmation de commande sera envoyée à cette adresse
                   </p>
                 </div>
               </div>
@@ -113,11 +113,11 @@ const Checkout = () => {
                 <div className="flex items-center gap-3 mb-4">
                   <Lock size={16} className="text-charcoal/60" />
                   <p className="font-body text-sm text-charcoal/60">
-                    Secure payment powered by Stripe
+                    Paiement sécurisé via Stripe
                   </p>
                 </div>
                 <p className="font-body text-xs text-charcoal/50">
-                  You'll be redirected to Stripe's secure checkout page to complete your payment.
+                  Vous serez redirigé vers la page de paiement sécurisée de Stripe pour finaliser votre commande.
                 </p>
               </div>
 
@@ -127,7 +127,7 @@ const Checkout = () => {
                 data-testid="checkout-submit"
                 className="btn-primary w-full py-4"
               >
-                {processing ? 'Processing...' : `Pay $${total.toFixed(2)}`}
+                {processing ? 'Traitement en cours...' : `Payer ${total.toFixed(2)} €`}
               </button>
             </form>
           </motion.div>
@@ -140,7 +140,7 @@ const Checkout = () => {
           >
             <div className="bg-pale-sand p-8">
               <h2 className="font-heading text-2xl text-charcoal mb-6">
-                Order Summary
+                Récapitulatif de Commande
               </h2>
 
               {/* Items */}
@@ -156,27 +156,27 @@ const Checkout = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-body text-sm text-charcoal">{item.name}</h3>
-                      <p className="font-body text-xs text-charcoal/60">Qty: {item.quantity}</p>
+                      <p className="font-body text-xs text-charcoal/60">Qté : {item.quantity}</p>
                     </div>
-                    <p className="font-body text-sm text-charcoal">${item.total?.toFixed(2)}</p>
+                    <p className="font-body text-sm text-charcoal">{item.total?.toFixed(2)} €</p>
                   </div>
                 ))}
               </div>
 
               <div className="border-t border-charcoal/10 pt-4 space-y-3">
                 <div className="flex justify-between">
-                  <span className="font-body text-charcoal/60">Subtotal</span>
-                  <span className="font-body text-charcoal">${cartTotal.toFixed(2)}</span>
+                  <span className="font-body text-charcoal/60">Sous-total</span>
+                  <span className="font-body text-charcoal">{cartTotal.toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-body text-charcoal/60">Shipping</span>
+                  <span className="font-body text-charcoal/60">Livraison</span>
                   <span className="font-body text-charcoal">
-                    {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? 'Gratuite' : `${shipping.toFixed(2)} €`}
                   </span>
                 </div>
                 <div className="flex justify-between pt-3 border-t border-charcoal/10">
                   <span className="font-heading text-xl text-charcoal">Total</span>
-                  <span className="font-heading text-xl text-charcoal">${total.toFixed(2)}</span>
+                  <span className="font-heading text-xl text-charcoal">{total.toFixed(2)} €</span>
                 </div>
               </div>
             </div>
@@ -185,17 +185,17 @@ const Checkout = () => {
             <div className="mt-8 grid grid-cols-3 gap-4 text-center">
               <div>
                 <p className="font-body text-xs text-charcoal/50 uppercase tracking-wider">
-                  Secure Payment
+                  Paiement Sécurisé
                 </p>
               </div>
               <div>
                 <p className="font-body text-xs text-charcoal/50 uppercase tracking-wider">
-                  Free Returns
+                  Retours Gratuits
                 </p>
               </div>
               <div>
                 <p className="font-body text-xs text-charcoal/50 uppercase tracking-wider">
-                  Authenticity
+                  Authenticité
                 </p>
               </div>
             </div>
