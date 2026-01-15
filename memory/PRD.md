@@ -25,7 +25,7 @@ Créer un site e-commerce moderne, élégant et minimaliste pour une marque de s
 
 ### Fonctionnalités Implémentées ✅
 
-#### Pages
+#### Pages Publiques
 - [x] Accueil (Hero, philosophie, produits vedettes, CTA)
 - [x] Boutique (grille de produits, filtres par catégorie)
 - [x] Détail produit (images, description, ajout panier)
@@ -35,6 +35,15 @@ Créer un site e-commerce moderne, élégant et minimaliste pour une marque de s
 - [x] Panier (gestion des quantités)
 - [x] Paiement (intégration Stripe)
 - [x] Authentification (connexion, inscription, Google OAuth)
+
+#### Panel Administration ✅
+- [x] Connexion admin sécurisée
+- [x] Tableau de bord avec statistiques
+- [x] Liste des produits avec actions (éditer/supprimer)
+- [x] Formulaire de création/modification de produit
+- [x] Upload d'images (local ou URL externe)
+- [x] Gestion des commandes
+- [x] Lecture des messages de contact
 
 #### Fonctionnalités
 - [x] Gestion du panier (localStorage + MongoDB)
@@ -59,19 +68,30 @@ Créer un site e-commerce moderne, élégant et minimaliste pour une marque de s
 - Traduction complète en français pour public francophone
 - Navigation: Boutique, Savoir-Faire, Notre Histoire, Contact
 - Produits avec noms et descriptions en français
-- Toute l'interface utilisateur en français
+- Panel d'administration complet avec:
+  - Login admin sécurisé
+  - Dashboard avec statistiques (produits, commandes, clients, messages, CA)
+  - Gestion CRUD complète des produits
+  - Upload d'images (local ou URL)
+  - Consultation des commandes
+  - Lecture des messages de contact
+
+## Identifiants Admin
+- **URL**: /admin
+- **Email**: admin@artemcreations.com
+- **Mot de passe**: ArtemAdmin2024!
 
 ## Backlog Priorisé
 
-### P0 - Critique
+### P0 - Critique ✅
 - [x] Pages principales fonctionnelles
 - [x] Panier et checkout
 - [x] Version française
+- [x] Panel admin pour gestion des produits
 
 ### P1 - Important
 - [ ] Clé SendGrid pour activer les notifications email
-- [ ] Panel d'administration pour gérer les produits
-- [ ] Suivi des commandes
+- [ ] Suivi des commandes avec statuts
 
 ### P2 - Amélioration
 - [ ] Newsletter avec inscription
@@ -91,10 +111,12 @@ SENDGRID_API_KEY=<à_fournir>
 SENDER_EMAIL=yanskads@gmail.com
 RECIPIENT_EMAIL=yanskads@gmail.com
 JWT_SECRET=artem_creations_secret_key_2024
+ADMIN_EMAIL=admin@artemcreations.com
+ADMIN_PASSWORD=ArtemAdmin2024!
 ```
 
 ## Prochaines Étapes
 1. Fournir la clé API SendGrid pour activer les emails
-2. Créer un panel admin pour ajouter/modifier des produits facilement
-3. Ajouter des images de vrais produits
+2. Ajouter vos propres photos de produits via le panel admin
+3. Personnaliser les descriptions et prix des produits
 4. Optimiser pour le SEO
