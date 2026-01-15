@@ -6,7 +6,7 @@ import {
   Euro, Plus, LogOut, Settings, TrendingUp 
 } from 'lucide-react';
 import axios from 'axios';
-import { useAdmin } from '../context/AdminContext';
+import { useAdmin } from '../../context/AdminContext';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 

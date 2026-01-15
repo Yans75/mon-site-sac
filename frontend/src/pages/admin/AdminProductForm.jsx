@@ -4,11 +4,11 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Upload, X, LogOut, Save, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { useAdmin } from '../context/AdminContext';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
-import { Label } from '../components/ui/label';
-import { Switch } from '../components/ui/switch';
+import { useAdmin } from '../../context/AdminContext';
+import { Input } from '../../components/ui/input';
+import { Textarea } from '../../components/ui/textarea';
+import { Label } from '../../components/ui/label';
+import { Switch } from '../../components/ui/switch';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 

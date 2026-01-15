@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LogOut, MessageSquare, Mail, Calendar } from 'lucide-react';
 import axios from 'axios';
-import { useAdmin } from '../context/AdminContext';
+import { useAdmin } from '../../context/AdminContext';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, LogOut, Star, Package } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { useAdmin } from '../context/AdminContext';
+import { useAdmin } from '../../context/AdminContext';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
