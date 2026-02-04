@@ -1,8 +1,23 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ShoppingBag } from 'lucide-react';
+import { toast } from 'sonner';
+import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product, index = 0 }) => {
   const { product_id, name, price, images, limited_pieces, stock } = product;
+  const { addToCart } = useCart();
+
+  const handleQuickAdd = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const success = await addToCart(product_id, 1);
+    if (success) {
+      toast.success('Ajouté au panier', {
+        description: name,
+      });
+    }
+  };
   
   return (
     <motion.article
@@ -17,12 +32,33 @@ const ProductCard = ({ product, index = 0 }) => {
         className="block"
       >
         {/* Image */}
-        <div className="aspect-[3/4] overflow-hidden bg-pale-sand mb-4">
+        <div className="aspect-square overflow-hidden bg-pale-sand mb-4 rounded-lg relative">
           <motion.img
             src={images?.[0] || 'https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85'}
             alt={name}
-            className="w-full h-full object-cover transition-all duration-700 filter grayscale-[15%] group-hover:grayscale-0 group-hover:scale-[1.03]"
+            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
           />
+          
+          {/* Quick Add Button */}
+          <button
+            onClick={handleQuickAdd}
+            className="absolute bottom-4 right-4 bg-charcoal text-stone-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-terracotta transform translate-y-2 group-hover:translate-y-0"
+            data-testid={`quick-add-${product_id}`}
+          >
+            <ShoppingBag size={18} />
+          </button>
+
+          {/* Badge Stock */}
+          {stock === 1 && (
+            <span className="absolute top-4 left-4 bg-terracotta text-stone-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+              Pièce unique
+            </span>
+          )}
+          {stock === 0 && (
+            <span className="absolute top-4 left-4 bg-charcoal/80 text-stone-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+              Épuisé
+            </span>
+          )}
         </div>
 
         {/* Info */}
@@ -31,17 +67,12 @@ const ProductCard = ({ product, index = 0 }) => {
             {name}
           </h3>
           <div className="flex items-center justify-between">
-            <p className="font-body text-sm text-charcoal/70">
-              ${price?.toFixed(2)}
+            <p className="font-body text-lg font-medium text-charcoal">
+              {price?.toFixed(2)} €
             </p>
-            {stock <= 3 && stock > 0 && (
+            {limited_pieces === 1 && (
               <span className="font-body text-xs text-terracotta uppercase tracking-wider">
-                Only {stock} left
-              </span>
-            )}
-            {limited_pieces && (
-              <span className="font-body text-xs text-charcoal/50 uppercase tracking-wider">
-                Limited to {limited_pieces} pieces
+                Unique
               </span>
             )}
           </div>
