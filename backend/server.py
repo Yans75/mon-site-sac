@@ -866,99 +866,82 @@ async def seed_data():
     products = [
         {
             "product_id": "prod_001",
-            "name": "Cabas Luna",
-            "description": "Une silhouette intemporelle confectionnée à partir du fil de coton biologique le plus fin. Chaque Cabas Luna nécessite plus de 40 heures de travail méticuleux, arborant notre texture tissée signature qui ne fait que s'embellir avec le temps. Le compagnon idéal pour celles qui apprécient la mode lente et intentionnelle.",
-            "price": 485.00,
+            "name": "Sac Bordeaux Tressé",
+            "description": "Un sac élégant en fil bordeaux avec un magnifique motif tressé. La chaîne argentée ajoute une touche de sophistication. Parfait pour les soirées et les occasions spéciales.",
+            "price": 89.00,
             "images": [
-                "https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85",
-                "https://images.unsplash.com/photo-1740733543154-ae59aa01e6ca?crop=entropy&cs=srgb&fm=jpg&q=85"
+                "https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/yipqljae_image.png"
             ],
-            "category": "tote",
-            "material": "Fil de Coton Biologique",
-            "craftsmanship_time": "40+ heures",
-            "limited_pieces": 12,
-            "stock": 5,
+            "category": "shoulder",
+            "material": "Fil Premium",
+            "craftsmanship_time": "15+ heures",
+            "limited_pieces": 1,
+            "stock": 1,
             "featured": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
             "product_id": "prod_002",
-            "name": "Pochette Selene",
-            "description": "Un essentiel de soirée qui murmure l'élégance. La Pochette Selene est crochetée à la main avec un mélange de laine mérinos premium, arborant un motif de dentelle complexe transmis de génération en génération. Une pièce de caractère pour la femme qui connaît la valeur du patrimoine.",
-            "price": 295.00,
+            "name": "Pochette Noeud Rose",
+            "description": "Une pochette originale avec un superbe noeud décoratif. Le rose fuchsia apporte de la gaieté et du caractère. Un accessoire qui ne passera pas inaperçu.",
+            "price": 75.00,
             "images": [
-                "https://images.unsplash.com/photo-1740733543156-e4b879e29076?crop=entropy&cs=srgb&fm=jpg&q=85"
+                "https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/f3dygm93_image.png"
             ],
             "category": "clutch",
-            "material": "Mélange Laine Mérinos",
-            "craftsmanship_time": "25+ heures",
-            "limited_pieces": 8,
-            "stock": 3,
+            "material": "Fil Premium",
+            "craftsmanship_time": "12+ heures",
+            "limited_pieces": 1,
+            "stock": 1,
             "featured": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
             "product_id": "prod_003",
-            "name": "Sac Aurora",
-            "description": "Là où le contemporain rencontre la tradition. L'Aurora présente une forme structurée obtenue grâce à des heures de mise en forme minutieuse, utilisant des fils de coton teints naturellement. Sa bandoulière ajustable permet un port polyvalent, des réunions de jour aux soirées élégantes.",
-            "price": 425.00,
+            "name": "Sac Rond Turquoise",
+            "description": "Un sac rond original avec pompon assorti. Le turquoise profond et la chaîne dorée créent un contraste élégant. Le fermoir coeur ajoute une touche romantique.",
+            "price": 95.00,
             "images": [
-                "https://images.unsplash.com/photo-1722510825279-6651572d8fd6?crop=entropy&cs=srgb&fm=jpg&q=85"
+                "https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/x4ci01bv_image.png"
             ],
-            "category": "shoulder",
-            "material": "Coton Teint Naturellement",
-            "craftsmanship_time": "35+ heures",
-            "limited_pieces": 15,
-            "stock": 7,
+            "category": "crossbody",
+            "material": "Fil Premium",
+            "craftsmanship_time": "18+ heures",
+            "limited_pieces": 1,
+            "stock": 1,
             "featured": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
             "product_id": "prod_004",
-            "name": "Mini Sac Iris",
-            "description": "Petit par la taille, grand par l'impact. Le Mini Iris est un témoignage de l'artisanat de précision, avec plus de 200 nœuds noués à la main par centimètre carré. Parfait pour transporter vos essentiels tout en faisant une impression inoubliable.",
-            "price": 245.00,
+            "name": "Mini Sac Vert Menthe",
+            "description": "Un petit sac raffiné en vert menthe pastel. La bandoulière tressée et le fermoir argenté lui confèrent un style chic et intemporel. Idéal pour le quotidien.",
+            "price": 65.00,
             "images": [
-                "https://images.unsplash.com/photo-1740733543154-ae59aa01e6ca?crop=entropy&cs=srgb&fm=jpg&q=85"
+                "https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/rv18hqet_image.png"
             ],
             "category": "mini",
-            "material": "Fil de Lin Premium",
-            "craftsmanship_time": "20+ heures",
-            "limited_pieces": 20,
-            "stock": 10,
-            "featured": False,
-            "created_at": datetime.now(timezone.utc).isoformat()
-        },
-        {
-            "product_id": "prod_005",
-            "name": "Week-end Terra",
-            "description": "Pour la voyageuse qui prend son temps. Notre plus grande création, le Week-end Terra, allie robustesse et douceur que seules les pièces artisanales peuvent offrir. Chaque sac est signé et numéroté par l'artisan qui lui a donné vie.",
-            "price": 685.00,
-            "images": [
-                "https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85"
-            ],
-            "category": "weekender",
-            "material": "Mélange Jute & Coton",
-            "craftsmanship_time": "60+ heures",
-            "limited_pieces": 6,
-            "stock": 2,
+            "material": "Fil Premium",
+            "craftsmanship_time": "10+ heures",
+            "limited_pieces": 1,
+            "stock": 1,
             "featured": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
-            "product_id": "prod_006",
-            "name": "Bandoulière Stella",
-            "description": "La liberté à chaque pas. La Bandoulière Stella offre une élégance mains libres avec sa lanière tressée ajustable et son intérieur compact mais pensé. Un compagnon quotidien pour la femme moderne qui avance avec détermination.",
-            "price": 365.00,
+            "product_id": "prod_005",
+            "name": "Sac Beige Naturel",
+            "description": "Un sac élégant dans un beige naturel et sobre. Le design épuré avec fermoir mousqueton en fait un compagnon parfait pour toutes les occasions.",
+            "price": 85.00,
             "images": [
-                "https://images.unsplash.com/photo-1740733543156-e4b879e29076?crop=entropy&cs=srgb&fm=jpg&q=85"
+                "https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/xfna0mnj_image.png"
             ],
-            "category": "crossbody",
-            "material": "Fil de Coton Recyclé",
-            "craftsmanship_time": "30+ heures",
-            "limited_pieces": 18,
-            "stock": 8,
-            "featured": False,
+            "category": "shoulder",
+            "material": "Fil Premium",
+            "craftsmanship_time": "14+ heures",
+            "limited_pieces": 1,
+            "stock": 1,
+            "featured": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         }
     ]
