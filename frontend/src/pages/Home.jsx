@@ -1,23 +1,32 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, ShoppingBag } from 'lucide-react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
+// Vos photos de sacs
+const heroImages = [
+  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/yipqljae_image.png',
+  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/f3dygm93_image.png',
+  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/x4ci01bv_image.png',
+  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/rv18hqet_image.png',
+  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/xfna0mnj_image.png',
+];
+
 const Home = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Seed data first
         await axios.post(`${API}/seed`).catch(() => {});
-        const response = await axios.get(`${API}/products?featured=true`);
-        setFeaturedProducts(response.data.slice(0, 4));
+        const response = await axios.get(`${API}/products`);
+        setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -27,51 +36,71 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  // Auto-rotate hero images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center">
+      {/* Hero Section with your bags */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background Images Slider */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85"
-            alt="Sac à main artisanal"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-stone-white/80 via-stone-white/40 to-transparent" />
+          {heroImages.map((img, index) => (
+            <motion.div
+              key={index}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+              transition={{ duration: 1.5 }}
+            >
+              <img
+                src={img}
+                alt="Sac ArtemCreations"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-32">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-xl"
+            className="max-w-2xl"
           >
-            <span className="font-accent text-2xl text-terracotta mb-4 block">
-              Confectionné avec amour
+            <span className="font-accent text-3xl text-terracotta mb-4 block">
+              Artem Créations
             </span>
-            <h1 className="font-heading text-5xl md:text-7xl text-charcoal leading-[1.1] mb-6">
-              Tissé avec
+            <h1 className="font-heading text-5xl md:text-7xl text-stone-white leading-[1.1] mb-6">
+              Sacs artisanaux
               <br />
-              <span className="italic">intention</span>
+              <span className="italic">faits avec amour</span>
             </h1>
-            <p className="font-body text-lg text-charcoal/70 mb-8 leading-relaxed">
-              Chaque sac ArtemCreations est une œuvre d'amour — tissé à la main à partir de fils 
-              premium, façonné au fil des jours, conçu pour durer toute une vie.
+            <p className="font-body text-lg text-stone-white/80 mb-8 leading-relaxed">
+              Chaque création est unique, confectionnée à la main avec des fils de qualité premium. 
+              Des pièces d'exception qui allient élégance et savoir-faire artisanal.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link 
-                to="/shop" 
+              <a 
+                href="#collection" 
                 data-testid="hero-shop-btn"
-                className="btn-primary inline-flex items-center gap-2"
+                className="bg-terracotta text-stone-white px-8 py-4 rounded-full uppercase tracking-widest text-xs font-medium inline-flex items-center gap-2 hover:bg-terracotta/90 transition-colors"
               >
-                Découvrir la Collection
-                <ArrowRight size={16} />
-              </Link>
+                <ShoppingBag size={16} />
+                Voir la Collection
+              </a>
               <Link 
                 to="/craftsmanship" 
                 data-testid="hero-craftsmanship-btn"
-                className="btn-secondary"
+                className="border border-stone-white/30 text-stone-white px-8 py-4 rounded-full uppercase tracking-widest text-xs font-medium hover:bg-stone-white hover:text-charcoal transition-colors"
               >
                 Notre Savoir-Faire
               </Link>
@@ -79,174 +108,177 @@ const Home = () => {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-charcoal/40"
-        >
-          <div className="w-6 h-10 border-2 border-charcoal/30 rounded-full flex items-start justify-center p-2">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-1 h-2 bg-charcoal/40 rounded-full"
+        {/* Image indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentImageIndex 
+                  ? 'bg-terracotta w-8' 
+                  : 'bg-stone-white/50 hover:bg-stone-white'
+              }`}
             />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Philosophy Section */}
-      <section className="py-24 bg-pale-sand">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <Sparkles className="w-8 h-8 text-terracotta mx-auto mb-6" />
-            <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-6">
-              Mode lente,
-              <br />
-              beauté intemporelle
-            </h2>
-            <p className="font-body text-lg text-charcoal/70 leading-relaxed">
-              Dans un monde de fast fashion, nous avons choisi une autre voie. Chaque sac commence 
-              comme un simple fil et se transforme, au fil des heures de travail patient, en quelque 
-              chose d'unique — quelque chose qui porte la chaleur du toucher humain et l'histoire 
-              de son créateur.
-            </p>
-          </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-24">
+      {/* Quick Info Bar */}
+      <section className="bg-charcoal text-stone-white py-6">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
             <div>
-              <motion.h2
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="font-heading text-4xl md:text-5xl text-charcoal"
-              >
-                Pièces en Vedette
-              </motion.h2>
-              <p className="font-body text-charcoal/60 mt-2">
-                Chacune limitée à un nombre restreint d'exemplaires
-              </p>
+              <p className="font-heading text-2xl">100%</p>
+              <p className="font-body text-xs uppercase tracking-wider text-stone-white/60">Fait Main</p>
             </div>
-            <Link 
-              to="/shop" 
-              data-testid="view-all-btn"
-              className="font-body text-sm text-charcoal/70 hover:text-terracotta transition-colors inline-flex items-center gap-2 group"
-            >
-              Voir Tout
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div>
+              <p className="font-heading text-2xl">Premium</p>
+              <p className="font-body text-xs uppercase tracking-wider text-stone-white/60">Matériaux</p>
+            </div>
+            <div>
+              <p className="font-heading text-2xl">Unique</p>
+              <p className="font-body text-xs uppercase tracking-wider text-stone-white/60">Chaque Pièce</p>
+            </div>
+            <div>
+              <p className="font-heading text-2xl">France</p>
+              <p className="font-body text-xs uppercase tracking-wider text-stone-white/60">Confectionné</p>
+            </div>
           </div>
+        </div>
+      </section>
 
+      {/* Collection Section */}
+      <section id="collection" className="py-20 bg-stone-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <Sparkles className="w-8 h-8 text-terracotta mx-auto mb-4" />
+            <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-4">
+              Notre Collection
+            </h2>
+            <p className="font-body text-charcoal/60 max-w-2xl mx-auto">
+              Découvrez nos créations uniques, confectionnées avec passion. 
+              Chaque sac est une pièce d'exception, fait pour durer.
+            </p>
+          </motion.div>
+
+          {/* Products Grid */}
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[...Array(4)].map((_, i) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+              {[...Array(6)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="aspect-[3/4] bg-pale-sand mb-4" />
-                  <div className="h-6 bg-pale-sand w-3/4 mb-2" />
-                  <div className="h-4 bg-pale-sand w-1/4" />
+                  <div className="aspect-square bg-pale-sand mb-4 rounded-lg" />
+                  <div className="h-6 bg-pale-sand w-3/4 mb-2 rounded" />
+                  <div className="h-4 bg-pale-sand w-1/4 rounded" />
                 </div>
               ))}
             </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-20">
+              <ShoppingBag size={48} className="text-charcoal/20 mx-auto mb-4" />
+              <p className="font-body text-charcoal/60">
+                La collection arrive bientôt...
+              </p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredProducts.map((product, index) => (
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12"
+            >
+              {products.map((product, index) => (
                 <ProductCard key={product.product_id} product={product} index={index} />
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
 
-      {/* Craftsmanship Teaser */}
-      <section className="py-24 bg-charcoal text-stone-white">
+      {/* About Section */}
+      <section className="py-20 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              className="relative"
             >
-              <span className="font-accent text-xl text-terracotta mb-4 block">
-                L'art de créer
-              </span>
-              <h2 className="font-heading text-4xl md:text-5xl mb-6">
-                Plus de 40 heures de
-                <br />
-                <span className="italic">dévouement</span>
-              </h2>
-              <p className="font-body text-stone-white/70 leading-relaxed mb-8">
-                Chaque point raconte une histoire. Nos artisans apportent des décennies d'expérience 
-                et un profond respect des techniques traditionnelles, garantissant que chaque sac 
-                n'est pas qu'un accessoire, mais une œuvre d'art à porter.
-              </p>
-              <Link 
-                to="/craftsmanship"
-                data-testid="craftsmanship-cta-btn"
-                className="inline-flex items-center gap-2 text-stone-white border border-stone-white/30 px-8 py-3 rounded-full uppercase tracking-widest text-xs hover:bg-stone-white hover:text-charcoal transition-colors duration-300"
-              >
-                Découvrir Notre Savoir-Faire
-                <ArrowRight size={14} />
-              </Link>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-[3/4] overflow-hidden rounded-lg">
+                  <img
+                    src={heroImages[0]}
+                    alt="Sac Artem"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="aspect-[3/4] overflow-hidden rounded-lg mt-8">
+                  <img
+                    src={heroImages[2]}
+                    alt="Sac Artem"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
             >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1647032713597-1dcfaa15b725?crop=entropy&cs=srgb&fm=jpg&q=85"
-                  alt="Artisan au travail"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 bg-terracotta text-stone-white p-6">
-                <p className="font-heading text-4xl">40+</p>
-                <p className="font-body text-xs uppercase tracking-widest">Heures par sac</p>
-              </div>
+              <span className="font-accent text-2xl text-terracotta mb-4 block">
+                Notre Histoire
+              </span>
+              <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-6">
+                L'art du fait main
+              </h2>
+              <p className="font-body text-charcoal/70 leading-relaxed mb-6">
+                Artem Créations est née d'une passion pour l'artisanat et le crochet. 
+                Chaque sac est confectionné avec amour, point par point, pour créer 
+                des pièces uniques qui vous accompagneront pendant des années.
+              </p>
+              <p className="font-body text-charcoal/70 leading-relaxed mb-8">
+                Nous utilisons uniquement des fils de qualité premium pour garantir 
+                la durabilité et la beauté de nos créations.
+              </p>
+              <Link 
+                to="/about"
+                className="inline-flex items-center gap-2 text-terracotta hover:gap-4 transition-all font-body"
+              >
+                En savoir plus
+                <ArrowRight size={16} />
+              </Link>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <section className="py-20 bg-charcoal text-stone-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-6">
-              Prête à posséder quelque chose
+            <h2 className="font-heading text-4xl md:text-5xl mb-6">
+              Envie d'une création
               <br />
-              <span className="italic">d'extraordinaire ?</span>
+              <span className="italic">sur mesure ?</span>
             </h2>
-            <p className="font-body text-charcoal/60 mb-8 max-w-xl mx-auto">
-              Rejoignez les rares qui apprécient le véritable artisanat. 
-              Chaque sac est accompagné d'un certificat d'authenticité.
+            <p className="font-body text-stone-white/70 mb-8 max-w-xl mx-auto">
+              Contactez-nous pour discuter de votre projet. Nous pouvons créer 
+              le sac de vos rêves, dans la couleur et le style de votre choix.
             </p>
             <Link 
-              to="/shop" 
-              data-testid="cta-shop-btn"
-              className="btn-primary inline-flex items-center gap-2"
+              to="/contact" 
+              className="bg-terracotta text-stone-white px-8 py-4 rounded-full uppercase tracking-widest text-xs font-medium inline-flex items-center gap-2 hover:bg-terracotta/90 transition-colors"
             >
-              Acheter Maintenant
+              Nous Contacter
               <ArrowRight size={16} />
             </Link>
           </motion.div>
