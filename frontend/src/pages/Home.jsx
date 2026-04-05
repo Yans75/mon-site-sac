@@ -82,19 +82,45 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section - Split Layout */}
+      {/* Hero Section - Fullscreen Background */}
       <section 
-        className="relative min-h-screen flex items-center overflow-hidden bg-charcoal"
+        className="relative min-h-screen flex items-end overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         data-testid="hero-section"
       >
-        {/* Left Content */}
-        <div className="relative z-10 w-full lg:w-[45%] px-6 lg:px-16 py-32 lg:py-20">
+        {/* Fullscreen Background Images */}
+        <div className="absolute inset-0 z-0">
+          {heroSlides.map((slide, index) => (
+            <motion.div
+              key={index}
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ 
+                opacity: index === currentImageIndex ? 1 : 0,
+                scale: index === currentImageIndex ? 1 : 1.1,
+              }}
+              transition={{ duration: 1.5, ease: 'easeOut' }}
+            >
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          ))}
+          {/* Dark gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/30" />
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 w-full px-6 lg:px-16 pb-24 pt-40">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-2xl"
           >
             <span className="font-accent text-3xl text-terracotta mb-4 block">
               Artem Créations
@@ -115,16 +141,16 @@ const Home = () => {
                 transition={{ duration: 0.4 }}
                 className="mb-6"
               >
-                <p className="font-heading text-xl text-terracotta/90">
+                <p className="font-heading text-xl text-terracotta">
                   {heroSlides[currentImageIndex].title}
                 </p>
-                <p className="font-body text-sm text-stone-white/50 uppercase tracking-widest">
+                <p className="font-body text-sm text-stone-white/60 uppercase tracking-widest">
                   {heroSlides[currentImageIndex].subtitle}
                 </p>
               </motion.div>
             </AnimatePresence>
 
-            <p className="font-body text-base text-stone-white/70 mb-8 leading-relaxed max-w-md">
+            <p className="font-body text-base text-stone-white/80 mb-8 leading-relaxed max-w-lg">
               Chaque création est unique, confectionnée à la main avec des fils de qualité premium.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -175,57 +201,11 @@ const Home = () => {
               >
                 <ChevronRight size={18} />
               </button>
-              <span className="font-body text-stone-white/30 text-xs ml-2">
+              <span className="font-body text-stone-white/40 text-xs ml-2">
                 {String(currentImageIndex + 1).padStart(2, '0')} / {String(heroSlides.length).padStart(2, '0')}
               </span>
             </div>
           </motion.div>
-        </div>
-
-        {/* Right Image Area */}
-        <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[55%]">
-          {heroSlides.map((slide, index) => (
-            <motion.div
-              key={index}
-              className="absolute inset-0 flex items-center justify-center p-12"
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ 
-                opacity: index === currentImageIndex ? 1 : 0,
-                scale: index === currentImageIndex ? 1 : 1.05,
-              }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
-            >
-              <div className="relative w-full h-full max-h-[85vh] flex items-center justify-center">
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="max-w-full max-h-full object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)] rounded-2xl"
-                />
-              </div>
-            </motion.div>
-          ))}
-          {/* Subtle gradient overlay on left edge for blend */}
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-charcoal to-transparent z-10" />
-        </div>
-
-        {/* Mobile: Full background image */}
-        <div className="lg:hidden absolute inset-0 z-0">
-          {heroSlides.map((slide, index) => (
-            <motion.div
-              key={index}
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
-              transition={{ duration: 1.2 }}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/80 to-charcoal/50" />
         </div>
       </section>
 
