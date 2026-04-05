@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 class ArtemCreationsAPITester:
-    def __init__(self, base_url="https://artisanbags-1.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://artemcreations-shop.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token = None
         self.session_id = f"test_session_{datetime.now().strftime('%H%M%S')}"
@@ -234,7 +234,7 @@ class ArtemCreationsAPITester:
                 "cart_session_id": self.session_id,
                 "shipping_address": None
             },
-            headers={"Origin": "https://artisanbags-1.preview.emergentagent.com"}
+            headers={"Origin": "https://artemcreations-shop.preview.emergentagent.com"}
         )
         return success
 
