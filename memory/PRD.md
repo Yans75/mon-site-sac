@@ -115,8 +115,16 @@ ADMIN_EMAIL=admin@artemcreations.com
 ADMIN_PASSWORD=ArtemAdmin2024!
 ```
 
+### 05 Avr 2025
+- Mise à jour du carrousel de la page d'accueil avec 5 nouvelles photos de sacs
+- Nouveau layout split : texte à gauche, image produit pleine taille à droite
+- Navigation du carrousel améliorée (flèches, indicateurs, compteur, pause au hover)
+- Titres dynamiques par slide (Élégance Bordeaux, Rose Éternelle, Douceur Rosée, etc.)
+- Section "Notre Histoire" mise à jour avec grille de 4 photos produits
+
 ## Prochaines Étapes
 1. Fournir la clé API SendGrid pour activer les emails
-2. Ajouter vos propres photos de produits via le panel admin
-3. Personnaliser les descriptions et prix des produits
-4. Optimiser pour le SEO
+2. Vérifier Google Auth end-to-end
+3. Vérifier Stripe payment flow
+4. Gestion des statuts de commande dans le panel admin
+5. Optimiser pour le SEO

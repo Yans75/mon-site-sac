@@ -1,25 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, ShoppingBag } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Sparkles, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-// Vos photos de sacs
-const heroImages = [
-  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/yipqljae_image.png',
-  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/f3dygm93_image.png',
-  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/x4ci01bv_image.png',
-  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/rv18hqet_image.png',
-  'https://customer-assets.emergentagent.com/job_d7b409fe-d52a-4d1e-9549-c6ad2262ad16/artifacts/xfna0mnj_image.png',
+// Vos photos de sacs ArtemCreations
+const heroSlides = [
+  {
+    image: 'https://customer-assets.emergentagent.com/job_ddcf7dd4-0bde-46cb-bf20-9dbb3d1819e4/artifacts/3oaokz1a_1000098153.png',
+    title: 'Élégance Bordeaux',
+    subtitle: 'Sac à chaîne avec pompon',
+  },
+  {
+    image: 'https://customer-assets.emergentagent.com/job_ddcf7dd4-0bde-46cb-bf20-9dbb3d1819e4/artifacts/918sdgn7_1000100108.png',
+    title: 'Rose Éternelle',
+    subtitle: 'Sac rond avec anses en bois',
+  },
+  {
+    image: 'https://customer-assets.emergentagent.com/job_ddcf7dd4-0bde-46cb-bf20-9dbb3d1819e4/artifacts/j7cik9hb_1000105625.png',
+    title: 'Douceur Rosée',
+    subtitle: 'Cabas avec bandoulière',
+  },
+  {
+    image: 'https://customer-assets.emergentagent.com/job_ddcf7dd4-0bde-46cb-bf20-9dbb3d1819e4/artifacts/r37vdetx_1000105865.png',
+    title: 'Noeud Fuchsia',
+    subtitle: 'Pochette à chaîne argentée',
+  },
+  {
+    image: 'https://customer-assets.emergentagent.com/job_ddcf7dd4-0bde-46cb-bf20-9dbb3d1819e4/artifacts/8yb2vpsk_1000106088.png',
+    title: 'Caramel Doré',
+    subtitle: 'Sac rond avec fermoir doré',
+  },
 ];
+
+const heroImages = heroSlides.map(s => s.image);
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,57 +59,73 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  const goToSlide = useCallback((index) => {
+    setCurrentImageIndex(index);
+  }, []);
+
+  const nextSlide = useCallback(() => {
+    setCurrentImageIndex((prev) => (prev + 1) % heroSlides.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentImageIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  }, []);
+
   // Auto-rotate hero images
   useEffect(() => {
+    if (isPaused) return;
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+      setCurrentImageIndex((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with your bags */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background Images Slider */}
-        <div className="absolute inset-0 z-0">
-          {heroImages.map((img, index) => (
-            <motion.div
-              key={index}
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
-              transition={{ duration: 1.5 }}
-            >
-              <img
-                src={img}
-                alt="Sac ArtemCreations"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40" />
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-32">
+      {/* Hero Section - Split Layout */}
+      <section 
+        className="relative min-h-screen flex items-center overflow-hidden bg-charcoal"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        data-testid="hero-section"
+      >
+        {/* Left Content */}
+        <div className="relative z-10 w-full lg:w-[45%] px-6 lg:px-16 py-32 lg:py-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-2xl"
           >
             <span className="font-accent text-3xl text-terracotta mb-4 block">
               Artem Créations
             </span>
-            <h1 className="font-heading text-5xl md:text-7xl text-stone-white leading-[1.1] mb-6">
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-stone-white leading-[1.1] mb-6">
               Sacs artisanaux
               <br />
               <span className="italic">faits avec amour</span>
             </h1>
-            <p className="font-body text-lg text-stone-white/80 mb-8 leading-relaxed">
-              Chaque création est unique, confectionnée à la main avec des fils de qualité premium. 
-              Des pièces d'exception qui allient élégance et savoir-faire artisanal.
+
+            {/* Current slide info */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentImageIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+                className="mb-6"
+              >
+                <p className="font-heading text-xl text-terracotta/90">
+                  {heroSlides[currentImageIndex].title}
+                </p>
+                <p className="font-body text-sm text-stone-white/50 uppercase tracking-widest">
+                  {heroSlides[currentImageIndex].subtitle}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            <p className="font-body text-base text-stone-white/70 mb-8 leading-relaxed max-w-md">
+              Chaque création est unique, confectionnée à la main avec des fils de qualité premium.
             </p>
             <div className="flex flex-wrap gap-4">
               <a 
@@ -105,22 +144,88 @@ const Home = () => {
                 Notre Savoir-Faire
               </Link>
             </div>
+
+            {/* Slide Navigation */}
+            <div className="flex items-center gap-4 mt-12">
+              <button 
+                onClick={prevSlide} 
+                data-testid="hero-prev-btn"
+                className="w-10 h-10 rounded-full border border-stone-white/20 flex items-center justify-center text-stone-white/60 hover:text-stone-white hover:border-stone-white/50 transition-colors"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <div className="flex gap-2">
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    data-testid={`hero-dot-${index}`}
+                    className={`h-1 rounded-full transition-all duration-500 ${
+                      index === currentImageIndex 
+                        ? 'bg-terracotta w-10' 
+                        : 'bg-stone-white/25 w-4 hover:bg-stone-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+              <button 
+                onClick={nextSlide} 
+                data-testid="hero-next-btn"
+                className="w-10 h-10 rounded-full border border-stone-white/20 flex items-center justify-center text-stone-white/60 hover:text-stone-white hover:border-stone-white/50 transition-colors"
+              >
+                <ChevronRight size={18} />
+              </button>
+              <span className="font-body text-stone-white/30 text-xs ml-2">
+                {String(currentImageIndex + 1).padStart(2, '0')} / {String(heroSlides.length).padStart(2, '0')}
+              </span>
+            </div>
           </motion.div>
         </div>
 
-        {/* Image indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-          {heroImages.map((_, index) => (
-            <button
+        {/* Right Image Area */}
+        <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[55%]">
+          {heroSlides.map((slide, index) => (
+            <motion.div
               key={index}
-              onClick={() => setCurrentImageIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentImageIndex 
-                  ? 'bg-terracotta w-8' 
-                  : 'bg-stone-white/50 hover:bg-stone-white'
-              }`}
-            />
+              className="absolute inset-0 flex items-center justify-center p-12"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ 
+                opacity: index === currentImageIndex ? 1 : 0,
+                scale: index === currentImageIndex ? 1 : 1.05,
+              }}
+              transition={{ duration: 1.2, ease: 'easeOut' }}
+            >
+              <div className="relative w-full h-full max-h-[85vh] flex items-center justify-center">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="max-w-full max-h-full object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)] rounded-2xl"
+                />
+              </div>
+            </motion.div>
           ))}
+          {/* Subtle gradient overlay on left edge for blend */}
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-charcoal to-transparent z-10" />
+        </div>
+
+        {/* Mobile: Full background image */}
+        <div className="lg:hidden absolute inset-0 z-0">
+          {heroSlides.map((slide, index) => (
+            <motion.div
+              key={index}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+              transition={{ duration: 1.2 }}
+            >
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/80 to-charcoal/50" />
         </div>
       </section>
 
@@ -208,19 +313,37 @@ const Home = () => {
               className="relative"
             >
               <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-[3/4] overflow-hidden rounded-lg">
-                  <img
-                    src={heroImages[0]}
-                    alt="Sac Artem"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="space-y-4">
+                  <div className="aspect-square overflow-hidden rounded-2xl shadow-lg">
+                    <img
+                      src={heroImages[0]}
+                      alt="Sac Artem Bordeaux"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-lg">
+                    <img
+                      src={heroImages[3]}
+                      alt="Sac Artem Fuchsia"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
                 </div>
-                <div className="aspect-[3/4] overflow-hidden rounded-lg mt-8">
-                  <img
-                    src={heroImages[2]}
-                    alt="Sac Artem"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="space-y-4 mt-8">
+                  <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-lg">
+                    <img
+                      src={heroImages[1]}
+                      alt="Sac Artem Chocolat"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="aspect-square overflow-hidden rounded-2xl shadow-lg">
+                    <img
+                      src={heroImages[4]}
+                      alt="Sac Artem Caramel"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>
