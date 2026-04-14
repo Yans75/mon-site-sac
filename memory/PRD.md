@@ -117,10 +117,17 @@ ADMIN_PASSWORD=ArtemAdmin2024!
 
 ### 05 Avr 2025
 - Mise à jour du carrousel de la page d'accueil avec 5 nouvelles photos de sacs
-- Nouveau layout split : texte à gauche, image produit pleine taille à droite
-- Navigation du carrousel améliorée (flèches, indicateurs, compteur, pause au hover)
-- Titres dynamiques par slide (Élégance Bordeaux, Rose Éternelle, Douceur Rosée, etc.)
-- Section "Notre Histoire" mise à jour avec grille de 4 photos produits
+- Refonte UX/UI complète du site pour un design haut de gamme luxe/éditorial
+  - Nouvelle palette: terracotta plus profond (#9E4723), surfaces raffinées
+  - Boutons à angles nets (luxury), labels uppercase extra-espacés
+  - Cartes produits minimalistes, ratio 3:4
+  - Navbar glassmorphism (transparente sur accueil, frosted glass au scroll)
+  - Footer dark premium avec icônes sociales
+  - Section collection avec header éditorial
+  - Espacement généreux type magazine (py-24/py-32)
+  - Grain texture overlay subtil
+- Pages redesignées: Home, Shop, ProductDetail, Cart, Contact, About, Craftsmanship
+- Composants redesignés: Navbar, Footer, ProductCard, Layout
 
 ## Prochaines Étapes
 1. Fournir la clé API SendGrid pour activer les emails
