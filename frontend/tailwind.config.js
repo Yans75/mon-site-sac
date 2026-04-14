@@ -8,7 +8,7 @@ module.exports = {
         'stone-white': '#F9F8F6',
         'charcoal': '#2D2D2D',
         'pale-sand': '#F0EBE5',
-        'terracotta': '#C66B3D',
+        'terracotta': '#9E4723',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 
@@ -39,19 +40,19 @@ const Shop = () => {
   }, [filter]);
 
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-24 lg:pt-28">
       {/* Hero */}
-      <section className="py-16 bg-pale-sand">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-16 md:py-24 bg-pale-sand">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl"
           >
-            <h1 className="font-heading text-5xl md:text-6xl text-charcoal mb-4">
+            <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">Collection</p>
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-charcoal tracking-tighter leading-none mb-6">
               La Collection
             </h1>
-            <p className="font-body text-lg text-charcoal/70">
+            <p className="font-body text-sm font-light text-charcoal/50 max-w-lg leading-relaxed">
               Chaque pièce est confectionnée à la main en quantité limitée. Une fois épuisées, elles ne reviendront pas.
             </p>
           </motion.div>
@@ -59,20 +60,20 @@ const Shop = () => {
       </section>
 
       {/* Filters & Products */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Filter Tabs */}
-          <div className="mb-12 overflow-x-auto pb-2">
-            <div className="flex gap-2 min-w-max">
+          <div className="mb-16 overflow-x-auto pb-2 -mx-4 px-4">
+            <div className="flex gap-1 min-w-max">
               {categories.map((cat) => (
                 <button
                   key={cat.value}
                   onClick={() => setFilter(cat.value)}
                   data-testid={`filter-${cat.value}`}
-                  className={`px-6 py-2 rounded-full font-body text-sm transition-colors duration-300 ${
+                  className={`px-6 py-2.5 font-body text-xs uppercase tracking-[0.12em] transition-all duration-500 ${
                     filter === cat.value
                       ? 'bg-charcoal text-stone-white'
-                      : 'bg-pale-sand text-charcoal hover:bg-charcoal/10'
+                      : 'text-charcoal/40 hover:text-charcoal'
                   }`}
                 >
                   {cat.label}
@@ -83,25 +84,25 @@ const Shop = () => {
 
           {/* Products Grid */}
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="aspect-[3/4] bg-pale-sand mb-4" />
-                  <div className="h-6 bg-pale-sand w-3/4 mb-2" />
+                  <div className="aspect-[3/4] bg-pale-sand mb-5" />
+                  <div className="h-5 bg-pale-sand w-3/4 mb-2" />
                   <div className="h-4 bg-pale-sand w-1/4" />
                 </div>
               ))}
             </div>
           ) : products.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="font-body text-charcoal/60">
+            <div className="text-center py-24">
+              <p className="font-body text-sm text-charcoal/30">
                 Aucun produit trouvé dans cette catégorie.
               </p>
             </div>
           ) : (
             <motion.div 
               layout
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14"
             >
               {products.map((product, index) => (
                 <ProductCard key={product.product_id} product={product} index={index} />
@@ -112,21 +113,19 @@ const Shop = () => {
       </section>
 
       {/* Info Banner */}
-      <section className="py-12 bg-pale-sand">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <h3 className="font-heading text-2xl text-charcoal mb-2">Livraison Gratuite</h3>
-              <p className="font-body text-sm text-charcoal/60">Pour toute commande de plus de 200€</p>
-            </div>
-            <div>
-              <h3 className="font-heading text-2xl text-charcoal mb-2">Fait Main</h3>
-              <p className="font-body text-sm text-charcoal/60">Plus de 40 heures de savoir-faire</p>
-            </div>
-            <div>
-              <h3 className="font-heading text-2xl text-charcoal mb-2">Certificat</h3>
-              <p className="font-body text-sm text-charcoal/60">D'authenticité inclus</p>
-            </div>
+      <section className="py-16 md:py-20 bg-charcoal text-stone-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-12 md:gap-8">
+            {[
+              { title: 'Livraison Gratuite', desc: 'Pour toute commande de plus de 200€' },
+              { title: 'Fait Main', desc: 'Plus de 40 heures de savoir-faire' },
+              { title: 'Certificat', desc: "D'authenticité inclus" },
+            ].map((item, i) => (
+              <div key={i} className="text-center">
+                <h3 className="font-heading text-2xl text-stone-white mb-2 tracking-tight">{item.title}</h3>
+                <p className="font-body text-xs text-stone-white/30 uppercase tracking-[0.15em]">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

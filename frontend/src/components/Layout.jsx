@@ -10,6 +10,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <div className="grain-overlay" />
     </div>
   );
 };

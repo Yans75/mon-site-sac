@@ -5,88 +5,75 @@ const Craftsmanship = () => {
     {
       number: '01',
       title: 'Sélection du Fil',
-      description: 'Nous sélectionnons uniquement les fils biologiques et recyclés les plus fins auprès de fournisseurs éthiques. Chaque fibre est choisie pour sa texture, sa durabilité et sa beauté.',
+      description: 'Nous sélectionnons uniquement les fils biologiques et recyclés les plus fins. Chaque fibre est choisie pour sa texture, sa durabilité et sa beauté.',
       image: 'https://images.unsplash.com/photo-1666112512232-f763ceeb5ec8?crop=entropy&cs=srgb&fm=jpg&q=85'
     },
     {
       number: '02',
       title: 'Conception du Design',
-      description: 'Chaque sac commence par une vision. Croquis, études de couleurs et planification des motifs garantissent que chaque pièce sera à la fois belle et fonctionnelle.',
+      description: 'Chaque sac commence par une vision. Croquis, études de couleurs et planification des motifs garantissent que chaque pièce sera belle et fonctionnelle.',
       image: 'https://images.unsplash.com/photo-1636545767112-27892db3d13f?crop=entropy&cs=srgb&fm=jpg&q=85'
     },
     {
       number: '03',
       title: 'La Confection',
-      description: 'C\'est là que la magie opère. Heure après heure de travail minutieux — crochet, tissage, mise en forme — transforment le fil brut en œuvre d\'art.',
+      description: "C'est là que la magie opère. Heure après heure de travail minutieux transforment le fil brut en oeuvre d'art.",
       image: 'https://images.unsplash.com/photo-1647032713597-1dcfaa15b725?crop=entropy&cs=srgb&fm=jpg&q=85'
     },
     {
       number: '04',
       title: 'Les Finitions',
-      description: 'Les accessoires sont fixés, les doublures cousues, et chaque sac est inspecté pour atteindre la perfection. Enfin, l\'artisan signe son œuvre.',
+      description: "Les accessoires sont fixés, les doublures cousues, et chaque sac est inspecté pour atteindre la perfection. L'artisan signe son oeuvre.",
       image: 'https://images.unsplash.com/photo-1737888828619-96e0f50302f4?crop=entropy&cs=srgb&fm=jpg&q=85'
     }
   ];
 
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-24 lg:pt-28">
       {/* Hero */}
-      <section className="py-20 bg-pale-sand">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-16 md:py-24 bg-pale-sand">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl"
           >
-            <span className="font-accent text-2xl text-terracotta mb-4 block">
-              L'Art de Créer
-            </span>
-            <h1 className="font-heading text-5xl md:text-6xl text-charcoal mb-6 leading-tight">
+            <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">Savoir-Faire</p>
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-charcoal tracking-tighter leading-none mb-8">
               Un savoir-faire qui
               <br />
               <span className="italic">raconte une histoire</span>
             </h1>
-            <p className="font-body text-lg text-charcoal/70 leading-relaxed">
-              Chaque sac ArtemCreations naît d'heures de travail patient et qualifié. 
-              Pas de raccourcis, pas de machines remplaçant le toucher humain. Juste du fil, 
-              des mains et du temps — les ingrédients de quelque chose de vraiment spécial.
+            <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed max-w-lg">
+              Chaque sac naît d'heures de travail patient. Pas de raccourcis, pas de machines. 
+              Juste du fil, des mains et du temps.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Time Banner */}
-      <section className="py-12 bg-charcoal text-stone-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 text-center">
-            <div>
-              <p className="font-heading text-5xl md:text-6xl">40+</p>
-              <p className="font-body text-xs uppercase tracking-widest text-stone-white/60 mt-2">
-                Heures en moyenne
-              </p>
-            </div>
-            <div className="hidden md:block w-px h-16 bg-stone-white/20" />
-            <div>
-              <p className="font-heading text-5xl md:text-6xl">200+</p>
-              <p className="font-body text-xs uppercase tracking-widest text-stone-white/60 mt-2">
-                Nœuds au centimètre
-              </p>
-            </div>
-            <div className="hidden md:block w-px h-16 bg-stone-white/20" />
-            <div>
-              <p className="font-heading text-5xl md:text-6xl">100%</p>
-              <p className="font-body text-xs uppercase tracking-widest text-stone-white/60 mt-2">
-                Fait Main
-              </p>
-            </div>
+      {/* Stats */}
+      <section className="py-16 md:py-20 bg-charcoal text-stone-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 text-center">
+            {[
+              { value: '40+', label: 'Heures en moyenne' },
+              { value: '200+', label: 'Noeuds au centimètre' },
+              { value: '100%', label: 'Fait Main' },
+            ].map((stat, i) => (
+              <div key={i}>
+                <p className="font-heading text-5xl md:text-6xl tracking-tight">{stat.value}</p>
+                <p className="font-body text-[10px] uppercase tracking-[0.25em] text-stone-white/25 mt-2">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Process Steps */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="space-y-32">
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-28 md:space-y-40">
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
@@ -94,28 +81,26 @@ const Craftsmanship = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8 }}
-                className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${
-                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                }`}
+                className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
               >
                 <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                  <div className="aspect-[4/3] overflow-hidden">
+                  <div className="aspect-[4/3] overflow-hidden group">
                     <img
                       src={step.image}
                       alt={step.title}
-                      className="w-full h-full object-cover filter grayscale-[15%] hover:grayscale-0 transition-all duration-700"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
                   </div>
                 </div>
 
                 <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                  <span className="font-heading text-8xl text-pale-sand">
+                  <span className="font-heading text-[7rem] md:text-[9rem] text-pale-sand leading-none block">
                     {step.number}
                   </span>
-                  <h2 className="font-heading text-3xl md:text-4xl text-charcoal -mt-8 mb-4 relative z-10">
+                  <h2 className="font-heading text-3xl md:text-4xl text-charcoal -mt-12 mb-5 relative z-10 tracking-tight">
                     {step.title}
                   </h2>
-                  <p className="font-body text-charcoal/70 leading-relaxed">
+                  <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed max-w-md">
                     {step.description}
                   </p>
                 </div>
@@ -126,51 +111,39 @@ const Craftsmanship = () => {
       </section>
 
       {/* Materials */}
-      <section className="py-20 bg-pale-sand">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-24 md:py-32 bg-pale-sand">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-20"
           >
-            <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-4">
+            <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">Matières</p>
+            <h2 className="font-heading text-4xl md:text-5xl text-charcoal tracking-tight">
               Nos Matières
             </h2>
-            <p className="font-body text-charcoal/60 max-w-2xl mx-auto">
-              Nous croyons qu'un grand artisanat commence par de grandes matières. 
-              Chaque fil que nous utilisons est soigneusement sélectionné pour sa qualité, 
-              sa durabilité et sa beauté.
-            </p>
+            <div className="w-12 h-px bg-terracotta mt-6" />
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              {
-                name: 'Coton Biologique',
-                description: 'Doux, respirant et cultivé sans produits chimiques nocifs. Notre choix pour les sacs du quotidien.'
-              },
-              {
-                name: 'Fibres Recyclées',
-                description: 'Donner une nouvelle vie aux déchets textiles. Beau, durable et respectueux de la planète.'
-              },
-              {
-                name: 'Laine Premium',
-                description: 'Provenant de fermes éthiques de confiance. Parfaite pour les pièces qui nécessitent chaleur et texture.'
-              }
+              { name: 'Coton Biologique', description: 'Doux, respirant et cultivé sans produits chimiques nocifs. Notre choix pour les sacs du quotidien.' },
+              { name: 'Fibres Recyclées', description: 'Donner une nouvelle vie aux déchets textiles. Beau, durable et respectueux de la planète.' },
+              { name: 'Laine Premium', description: "Provenant de fermes éthiques. Parfaite pour les pièces qui nécessitent chaleur et texture." }
             ].map((material, index) => (
               <motion.div
                 key={material.name}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-stone-white p-8"
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                className="bg-stone-white p-10 border border-transparent hover:border-charcoal/5 transition-colors duration-500"
               >
-                <h3 className="font-heading text-2xl text-charcoal mb-3">
+                <h3 className="font-heading text-2xl text-charcoal mb-4 tracking-tight">
                   {material.name}
                 </h3>
-                <p className="font-body text-sm text-charcoal/60 leading-relaxed">
+                <p className="font-body text-xs font-light text-charcoal/40 leading-relaxed">
                   {material.description}
                 </p>
               </motion.div>
@@ -180,17 +153,18 @@ const Craftsmanship = () => {
       </section>
 
       {/* Quote */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <section className="py-24 md:py-32">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.blockquote
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <p className="font-heading text-3xl md:text-4xl text-charcoal italic mb-8 leading-relaxed">
+            <p className="font-heading text-3xl md:text-4xl text-charcoal italic leading-snug mb-10 tracking-tight">
               "La beauté du fait main réside dans les imperfections — les subtiles variations 
-              qui prouvent que des mains humaines étaient là, créant quelque chose avec soin."
+              qui prouvent que des mains humaines étaient là."
             </p>
+            <div className="w-12 h-px bg-terracotta mx-auto mb-6" />
             <cite className="font-accent text-xl text-terracotta not-italic">
               — Elena, Maître Artisane
             </cite>

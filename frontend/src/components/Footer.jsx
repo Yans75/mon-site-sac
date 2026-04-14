@@ -1,115 +1,99 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Mail } from 'lucide-react';
+import { Instagram, Facebook, Mail, ArrowUpRight } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-pale-sand mt-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+    <footer className="bg-charcoal text-stone-white mt-0">
+      {/* Main Footer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
           {/* Brand */}
-          <div className="md:col-span-2">
-            <h2 className="font-heading text-3xl text-charcoal mb-4">ArtemCreations</h2>
-            <p className="font-body text-sm text-charcoal/70 max-w-sm leading-relaxed">
+          <div className="lg:col-span-5">
+            <h2 className="font-heading text-4xl text-stone-white mb-6 tracking-tight">
+              ArtemCreations
+            </h2>
+            <p className="font-body text-sm font-light text-stone-white/50 max-w-sm leading-relaxed mb-8">
               Confectionné avec amour et dévouement. Chaque pièce raconte une histoire de patience, 
-              de savoir-faire et de la beauté intemporelle du travail artisanal.
+              de savoir-faire et de beauté intemporelle.
             </p>
-            <p className="font-accent text-xl text-terracotta mt-6">
-              "Fait main, porté avec le cœur"
+            <p className="font-accent text-xl text-terracotta">
+              "Fait main, porté avec le coeur"
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-body text-sm uppercase tracking-widest text-charcoal mb-6">
+          {/* Navigation */}
+          <div className="lg:col-span-3">
+            <h3 className="font-body text-xs uppercase tracking-[0.2em] text-stone-white/30 mb-8">
               Explorer
             </h3>
-            <nav className="flex flex-col gap-3">
-              <Link 
-                to="/shop" 
-                data-testid="footer-shop"
-                className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
-              >
-                La Collection
-              </Link>
-              <Link 
-                to="/about" 
-                data-testid="footer-about"
-                className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
-              >
-                Notre Histoire
-              </Link>
-              <Link 
-                to="/craftsmanship" 
-                data-testid="footer-craftsmanship"
-                className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
-              >
-                Savoir-Faire
-              </Link>
-              <Link 
-                to="/contact" 
-                data-testid="footer-contact"
-                className="font-body text-sm text-charcoal/70 hover:text-charcoal transition-colors"
-              >
-                Nous Contacter
-              </Link>
+            <nav className="flex flex-col gap-4">
+              {[
+                { to: '/shop', label: 'La Collection' },
+                { to: '/about', label: 'Notre Histoire' },
+                { to: '/craftsmanship', label: 'Savoir-Faire' },
+                { to: '/contact', label: 'Nous Contacter' },
+              ].map((link) => (
+                <Link 
+                  key={link.to}
+                  to={link.to} 
+                  data-testid={`footer-${link.to.replace('/', '')}`}
+                  className="font-body text-sm font-light text-stone-white/50 hover:text-stone-white transition-colors duration-500 inline-flex items-center gap-1 group"
+                >
+                  {link.label}
+                  <ArrowUpRight size={12} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </Link>
+              ))}
             </nav>
           </div>
 
-          {/* Connect */}
-          <div>
-            <h3 className="font-body text-sm uppercase tracking-widest text-charcoal mb-6">
-              Suivez-nous
+          {/* Contact & Social */}
+          <div className="lg:col-span-4">
+            <h3 className="font-body text-xs uppercase tracking-[0.2em] text-stone-white/30 mb-8">
+              Restons en contact
             </h3>
-            <div className="flex gap-4 mb-6">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                data-testid="footer-instagram"
-                className="w-10 h-10 rounded-full bg-charcoal/5 flex items-center justify-center hover:bg-charcoal hover:text-stone-white transition-colors duration-300"
-              >
-                <Instagram size={18} />
-              </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                data-testid="footer-facebook"
-                className="w-10 h-10 rounded-full bg-charcoal/5 flex items-center justify-center hover:bg-charcoal hover:text-stone-white transition-colors duration-300"
-              >
-                <Facebook size={18} />
-              </a>
-              <a 
-                href="mailto:hello@artemcreations.com"
-                data-testid="footer-email"
-                className="w-10 h-10 rounded-full bg-charcoal/5 flex items-center justify-center hover:bg-charcoal hover:text-stone-white transition-colors duration-300"
-              >
-                <Mail size={18} />
-              </a>
-            </div>
-            <p className="font-body text-sm text-charcoal/70">
+            <p className="font-body text-sm font-light text-stone-white/50 mb-6">
               hello@artemcreations.com
             </p>
+            <div className="flex gap-3">
+              {[
+                { href: 'https://instagram.com', icon: Instagram, testId: 'footer-instagram' },
+                { href: 'https://facebook.com', icon: Facebook, testId: 'footer-facebook' },
+                { href: 'mailto:hello@artemcreations.com', icon: Mail, testId: 'footer-email' },
+              ].map(({ href, icon: Icon, testId }) => (
+                <a 
+                  key={testId}
+                  href={href} 
+                  target={href.startsWith('http') ? '_blank' : undefined}
+                  rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  data-testid={testId}
+                  className="w-10 h-10 border border-stone-white/10 flex items-center justify-center text-stone-white/40 hover:text-stone-white hover:border-stone-white/30 transition-all duration-500"
+                >
+                  <Icon size={16} strokeWidth={1.5} />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom */}
-        <div className="border-t border-charcoal/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-body text-xs text-charcoal/50">
+      {/* Bottom Bar */}
+      <div className="border-t border-stone-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="font-body text-[11px] text-stone-white/25 tracking-wider">
             © {new Date().getFullYear()} ArtemCreations. Tous droits réservés.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-8">
             <Link 
               to="/privacy" 
-              className="font-body text-xs text-charcoal/50 hover:text-charcoal transition-colors"
+              className="font-body text-[11px] text-stone-white/25 hover:text-stone-white/50 transition-colors tracking-wider"
             >
-              Politique de confidentialité
+              Confidentialité
             </Link>
             <Link 
               to="/terms" 
-              className="font-body text-xs text-charcoal/50 hover:text-charcoal transition-colors"
+              className="font-body text-[11px] text-stone-white/25 hover:text-stone-white/50 transition-colors tracking-wider"
             >
-              Conditions générales
+              CGV
             </Link>
           </div>
         </div>

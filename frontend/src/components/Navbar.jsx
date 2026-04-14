@@ -11,6 +11,7 @@ const Navbar = () => {
   const location = useLocation();
   const { cartCount } = useCart();
   const { user } = useAuth();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,28 +35,32 @@ const Navbar = () => {
     { to: '/contact', label: 'Contact' },
   ];
 
+  const textColor = isHome && !isScrolled ? 'text-stone-white' : 'text-charcoal';
+  const textMuted = isHome && !isScrolled ? 'text-stone-white/70' : 'text-charcoal/50';
+  const textHover = isHome && !isScrolled ? 'hover:text-stone-white' : 'hover:text-charcoal';
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
           isScrolled 
-            ? 'bg-stone-white/90 backdrop-blur-md border-b border-muted' 
+            ? 'bg-stone-white/80 backdrop-blur-xl border-b border-charcoal/5 shadow-[0_1px_20px_rgba(0,0,0,0.03)]' 
             : 'bg-transparent'
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20 lg:h-24">
             {/* Left Links - Desktop */}
-            <div className="hidden lg:flex items-center gap-10 flex-1">
+            <div className="hidden lg:flex items-center gap-12 flex-1">
               {leftLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  data-testid={`nav-${link.label.toLowerCase()}`}
-                  className={`font-body text-sm tracking-wide transition-colors duration-300 ${
+                  data-testid={`nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                  className={`font-body text-xs tracking-[0.15em] uppercase transition-all duration-500 ${
                     location.pathname === link.to 
-                      ? 'text-charcoal' 
-                      : 'text-charcoal/70 hover:text-charcoal'
+                      ? textColor
+                      : `${textMuted} ${textHover}`
                   }`}
                 >
                   {link.label}
@@ -69,22 +74,22 @@ const Navbar = () => {
               data-testid="nav-logo"
               className="flex-shrink-0"
             >
-              <h1 className="font-heading text-2xl md:text-3xl font-light tracking-tight text-charcoal">
+              <h1 className={`font-heading text-2xl md:text-3xl font-light tracking-tight transition-colors duration-500 ${textColor}`}>
                 ArtemCreations
               </h1>
             </Link>
 
             {/* Right Links - Desktop */}
-            <div className="hidden lg:flex items-center gap-10 flex-1 justify-end">
+            <div className="hidden lg:flex items-center gap-12 flex-1 justify-end">
               {rightLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  data-testid={`nav-${link.label.toLowerCase()}`}
-                  className={`font-body text-sm tracking-wide transition-colors duration-300 ${
+                  data-testid={`nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                  className={`font-body text-xs tracking-[0.15em] uppercase transition-all duration-500 ${
                     location.pathname === link.to 
-                      ? 'text-charcoal' 
-                      : 'text-charcoal/70 hover:text-charcoal'
+                      ? textColor
+                      : `${textMuted} ${textHover}`
                   }`}
                 >
                   {link.label}
@@ -95,23 +100,23 @@ const Navbar = () => {
               <Link 
                 to={user ? '/account' : '/login'}
                 data-testid="nav-user"
-                className="text-charcoal/70 hover:text-charcoal transition-colors duration-300"
+                className={`${textMuted} ${textHover} transition-colors duration-500`}
               >
-                <User size={20} strokeWidth={1.5} />
+                <User size={18} strokeWidth={1.5} />
               </Link>
 
               {/* Cart Icon */}
               <Link 
                 to="/cart" 
                 data-testid="nav-cart"
-                className="relative text-charcoal/70 hover:text-charcoal transition-colors duration-300"
+                className={`relative ${textMuted} ${textHover} transition-colors duration-500`}
               >
-                <ShoppingBag size={20} strokeWidth={1.5} />
+                <ShoppingBag size={18} strokeWidth={1.5} />
                 {cartCount > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-2 -right-2 w-5 h-5 bg-terracotta text-stone-white text-xs flex items-center justify-center rounded-full"
+                    className="absolute -top-2 -right-2.5 w-4 h-4 bg-terracotta text-stone-white text-[10px] flex items-center justify-center"
                   >
                     {cartCount}
                   </motion.span>
@@ -120,15 +125,15 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex lg:hidden items-center gap-4">
+            <div className="flex lg:hidden items-center gap-5">
               <Link 
                 to="/cart" 
                 data-testid="nav-cart-mobile"
-                className="relative text-charcoal/70"
+                className={`relative ${textMuted}`}
               >
-                <ShoppingBag size={20} strokeWidth={1.5} />
+                <ShoppingBag size={18} strokeWidth={1.5} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-terracotta text-stone-white text-xs flex items-center justify-center rounded-full">
+                  <span className="absolute -top-2 -right-2.5 w-4 h-4 bg-terracotta text-stone-white text-[10px] flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -136,9 +141,9 @@ const Navbar = () => {
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
-                className="text-charcoal"
+                className={textColor}
               >
-                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                {mobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
               </button>
             </div>
           </div>
@@ -149,32 +154,44 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 lg:hidden"
           >
-            <div className="absolute inset-0 bg-stone-white pt-24 px-6">
-              <nav className="flex flex-col gap-6">
-                {[...leftLinks, ...rightLinks].map((link) => (
-                  <Link
+            <div className="absolute inset-0 bg-stone-white flex flex-col justify-center px-8">
+              <nav className="flex flex-col gap-8">
+                {[...leftLinks, ...rightLinks].map((link, i) => (
+                  <motion.div
                     key={link.to}
-                    to={link.to}
-                    data-testid={`mobile-nav-${link.label.toLowerCase()}`}
-                    className="font-heading text-3xl text-charcoal"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
                   >
-                    {link.label}
-                  </Link>
+                    <Link
+                      to={link.to}
+                      data-testid={`mobile-nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                      className="font-heading text-4xl text-charcoal tracking-tight"
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
                 ))}
-                <div className="border-t border-muted pt-6 mt-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="border-t border-charcoal/10 pt-8 mt-4"
+                >
                   <Link
                     to={user ? '/account' : '/login'}
                     data-testid="mobile-nav-account"
-                    className="font-body text-sm text-charcoal/70"
+                    className="font-body text-xs uppercase tracking-[0.2em] text-charcoal/50"
                   >
-                    {user ? 'My Account' : 'Sign In'}
+                    {user ? 'Mon Compte' : 'Connexion'}
                   </Link>
-                </div>
+                </motion.div>
               </nav>
             </div>
           </motion.div>

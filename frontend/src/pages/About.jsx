@@ -3,48 +3,31 @@ import { Heart, Leaf, Clock, Sparkles } from 'lucide-react';
 
 const About = () => {
   const values = [
-    {
-      icon: Heart,
-      title: 'Fait avec Amour',
-      description: 'Chaque point porte la chaleur des mains humaines et la passion d\'artisans qualifiés.'
-    },
-    {
-      icon: Leaf,
-      title: 'Matériaux Durables',
-      description: 'Nous sélectionnons des fils biologiques, recyclés et produits de manière éthique.'
-    },
-    {
-      icon: Clock,
-      title: 'Mode Lente',
-      description: 'La qualité plutôt que la quantité. Chaque pièce nécessite 20 à 60 heures de travail.'
-    },
-    {
-      icon: Sparkles,
-      title: 'Pièces Uniques',
-      description: 'Des éditions limitées garantissent que vous possédez quelque chose de vraiment spécial.'
-    }
+    { icon: Heart, title: 'Fait avec Amour', description: "Chaque point porte la chaleur des mains humaines et la passion d'artisans qualifiés." },
+    { icon: Leaf, title: 'Matériaux Durables', description: 'Nous sélectionnons des fils biologiques, recyclés et produits de manière éthique.' },
+    { icon: Clock, title: 'Mode Lente', description: 'La qualité plutôt que la quantité. Chaque pièce nécessite 20 à 60 heures de travail.' },
+    { icon: Sparkles, title: 'Pièces Uniques', description: 'Des éditions limitées garantissent que vous possédez quelque chose de vraiment spécial.' }
   ];
 
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-24 lg:pt-28">
       {/* Hero */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section className="py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <span className="font-accent text-2xl text-terracotta mb-4 block">
-                Notre Histoire
-              </span>
-              <h1 className="font-heading text-5xl md:text-6xl text-charcoal mb-6 leading-tight">
+              <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">Notre Histoire</p>
+              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-charcoal tracking-tighter leading-none mb-8">
                 Née d'un amour pour
                 <br />
                 <span className="italic">la beauté artisanale</span>
               </h1>
-              <p className="font-body text-lg text-charcoal/70 leading-relaxed">
+              <div className="w-12 h-px bg-terracotta mb-8" />
+              <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed max-w-md">
                 ArtemCreations est née dans un petit atelier, avec une seule artisane et une vision : 
                 créer des sacs qui racontent des histoires, des sacs qui deviennent plus beaux avec le temps, 
                 des sacs qui honorent l'art ancestral du textile.
@@ -64,8 +47,8 @@ const About = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-8 -right-8 bg-pale-sand p-8 hidden lg:block">
-                <p className="font-accent text-2xl text-terracotta">
+              <div className="absolute -bottom-6 -left-6 bg-charcoal text-stone-white p-8 hidden lg:block">
+                <p className="font-accent text-xl text-terracotta">
                   "Chaque sac a une âme"
                 </p>
               </div>
@@ -75,13 +58,14 @@ const About = () => {
       </section>
 
       {/* The Artisan */}
-      <section className="py-20 bg-pale-sand">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section className="py-24 md:py-32 bg-pale-sand">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
               className="order-2 lg:order-1"
             >
               <div className="aspect-square overflow-hidden">
@@ -97,22 +81,22 @@ const About = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
               className="order-1 lg:order-2"
             >
-              <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-6">
-                Rencontrez la Créatrice
+              <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">La Créatrice</p>
+              <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-8 tracking-tight">
+                Rencontrez
+                <br />
+                <span className="italic">la Créatrice</span>
               </h2>
-              <p className="font-body text-charcoal/70 leading-relaxed mb-6">
+              <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed mb-6">
                 Avec plus de trois décennies d'expérience dans les arts textiles, notre fondatrice 
                 apporte une richesse de connaissances et un engagement indéfectible envers la qualité. 
-                Ce qui a commencé comme une fascination d'enfance pour le fil et les aiguilles s'est 
-                épanoui en un artisanat célébré.
               </p>
-              <p className="font-body text-charcoal/70 leading-relaxed mb-6">
+              <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed mb-8">
                 Chaque création ArtemCreations passe entre des mains expertes qui ont perfectionné 
-                des techniques transmises de génération en génération. Il ne s'agit pas seulement 
-                de fabriquer des sacs — il s'agit de préserver une tradition, de créer de la beauté 
-                et de façonner des objets qui durent.
+                des techniques transmises de génération en génération.
               </p>
               <p className="font-accent text-xl text-terracotta">
                 — Elena, Fondatrice & Maître Artisane
@@ -123,40 +107,35 @@ const About = () => {
       </section>
 
       {/* Values */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-20"
           >
-            <h2 className="font-heading text-4xl md:text-5xl text-charcoal mb-4">
-              Nos Valeurs
+            <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">Nos Valeurs</p>
+            <h2 className="font-heading text-4xl md:text-5xl text-charcoal tracking-tight">
+              Ce qui nous guide
             </h2>
-            <p className="font-body text-charcoal/60 max-w-2xl mx-auto">
-              Nos valeurs guident chaque décision, du choix des fils aux 
-              techniques que nous employons.
-            </p>
+            <div className="w-12 h-px bg-terracotta mt-6" />
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-8"
+                transition={{ delay: index * 0.1, duration: 0.6 }}
               >
-                <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">
-                  <value.icon size={32} className="text-terracotta" strokeWidth={1} />
-                </div>
+                <value.icon size={28} className="text-terracotta mb-6" strokeWidth={1} />
                 <h3 className="font-heading text-xl text-charcoal mb-3">
                   {value.title}
                 </h3>
-                <p className="font-body text-sm text-charcoal/60 leading-relaxed">
+                <p className="font-body text-xs font-light text-charcoal/40 leading-relaxed">
                   {value.description}
                 </p>
               </motion.div>
@@ -166,19 +145,20 @@ const About = () => {
       </section>
 
       {/* Quote */}
-      <section className="py-20 bg-charcoal text-stone-white">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <section className="py-24 md:py-32 bg-charcoal text-stone-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.blockquote
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <p className="font-heading text-3xl md:text-4xl italic mb-8 leading-relaxed">
+            <p className="font-heading text-3xl md:text-4xl lg:text-5xl italic leading-snug mb-10 tracking-tight">
               "Dans un monde qui va trop vite, nous choisissons de ralentir. 
-              De créer avec intention. De fabriquer quelque chose qui mérite d'être gardé."
+              De créer avec intention."
             </p>
-            <cite className="font-body text-stone-white/60 text-sm uppercase tracking-widest not-italic">
-              — Notre Philosophie
+            <div className="w-12 h-px bg-stone-white/20 mx-auto mb-6" />
+            <cite className="font-body text-[10px] text-stone-white/30 uppercase tracking-[0.3em] not-italic">
+              Notre Philosophie
             </cite>
           </motion.blockquote>
         </div>
