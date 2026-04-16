@@ -496,7 +496,7 @@ async def clear_cart(session_id: str):
 
 @api_router.post("/checkout/create-session")
 async def create_checkout_session(request: Request, checkout_data: CheckoutRequest):
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionRequest
+    import stripe as stripe_lib
     
     # Get cart
     cart = await db.carts.find_one({"session_id": checkout_data.cart_session_id})
@@ -505,6 +505,7 @@ async def create_checkout_session(request: Request, checkout_data: CheckoutReque
     
     # Calculate total
     items = []
+    line_items = []
     total = 0.0
     for item in cart.get("items", []):
         product = await db.products.find_one({"product_id": item["product_id"]}, {"_id": 0})
@@ -517,10 +518,28 @@ async def create_checkout_session(request: Request, checkout_data: CheckoutReque
                 quantity=item["quantity"],
                 image=product["images"][0] if product.get("images") else ""
             ))
+            line_items.append({
+                "price_data": {
+                    "currency": "eur",
+                    "product_data": {"name": product["name"]},
+                    "unit_amount": int(float(product["price"]) * 100),
+                },
+                "quantity": item["quantity"],
+            })
             total += item_total
     
     shipping = 15.0 if total < 200 else 0.0
     grand_total = total + shipping
+    
+    if shipping > 0:
+        line_items.append({
+            "price_data": {
+                "currency": "eur",
+                "product_data": {"name": "Frais de livraison"},
+                "unit_amount": int(shipping * 100),
+            },
+            "quantity": 1,
+        })
     
     # Create order
     order = Order(
@@ -536,31 +555,26 @@ async def create_checkout_session(request: Request, checkout_data: CheckoutReque
     
     # Get URLs from request
     origin = request.headers.get("origin", "http://localhost:3000")
-    host_url = str(request.base_url).rstrip("/")
-    webhook_url = f"{host_url}/api/webhook/stripe"
-    success_url = f"{origin}/checkout/success?session_id={{CHECKOUT_SESSION_ID}}"
-    cancel_url = f"{origin}/cart"
     
     try:
-        api_key = os.environ.get("STRIPE_API_KEY")
-        stripe_checkout = StripeCheckout(api_key=api_key, webhook_url=webhook_url)
+        stripe_lib.api_key = os.environ.get("STRIPE_API_KEY")
         
-        checkout_request = CheckoutSessionRequest(
-            amount=grand_total,
-            currency="usd",
-            success_url=success_url,
-            cancel_url=cancel_url,
+        session = stripe_lib.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=line_items,
+            mode="payment",
+            success_url=f"{origin}/checkout/success?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{origin}/cart",
+            customer_email=checkout_data.email,
             metadata={
                 "order_id": order.order_id,
                 "email": checkout_data.email
             }
         )
         
-        session = await stripe_checkout.create_checkout_session(checkout_request)
-        
         # Update order with stripe session ID
         order_doc = order.model_dump()
-        order_doc['stripe_session_id'] = session.session_id
+        order_doc['stripe_session_id'] = session.id
         order_doc['created_at'] = order_doc['created_at'].isoformat()
         await db.orders.insert_one(order_doc)
         
@@ -568,30 +582,29 @@ async def create_checkout_session(request: Request, checkout_data: CheckoutReque
         await db.payment_transactions.insert_one({
             "transaction_id": f"txn_{uuid.uuid4().hex[:12]}",
             "order_id": order.order_id,
-            "session_id": session.session_id,
+            "session_id": session.id,
             "amount": grand_total,
-            "currency": "usd",
+            "currency": "eur",
             "email": checkout_data.email,
             "payment_status": "pending",
             "created_at": datetime.now(timezone.utc).isoformat()
         })
         
-        return {"url": session.url, "session_id": session.session_id, "order_id": order.order_id}
+        return {"url": session.url, "session_id": session.id, "order_id": order.order_id}
     except Exception as e:
         logger.error(f"Stripe checkout error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/checkout/status/{session_id}")
 async def get_checkout_status(session_id: str):
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout
+    import stripe as stripe_lib
     
     try:
-        api_key = os.environ.get("STRIPE_API_KEY")
-        stripe_checkout = StripeCheckout(api_key=api_key, webhook_url="")
-        status = await stripe_checkout.get_checkout_status(session_id)
+        stripe_lib.api_key = os.environ.get("STRIPE_API_KEY")
+        session = stripe_lib.checkout.Session.retrieve(session_id)
         
         # Update order and transaction
-        if status.payment_status == "paid":
+        if session.payment_status == "paid":
             await db.orders.update_one(
                 {"stripe_session_id": session_id},
                 {"$set": {"status": "confirmed", "payment_status": "paid"}}
@@ -600,17 +613,12 @@ async def get_checkout_status(session_id: str):
                 {"session_id": session_id},
                 {"$set": {"payment_status": "paid"}}
             )
-            # Clear the cart
-            order = await db.orders.find_one({"stripe_session_id": session_id})
-            if order:
-                # Find and clear cart based on email or session
-                pass
         
         return {
-            "status": status.status,
-            "payment_status": status.payment_status,
-            "amount_total": status.amount_total,
-            "currency": status.currency
+            "status": session.status,
+            "payment_status": session.payment_status,
+            "amount_total": session.amount_total,
+            "currency": session.currency
         }
     except Exception as e:
         logger.error(f"Status check error: {e}")
@@ -618,25 +626,32 @@ async def get_checkout_status(session_id: str):
 
 @api_router.post("/webhook/stripe")
 async def stripe_webhook(request: Request):
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout
+    import stripe as stripe_lib
     
     body = await request.body()
     sig = request.headers.get("Stripe-Signature", "")
     
     try:
-        api_key = os.environ.get("STRIPE_API_KEY")
-        stripe_checkout = StripeCheckout(api_key=api_key, webhook_url="")
-        webhook_response = await stripe_checkout.handle_webhook(body, sig)
+        stripe_lib.api_key = os.environ.get("STRIPE_API_KEY")
+        webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
         
-        if webhook_response.payment_status == "paid":
-            await db.orders.update_one(
-                {"stripe_session_id": webhook_response.session_id},
-                {"$set": {"status": "confirmed", "payment_status": "paid"}}
-            )
-            await db.payment_transactions.update_one(
-                {"session_id": webhook_response.session_id},
-                {"$set": {"payment_status": "paid"}}
-            )
+        if webhook_secret:
+            event = stripe_lib.Webhook.construct_event(body, sig, webhook_secret)
+        else:
+            import json
+            event = json.loads(body)
+        
+        if event.get("type") == "checkout.session.completed":
+            session = event["data"]["object"]
+            if session.get("payment_status") == "paid":
+                await db.orders.update_one(
+                    {"stripe_session_id": session["id"]},
+                    {"$set": {"status": "confirmed", "payment_status": "paid"}}
+                )
+                await db.payment_transactions.update_one(
+                    {"session_id": session["id"]},
+                    {"$set": {"payment_status": "paid"}}
+                )
         
         return {"received": True}
     except Exception as e:
@@ -788,25 +803,24 @@ async def logout(request: Request, response: Response):
     response.delete_cookie(key="session_token", path="/")
     return {"message": "Logged out"}
 
-# Emergent Google OAuth session handler
+# Google OAuth session handler (standard — no Emergent dependency)
 @api_router.post("/auth/google/session")
 async def google_oauth_session(request: Request, response: Response):
     import httpx
     
     body = await request.json()
-    session_id = body.get("session_id")
+    token = body.get("token") or body.get("session_id")
     
-    if not session_id:
-        raise HTTPException(status_code=400, detail="Session ID required")
+    if not token:
+        raise HTTPException(status_code=400, detail="Token required")
     
-    # Get user data from Emergent auth
+    # Verify the Google ID token via Google's tokeninfo endpoint
     async with httpx.AsyncClient() as client:
         resp = await client.get(
-            "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
-            headers={"X-Session-ID": session_id}
+            f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
         )
         if resp.status_code != 200:
-            raise HTTPException(status_code=401, detail="Invalid session")
+            raise HTTPException(status_code=401, detail="Invalid Google token")
         
         oauth_data = resp.json()
     
