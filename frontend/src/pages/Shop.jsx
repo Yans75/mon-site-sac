@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
+import Breadcrumb from '../components/Breadcrumb';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -41,9 +43,15 @@ const Shop = () => {
 
   return (
     <div className="pt-24 lg:pt-28">
+      <SEO
+        title="Boutique — Sacs Artisanaux"
+        description="Explorez notre collection de sacs à main faits main en polyester et fil de yarn. Sacs crochet uniques, cabas, pochettes et bandoulières artisanales."
+      />
+
       {/* Hero */}
       <section className="py-16 md:py-24 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumb items={[{ label: 'Accueil', to: '/' }, { label: 'Boutique' }]} />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

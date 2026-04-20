@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
+import SEO from '../components/SEO';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -38,6 +39,10 @@ const Contact = () => {
 
   return (
     <div className="pt-24 lg:pt-28">
+      <SEO
+        title="Contactez-nous"
+        description="Contactez Artem Creations pour vos commandes sur mesure de sacs artisanaux. Questions, devis personnalisés — nous vous répondons sous 24h."
+      />
       {/* Hero */}
       <section className="py-16 md:py-24 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

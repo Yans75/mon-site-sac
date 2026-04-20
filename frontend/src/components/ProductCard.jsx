@@ -33,7 +33,8 @@ const ProductCard = ({ product, index = 0 }) => {
         <div className="aspect-[3/4] overflow-hidden bg-pale-sand relative">
           <img
             src={images?.[0] || 'https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85'}
-            alt={name}
+            alt={`${name} — Sac artisanal fait main, Artem Creations`}
+            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
           />
           

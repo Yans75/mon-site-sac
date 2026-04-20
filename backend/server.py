@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, UploadFile, File, Form
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -968,6 +968,57 @@ async def seed_data():
 @api_router.get("/")
 async def root():
     return {"message": "ArtemCreations API", "version": "1.0"}
+
+# ============== SEO: SITEMAP & ROBOTS ==============
+
+SITE_URL = "https://artemcreations.com"
+
+@api_router.get("/sitemap.xml", response_class=PlainTextResponse)
+async def sitemap():
+    products = await db.products.find({}, {"_id": 0, "product_id": 1, "name": 1}).to_list(500)
+
+    static_pages = [
+        {"loc": "/", "priority": "1.0", "changefreq": "weekly"},
+        {"loc": "/shop", "priority": "0.9", "changefreq": "weekly"},
+        {"loc": "/about", "priority": "0.7", "changefreq": "monthly"},
+        {"loc": "/craftsmanship", "priority": "0.7", "changefreq": "monthly"},
+        {"loc": "/contact", "priority": "0.6", "changefreq": "monthly"},
+        {"loc": "/mentions-legales", "priority": "0.3", "changefreq": "yearly"},
+        {"loc": "/politique-de-confidentialite", "priority": "0.3", "changefreq": "yearly"},
+    ]
+
+    urls = ""
+    for page in static_pages:
+        urls += f"""  <url>
+    <loc>{SITE_URL}{page['loc']}</loc>
+    <changefreq>{page['changefreq']}</changefreq>
+    <priority>{page['priority']}</priority>
+  </url>\n"""
+
+    for p in products:
+        urls += f"""  <url>
+    <loc>{SITE_URL}/product/{p['product_id']}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>\n"""
+
+    xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{urls}</urlset>"""
+    return PlainTextResponse(content=xml, media_type="application/xml")
+
+@api_router.get("/robots.txt", response_class=PlainTextResponse)
+async def robots():
+    content = f"""User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+
+Sitemap: {SITE_URL}/api/sitemap.xml"""
+    return PlainTextResponse(content=content)
 
 # Include router
 app.include_router(api_router)

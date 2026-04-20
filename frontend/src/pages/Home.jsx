@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -82,6 +83,10 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Sacs à Main Faits Main"
+        description="Découvrez nos sacs artisanaux en polyester haut de gamme et fil de yarn. Pièces uniques faites main avec passion. Livraison offerte dès 200€."
+      />
       {/* ===== HERO SECTION ===== */}
       <section 
         className="relative min-h-screen flex items-end overflow-hidden"

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#2D2D2D"/>
+  <text x="256" y="310" text-anchor="middle" font-family="Georgia, 'Cormorant Garamond', serif" font-size="260" font-weight="300" fill="#F9F8F6" letter-spacing="-15">AC</text>
+  <rect x="100" y="380" width="312" height="2" fill="#9E4723"/>
+</svg>

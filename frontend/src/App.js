@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "sonner";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -16,6 +17,9 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthCallback from "./pages/AuthCallback";
+import NotFound from "./pages/NotFound";
+import MentionsLegales from "./pages/MentionsLegales";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
@@ -26,15 +30,13 @@ import AdminMessages from "./pages/admin/AdminMessages";
 function AppRouter() {
   const location = useLocation();
   
-  // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
-  // Handle OAuth callback before other routes
   if (location.hash?.includes('session_id=')) {
     return <AuthCallback />;
   }
   
   return (
     <Routes>
-      {/* Admin Routes (no Layout) */}
+      {/* Admin Routes */}
       <Route path="/admin" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/products" element={<AdminProducts />} />
@@ -56,6 +58,9 @@ function AppRouter() {
         <Route path="checkout/success" element={<CheckoutSuccess />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="mentions-legales" element={<MentionsLegales />} />
+        <Route path="politique-de-confidentialite" element={<PolitiqueConfidentialite />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
@@ -63,27 +68,29 @@ function AppRouter() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <AdminProvider>
-          <CartProvider>
-            <div className="grain-overlay" />
-            <Toaster 
-              position="top-right" 
-              toastOptions={{
-                style: {
-                  background: '#F9F8F6',
-                  border: '1px solid #E5E0D8',
-                  color: '#2D2D2D',
-                  fontFamily: 'Outfit, sans-serif',
-                },
-              }}
-            />
-            <AppRouter />
-          </CartProvider>
-        </AdminProvider>
-      </AuthProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <AdminProvider>
+            <CartProvider>
+              <div className="grain-overlay" />
+              <Toaster 
+                position="top-right" 
+                toastOptions={{
+                  style: {
+                    background: '#F9F8F6',
+                    border: '1px solid #E5E0D8',
+                    color: '#2D2D2D',
+                    fontFamily: 'Outfit, sans-serif',
+                  },
+                }}
+              />
+              <AppRouter />
+            </CartProvider>
+          </AdminProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Heart, Leaf, Clock, Sparkles } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const About = () => {
   const values = [
@@ -11,6 +12,10 @@ const About = () => {
 
   return (
     <div className="pt-24 lg:pt-28">
+      <SEO
+        title="Notre Histoire"
+        description="Découvrez l'histoire d'Artem Creations, marque artisanale de sacs faits main. Passion, savoir-faire et matériaux nobles au coeur de chaque création."
+      />
       {/* Hero */}
       <section className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

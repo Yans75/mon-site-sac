@@ -1,43 +1,84 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="A product of emergent.sh" />
-        <!--
-        manifest.json provides metadata used when your web app is installed on a
-        user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-        -->
-        <!--
-        Notice the use of %PUBLIC_URL% in the tags above.
-        It will be replaced with the URL of the `public` folder during the build.
-        Only files inside the `public` folder can be referenced from the HTML.
+        <meta name="theme-color" content="#2D2D2D" />
+        <meta name="author" content="Artem Creations" />
+        <meta name="robots" content="index, follow" />
 
-        Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-        work correctly both with client-side routing and a non-root public URL.
-        Learn how to configure a non-root public URL by running `npm run build`.
-        -->
-        <title>Emergent | Fullstack App</title>
+        <!-- Favicon -->
+        <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
+        <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+
+        <title>Artem Creations — Sacs à Main Faits Main</title>
+
+        <!-- JSON-LD: Organization -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Artem Creations",
+            "url": "https://artemcreations.com",
+            "logo": "https://artemcreations.com/favicon.svg",
+            "description": "Marque artisanale spécialisée dans la création de sacs à main faits main en polyester haut de gamme et fil de yarn.",
+            "sameAs": [
+                "https://instagram.com/artemcreations",
+                "https://facebook.com/artemcreations"
+            ],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "email": "bonjour@artemcreations.com",
+                "contactType": "customer service",
+                "availableLanguage": "French"
+            }
+        }
+        </script>
+
+        <!-- JSON-LD: WebSite with SearchAction -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Artem Creations",
+            "url": "https://artemcreations.com",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://artemcreations.com/shop?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+        </script>
+
+        <!-- JSON-LD: LocalBusiness -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Artem Creations",
+            "image": "https://customer-assets.emergentagent.com/job_ddcf7dd4-0bde-46cb-bf20-9dbb3d1819e4/artifacts/3oaokz1a_1000098153.png",
+            "url": "https://artemcreations.com",
+            "priceRange": "€€€",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "123 Rue des Artisans",
+                "addressLocality": "Paris",
+                "postalCode": "75011",
+                "addressCountry": "FR"
+            },
+            "openingHours": "Mo-Fr 10:00-18:00"
+        }
+        </script>
+
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
-        <!--
-        These two scripts have been added for the Visual Edits, please do not edit or remove them
-        -->
         <script>
-            // Only load visual edit scripts when inside an iframe
             if (window.self !== window.top) {
-                // Load debug monitor script
                 var debugMonitorScript = document.createElement('script');
                 debugMonitorScript.src = 'https://assets.emergent.sh/scripts/debug-monitor.js';
                 document.head.appendChild(debugMonitorScript);
-
-                // Configure Tailwind
                 window.tailwind = window.tailwind || {};
-                tailwind.config = {
-                    corePlugins: { preflight: false },
-                };
-
-                // Load Tailwind CDN
+                tailwind.config = { corePlugins: { preflight: false } };
                 var tailwindScript = document.createElement('script');
                 tailwindScript.src = 'https://cdn.tailwindcss.com';
                 document.head.appendChild(tailwindScript);
@@ -45,18 +86,8 @@
         </script>
     </head>
     <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <noscript>Vous devez activer JavaScript pour naviguer sur ce site.</noscript>
         <div id="root"></div>
-        <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
         <a
             id="emergent-badge"
             target="_blank"
@@ -81,9 +112,7 @@
                 border: 1px solid rgba(255, 255, 255, 0.25) !important;
             "
         >
-            <div
-                style="display: flex; flex-direction: row; align-items: center"
-            >
+            <div style="display: flex; flex-direction: row; align-items: center">
                 <img
                     style="width: 20px; height: 20px; margin-right: 8px"
                     src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4"
@@ -168,7 +197,7 @@
             })(document, window.posthog || []);
             posthog.init("phc_xAvL2Iq4tFmANRE7kzbKwaSqp1HJjN7x48s3vr0CMjs", {
                 api_host: "https://us.i.posthog.com",
-                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well,
+                person_profiles: "identified_only",
                 session_recording: {
                     recordCrossOriginIframes: true,
                 },

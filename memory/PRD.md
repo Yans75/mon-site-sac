@@ -118,16 +118,27 @@ ADMIN_PASSWORD=ArtemAdmin2024!
 ### 05 Avr 2025
 - Mise à jour du carrousel de la page d'accueil avec 5 nouvelles photos de sacs
 - Refonte UX/UI complète du site pour un design haut de gamme luxe/éditorial
-  - Nouvelle palette: terracotta plus profond (#9E4723), surfaces raffinées
-  - Boutons à angles nets (luxury), labels uppercase extra-espacés
-  - Cartes produits minimalistes, ratio 3:4
-  - Navbar glassmorphism (transparente sur accueil, frosted glass au scroll)
-  - Footer dark premium avec icônes sociales
-  - Section collection avec header éditorial
-  - Espacement généreux type magazine (py-24/py-32)
-  - Grain texture overlay subtil
-- Pages redesignées: Home, Shop, ProductDetail, Cart, Contact, About, Craftsmanship
-- Composants redesignés: Navbar, Footer, ProductCard, Layout
+- Migration CRACO vers react-scripts standard (fix build Vercel)
+- Nettoyage requirements.txt (120 lignes → 13 dépendances)
+- Suppression emergentintegrations, remplacement par librairies standard (stripe, httpx)
+
+### 20 Avr 2025
+- SEO complet implémenté :
+  - Meta tags uniques par page (title, description, canonical, hreflang fr)
+  - Open Graph (og:title, og:description, og:image, og:url, og:type, og:locale fr_FR)
+  - Twitter Cards (summary_large_image)
+  - og:price:amount et og:price:currency sur pages produit
+  - JSON-LD: Organization, WebSite (SearchAction), LocalBusiness, Product, BreadcrumbList
+  - Favicon SVG monogramme "AC" + site.webmanifest
+  - Sitemap XML dynamique (/api/sitemap.xml) incluant toutes les pages et produits
+  - Robots.txt optimisé (/api/robots.txt) avec directives crawl
+  - Fil d'Ariane (Breadcrumb) sur pages Boutique et Produit
+  - Alt descriptifs SEO sur toutes les images produits
+  - Lazy loading (loading="lazy") sur images
+  - Page 404 personnalisée avec redirection boutique
+  - Page Mentions Légales (/mentions-legales)
+  - Page Politique de Confidentialité (/politique-de-confidentialite)
+  - Liens footer vers pages légales
 
 ## Prochaines Étapes
 1. Fournir la clé API SendGrid pour activer les emails

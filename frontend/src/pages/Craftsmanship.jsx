@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 
 const Craftsmanship = () => {
   const steps = [
@@ -30,6 +31,10 @@ const Craftsmanship = () => {
 
   return (
     <div className="pt-24 lg:pt-28">
+      <SEO
+        title="Savoir-Faire Artisanal"
+        description="Découvrez le savoir-faire derrière nos sacs crochet faits main. 40+ heures par pièce, fils de yarn premium, confection artisanale française."
+      />
       {/* Hero */}
       <section className="py-16 md:py-24 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,0 +1,17 @@
+{
+  "name": "Artem Creations",
+  "short_name": "ArtemCreations",
+  "description": "Sacs à main faits main en polyester haut de gamme et fil de yarn artisanal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F9F8F6",
+  "theme_color": "#2D2D2D",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

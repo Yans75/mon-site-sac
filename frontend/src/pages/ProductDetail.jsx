@@ -5,6 +5,8 @@ import { ArrowLeft, Minus, Plus, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
+import SEO from '../components/SEO';
+import Breadcrumb from '../components/Breadcrumb';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -44,6 +46,25 @@ const ProductDetail = () => {
     setAdding(false);
   };
 
+  const productJsonLd = product ? {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.images?.[0],
+    brand: { '@type': 'Brand', name: 'Artem Creations' },
+    material: product.material || 'Polyester haut de gamme, fil de yarn',
+    offers: {
+      '@type': 'Offer',
+      price: product.price,
+      priceCurrency: 'EUR',
+      availability: product.stock > 0
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      seller: { '@type': 'Organization', name: 'Artem Creations' },
+    },
+  } : null;
+
   if (loading) {
     return (
       <div className="pt-28 pb-16 min-h-screen">
@@ -74,7 +95,21 @@ const ProductDetail = () => {
 
   return (
     <div className="pt-28 pb-16">
+      <SEO
+        title={product.name}
+        description={`${product.name} — Sac artisanal fait main par Artem Creations. ${product.description?.substring(0, 100)}`}
+        image={product.images?.[0]}
+        type="product"
+        price={String(product.price)}
+        jsonLd={productJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: 'Accueil', to: '/' },
+          { label: 'Boutique', to: '/shop' },
+          { label: product.name },
+        ]} />
+
         {/* Back Link */}
         <Link 
           to="/shop" 
@@ -95,7 +130,7 @@ const ProductDetail = () => {
             <div className="aspect-[3/4] overflow-hidden bg-pale-sand mb-4">
               <img
                 src={product.images?.[selectedImage] || 'https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85'}
-                alt={product.name}
+                alt={`${product.name} — Sac fait main en polyester et yarn, Artem Creations`}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -110,7 +145,7 @@ const ProductDetail = () => {
                       selectedImage === i ? 'ring-1 ring-charcoal' : 'opacity-40 hover:opacity-70'
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <img src={img} alt={`${product.name} vue ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>

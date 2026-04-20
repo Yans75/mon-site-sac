@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Minus, Plus, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import SEO from '../components/SEO';
 
 const Cart = () => {
   const { cartItems, cartTotal, loading, updateQuantity, removeFromCart } = useCart();
@@ -12,6 +13,7 @@ const Cart = () => {
   if (cartItems.length === 0) {
     return (
       <div className="pt-28 pb-16 min-h-screen">
+        <SEO title="Votre Panier" description="Votre panier est vide. Découvrez nos sacs artisanaux faits main." noindex />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -37,6 +39,7 @@ const Cart = () => {
 
   return (
     <div className="pt-28 pb-16">
+      <SEO title="Votre Panier" description="Finalisez votre commande de sacs artisanaux. Livraison gratuite dès 200€." noindex />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
