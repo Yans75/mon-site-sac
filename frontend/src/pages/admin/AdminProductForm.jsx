@@ -163,7 +163,9 @@ const AdminProductForm = () => {
       }
       navigate('/admin/products');
     } catch (error) {
-      toast.error('Erreur lors de la sauvegarde');
+      const detail = error.response?.data?.detail || error.message;
+      console.error('Save error:', detail, error.response?.status);
+      toast.error('Erreur lors de la sauvegarde', { description: detail });
     } finally {
       setLoading(false);
     }
