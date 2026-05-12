@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const images = getProductImages(product);
   const price = selectedVariant?.price || product?.priceRange?.minVariantPrice;
   const compareAtPrice = selectedVariant?.compareAtPrice;
-  const maxQty = selectedVariant?.quantityAvailable || 99;
+  const maxQty = 99;
 
   const handleAddToCart = async () => {
     if (!selectedVariantId) return;
@@ -162,7 +162,7 @@ const ProductDetail = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:py-8"
           >
-            {product.totalInventory === 1 && product.availableForSale && (
+            {Array.isArray(product.tags) && product.tags.includes('unique') && product.availableForSale && (
               <span className="inline-block font-body text-[10px] uppercase tracking-[0.2em] text-terracotta border border-terracotta/20 px-4 py-1.5 mb-6">
                 Pièce unique
               </span>

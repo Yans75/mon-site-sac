@@ -60,7 +60,6 @@ const PRODUCT_FRAGMENT = `
     productType
     vendor
     availableForSale
-    totalInventory
     priceRange {
       minVariantPrice { amount currencyCode }
       maxVariantPrice { amount currencyCode }
@@ -78,7 +77,6 @@ const PRODUCT_FRAGMENT = `
           id
           title
           availableForSale
-          quantityAvailable
           price { amount currencyCode }
           compareAtPrice { amount currencyCode }
           selectedOptions { name value }

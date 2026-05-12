@@ -9,7 +9,7 @@ const ProductCard = ({ product, index = 0 }) => {
 
   if (!product) return null;
 
-  const { handle, title, featuredImage, priceRange, availableForSale, totalInventory } = product;
+  const { handle, title, featuredImage, priceRange, availableForSale, tags } = product;
   const variantId = getFirstAvailableVariantId(product);
   const price = priceRange?.minVariantPrice;
   const imageUrl = featuredImage?.url
@@ -23,7 +23,7 @@ const ProductCard = ({ product, index = 0 }) => {
     await addItem(variantId, 1);
   };
 
-  const isUnique = totalInventory === 1;
+  const isUnique = Array.isArray(tags) && tags.includes('unique');
   const isSoldOut = !availableForSale;
 
   return (
