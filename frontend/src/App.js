@@ -44,7 +44,7 @@ function App() {
               <Route path="pages/:handle" element={<Page />} />
 
               {/* Legacy redirects: map French URLs to actual Shopify handles */}
-              <Route path="mentions-legales" element={<Navigate to="/pages/mentions-legales" replace />} />
+              <Route path="mentions-legales" element={<Navigate to="/pages/legal-notice" replace />} />
               <Route path="politique-de-confidentialite" element={<Navigate to="/pages/privacy-policy" replace />} />
               <Route path="confidentialite" element={<Navigate to="/pages/privacy-policy" replace />} />
               <Route path="cgv" element={<Navigate to="/pages/terms-of-service" replace />} />

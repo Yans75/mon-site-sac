@@ -8,12 +8,14 @@ const COUNTRY = process.env.REACT_APP_SHOPIFY_COUNTRY || "FR";
 const LANGUAGE = process.env.REACT_APP_SHOPIFY_LANGUAGE || "FR";
 
 const ENDPOINT = `https://${DOMAIN}/api/${API_VERSION}/graphql.json`;
+// Used only for fields not yet available in stable API (e.g., legalNotice for France/EU compliance).
+const ENDPOINT_UNSTABLE = `https://${DOMAIN}/api/unstable/graphql.json`;
 
 /**
  * Low-level GraphQL fetcher.
  * Automatically prepends @inContext(country: FR, language: FR) parameters via query variables.
  */
-export async function shopifyFetch({ query, variables = {} }) {
+export async function shopifyFetch({ query, variables = {}, endpoint = ENDPOINT }) {
   if (!DOMAIN || !TOKEN) {
     throw new Error(
       "Shopify config missing. Check REACT_APP_SHOPIFY_DOMAIN and REACT_APP_SHOPIFY_STOREFRONT_TOKEN in .env"
@@ -21,7 +23,7 @@ export async function shopifyFetch({ query, variables = {} }) {
   }
 
   try {
-    const res = await fetch(ENDPOINT, {
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,6 +46,10 @@ export async function shopifyFetch({ query, variables = {} }) {
     console.error("Shopify fetch failed:", err);
     throw err;
   }
+}
+
+function shopifyFetchUnstable(args) {
+  return shopifyFetch({ ...args, endpoint: ENDPOINT_UNSTABLE });
 }
 
 // ======================= QUERIES =======================
@@ -208,6 +214,7 @@ const POLICY_TITLES_FR = {
   'shipping-policy': 'Politique de Livraison',
   'terms-of-service': 'Conditions Générales de Vente',
   'subscription-policy': 'Politique d\u0027Abonnement',
+  'legal-notice': 'Mentions Légales',
 };
 
 function normalizePolicy(policy) {
@@ -237,24 +244,47 @@ export async function getShopPolicies() {
   ].filter(Boolean);
 }
 
-/**
- * Returns ALL information pages (custom pages + shop policies) merged.
- * Used by the footer and as a single source of truth for legal content.
- */
-export async function getAllInformationPages() {
-  const [pages, policies] = await Promise.all([
-    getPages({ first: 50 }).catch(() => []),
-    getShopPolicies().catch(() => []),
-  ]);
-  // Custom pages first, then policies. Filter out "contact" which has its own route.
-  const visiblePages = pages
-    .filter((p) => p.handle !== 'contact' && !/^contact$/i.test(p.title))
-    .map((p) => ({ ...p, isPolicy: false }));
-  return [...visiblePages, ...policies];
+// Legal Notice (French/EU "Mentions légales") is only exposed on the `unstable` Storefront API for now.
+// Wrapped in try/catch so it fails gracefully if Shopify removes/renames the field.
+const LEGAL_NOTICE_QUERY = `
+  query LegalNotice($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    shop {
+      legalNotice { id handle title body url }
+    }
+  }
+`;
+
+export async function getLegalNotice() {
+  try {
+    const data = await shopifyFetchUnstable({ query: LEGAL_NOTICE_QUERY });
+    return normalizePolicy(data?.shop?.legalNotice);
+  } catch (err) {
+    console.warn("Legal notice fetch failed (unstable API):", err?.message);
+    return null;
+  }
 }
 
 /**
- * Resolve a handle to either a custom page or a shop policy.
+ * Returns ALL information pages (custom pages + shop policies + legal notice) merged.
+ * Used by the footer and as a single source of truth for legal content.
+ */
+export async function getAllInformationPages() {
+  const [pages, policies, legalNotice] = await Promise.all([
+    getPages({ first: 50 }).catch(() => []),
+    getShopPolicies().catch(() => []),
+    getLegalNotice().catch(() => null),
+  ]);
+  // Custom pages first, then policies (with legal notice prepended). Filter out "contact" route.
+  const visiblePages = pages
+    .filter((p) => p.handle !== 'contact' && !/^contact$/i.test(p.title))
+    .map((p) => ({ ...p, isPolicy: false }));
+  const allPolicies = legalNotice ? [legalNotice, ...policies] : policies;
+  return [...visiblePages, ...allPolicies];
+}
+
+/**
+ * Resolve a handle to either a custom page, a shop policy, or the legal notice.
  */
 export async function getInformationPageByHandle(handle) {
   // Try custom page first
@@ -264,7 +294,12 @@ export async function getInformationPageByHandle(handle) {
   } catch {
     /* ignore, fall through to policies */
   }
-  // Fall back to policies
+  // Try legal notice (unstable API)
+  if (handle === 'legal-notice' || handle === 'mentions-legales') {
+    const ln = await getLegalNotice();
+    if (ln) return ln;
+  }
+  // Fall back to standard policies
   const policies = await getShopPolicies();
   return policies.find((p) => p.handle === handle) || null;
 }
