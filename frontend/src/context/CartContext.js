@@ -1,109 +1,173 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { toast } from "sonner";
+import {
+  createCart,
+  getCart,
+  addCartLines,
+  updateCartLines,
+  removeCartLines,
+} from "../lib/shopify";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const CART_ID_KEY = "artem_shopify_cart_id";
 
-const CartContext = createContext();
+const CartContext = createContext(null);
 
-export const useCart = () => useContext(CartContext);
-
-export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState(() => {
-    const stored = localStorage.getItem('cart_session_id');
-    return stored || `sess_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('cart_session_id', sessionId);
-    fetchCart();
-  }, [sessionId]);
-
-  const fetchCart = async () => {
-    try {
-      const response = await axios.get(`${API}/cart/${sessionId}`);
-      setCartItems(response.data.items || []);
-      setCartTotal(response.data.total || 0);
-    } catch (error) {
-      console.error('Error fetching cart:', error);
-    }
-  };
-
-  const addToCart = async (productId, quantity = 1) => {
-    setLoading(true);
-    try {
-      await axios.post(`${API}/cart/${sessionId}/add`, {
-        product_id: productId,
-        quantity
-      });
-      await fetchCart();
-      return true;
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const updateQuantity = async (productId, quantity) => {
-    setLoading(true);
-    try {
-      await axios.put(`${API}/cart/${sessionId}/update`, {
-        product_id: productId,
-        quantity
-      });
-      await fetchCart();
-    } catch (error) {
-      console.error('Error updating cart:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const removeFromCart = async (productId) => {
-    setLoading(true);
-    try {
-      await axios.delete(`${API}/cart/${sessionId}/remove/${productId}`);
-      await fetchCart();
-    } catch (error) {
-      console.error('Error removing from cart:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const clearCart = async () => {
-    setLoading(true);
-    try {
-      await axios.delete(`${API}/cart/${sessionId}`);
-      setCartItems([]);
-      setCartTotal(0);
-    } catch (error) {
-      console.error('Error clearing cart:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  return (
-    <CartContext.Provider value={{
-      cartItems,
-      cartTotal,
-      cartCount,
-      loading,
-      sessionId,
-      addToCart,
-      updateQuantity,
-      removeFromCart,
-      clearCart,
-      fetchCart
-    }}>
-      {children}
-    </CartContext.Provider>
-  );
+export const useCart = () => {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used within CartProvider");
+  return ctx;
 };
+
+export function CartProvider({ children }) {
+  const [cart, setCart] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [initializing, setInitializing] = useState(true);
+
+  // Load cart from Shopify on mount if cartId exists in localStorage
+  useEffect(() => {
+    const loadCart = async () => {
+      const storedId = localStorage.getItem(CART_ID_KEY);
+      if (storedId) {
+        try {
+          const fetched = await getCart(storedId);
+          if (fetched && fetched.id) {
+            setCart(fetched);
+          } else {
+            // cart expired/deleted server-side
+            localStorage.removeItem(CART_ID_KEY);
+          }
+        } catch (err) {
+          console.warn("Failed to load cart, clearing:", err.message);
+          localStorage.removeItem(CART_ID_KEY);
+        }
+      }
+      setInitializing(false);
+    };
+    loadCart();
+  }, []);
+
+  const ensureCart = useCallback(
+    async (initialLines = []) => {
+      if (cart?.id) return cart;
+      const newCart = await createCart(initialLines);
+      localStorage.setItem(CART_ID_KEY, newCart.id);
+      setCart(newCart);
+      return newCart;
+    },
+    [cart]
+  );
+
+  const addItem = useCallback(
+    async (variantId, quantity = 1) => {
+      if (!variantId) {
+        toast.error("Variante de produit introuvable");
+        return;
+      }
+      setLoading(true);
+      try {
+        let updated;
+        if (!cart?.id) {
+          updated = await createCart([{ merchandiseId: variantId, quantity }]);
+          localStorage.setItem(CART_ID_KEY, updated.id);
+        } else {
+          updated = await addCartLines(cart.id, [
+            { merchandiseId: variantId, quantity },
+          ]);
+        }
+        setCart(updated);
+        toast.success("Ajouté au panier");
+        return updated;
+      } catch (err) {
+        toast.error(err.message || "Erreur lors de l'ajout au panier");
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [cart]
+  );
+
+  const updateItem = useCallback(
+    async (lineId, quantity) => {
+      if (!cart?.id) return;
+      setLoading(true);
+      try {
+        const updated = await updateCartLines(cart.id, [
+          { id: lineId, quantity },
+        ]);
+        setCart(updated);
+      } catch (err) {
+        toast.error(err.message || "Erreur lors de la mise à jour");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [cart]
+  );
+
+  const removeItem = useCallback(
+    async (lineId) => {
+      if (!cart?.id) return;
+      setLoading(true);
+      try {
+        const updated = await removeCartLines(cart.id, [lineId]);
+        setCart(updated);
+        toast.success("Produit retiré du panier");
+      } catch (err) {
+        toast.error(err.message || "Erreur lors de la suppression");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [cart]
+  );
+
+  const clearCart = useCallback(() => {
+    localStorage.removeItem(CART_ID_KEY);
+    setCart(null);
+  }, []);
+
+  const checkout = useCallback(() => {
+    if (cart?.checkoutUrl) {
+      window.location.href = cart.checkoutUrl;
+    } else {
+      toast.error("Panier vide ou indisponible");
+    }
+  }, [cart]);
+
+  // Derived values
+  const totalQuantity = cart?.totalQuantity || 0;
+  const items =
+    cart?.lines?.edges?.map((e) => ({
+      lineId: e.node.id,
+      quantity: e.node.quantity,
+      lineTotal: e.node.cost?.totalAmount,
+      unitPrice: e.node.cost?.amountPerQuantity,
+      variantId: e.node.merchandise?.id,
+      variantTitle: e.node.merchandise?.title,
+      available: e.node.merchandise?.availableForSale,
+      image: e.node.merchandise?.image || e.node.merchandise?.product?.featuredImage,
+      productHandle: e.node.merchandise?.product?.handle,
+      productTitle: e.node.merchandise?.product?.title,
+    })) || [];
+
+  const value = {
+    cart,
+    items,
+    totalQuantity,
+    subtotal: cart?.cost?.subtotalAmount,
+    total: cart?.cost?.totalAmount,
+    taxes: cart?.cost?.totalTaxAmount,
+    checkoutUrl: cart?.checkoutUrl,
+    loading,
+    initializing,
+    addItem,
+    updateItem,
+    removeItem,
+    clearCart,
+    checkout,
+    ensureCart,
+  };
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}

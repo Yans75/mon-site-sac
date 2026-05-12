@@ -2,11 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
-import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 import SEO from '../components/SEO';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+import { getFeaturedProducts } from '../lib/shopify';
 
 const heroSlides = [
   {
@@ -47,9 +45,8 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        await axios.post(`${API}/seed`).catch(() => {});
-        const response = await axios.get(`${API}/products`);
-        setProducts(response.data);
+        const data = await getFeaturedProducts({ first: 6 });
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -59,17 +56,9 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  const goToSlide = useCallback((index) => {
-    setCurrentImageIndex(index);
-  }, []);
-
-  const nextSlide = useCallback(() => {
-    setCurrentImageIndex((prev) => (prev + 1) % heroSlides.length);
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentImageIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  }, []);
+  const goToSlide = useCallback((index) => setCurrentImageIndex(index), []);
+  const nextSlide = useCallback(() => setCurrentImageIndex((prev) => (prev + 1) % heroSlides.length), []);
+  const prevSlide = useCallback(() => setCurrentImageIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length), []);
 
   useEffect(() => {
     if (isPaused) return;
@@ -79,29 +68,25 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [isPaused]);
 
-  const featuredProducts = products.slice(0, 6);
-
   return (
     <div className="min-h-screen">
       <SEO
         title="Sacs à Main Faits Main"
         description="Découvrez nos sacs artisanaux en polyester haut de gamme et fil de yarn. Pièces uniques faites main avec passion. Livraison offerte dès 200€."
       />
-      {/* ===== HERO SECTION ===== */}
-      <section 
+      <section
         className="relative min-h-screen flex items-end overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         data-testid="hero-section"
       >
-        {/* Fullscreen Background */}
         <div className="absolute inset-0 z-0">
           {heroSlides.map((slide, index) => (
             <motion.div
               key={index}
               className="absolute inset-0"
               initial={{ opacity: 0, scale: 1.08 }}
-              animate={{ 
+              animate={{
                 opacity: index === currentImageIndex ? 1 : 0,
                 scale: index === currentImageIndex ? 1 : 1.08,
               }}
@@ -114,7 +99,6 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-charcoal/20" />
         </div>
 
-        {/* Content */}
         <div className="relative z-10 w-full px-4 sm:px-6 lg:px-16 pb-16 md:pb-24 pt-40">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -150,16 +134,16 @@ const Home = () => {
             </AnimatePresence>
 
             <div className="flex flex-wrap gap-4">
-              <a 
-                href="#collection" 
+              <a
+                href="#collection"
                 data-testid="hero-shop-btn"
                 className="bg-stone-white text-charcoal px-10 py-4 uppercase tracking-[0.15em] text-xs font-medium inline-flex items-center gap-3 hover:bg-terracotta hover:text-stone-white transition-colors duration-500"
               >
                 <ShoppingBag size={14} strokeWidth={1.5} />
                 Voir la Collection
               </a>
-              <Link 
-                to="/craftsmanship" 
+              <Link
+                to="/craftsmanship"
                 data-testid="hero-craftsmanship-btn"
                 className="border border-stone-white/30 text-stone-white px-10 py-4 uppercase tracking-[0.15em] text-xs font-medium hover:bg-stone-white hover:text-charcoal transition-all duration-500"
               >
@@ -167,10 +151,9 @@ const Home = () => {
               </Link>
             </div>
 
-            {/* Navigation */}
             <div className="flex items-center gap-4 mt-14">
-              <button 
-                onClick={prevSlide} 
+              <button
+                onClick={prevSlide}
                 data-testid="hero-prev-btn"
                 className="w-10 h-10 border border-stone-white/15 flex items-center justify-center text-stone-white/40 hover:text-stone-white hover:border-stone-white/40 transition-all duration-500"
               >
@@ -183,15 +166,13 @@ const Home = () => {
                     onClick={() => goToSlide(index)}
                     data-testid={`hero-dot-${index}`}
                     className={`h-[2px] transition-all duration-700 ${
-                      index === currentImageIndex 
-                        ? 'bg-stone-white w-10' 
-                        : 'bg-stone-white/20 w-5 hover:bg-stone-white/40'
+                      index === currentImageIndex ? 'bg-stone-white w-10' : 'bg-stone-white/20 w-5 hover:bg-stone-white/40'
                     }`}
                   />
                 ))}
               </div>
-              <button 
-                onClick={nextSlide} 
+              <button
+                onClick={nextSlide}
                 data-testid="hero-next-btn"
                 className="w-10 h-10 border border-stone-white/15 flex items-center justify-center text-stone-white/40 hover:text-stone-white hover:border-stone-white/40 transition-all duration-500"
               >
@@ -205,7 +186,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== MARQUEE / INFO BAR ===== */}
       <section className="bg-charcoal text-stone-white py-8 md:py-10 border-b border-stone-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-between gap-8 md:gap-0">
@@ -224,7 +204,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== COLLECTION SECTION ===== */}
       <section id="collection" className="py-24 md:py-32 bg-stone-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -238,8 +217,8 @@ const Home = () => {
               <h2 className="font-heading text-4xl md:text-5xl text-charcoal tracking-tight">
                 Nos Créations
               </h2>
-              <Link 
-                to="/shop" 
+              <Link
+                to="/shop"
                 data-testid="view-all-collection"
                 className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/50 hover:text-terracotta transition-colors duration-500 inline-flex items-center gap-2 group"
               >
@@ -260,22 +239,21 @@ const Home = () => {
                 </div>
               ))}
             </div>
-          ) : featuredProducts.length === 0 ? (
+          ) : products.length === 0 ? (
             <div className="text-center py-20">
               <ShoppingBag size={48} className="text-charcoal/10 mx-auto mb-4" />
               <p className="font-body text-charcoal/40">La collection arrive bientôt...</p>
             </div>
           ) : (
             <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
-              {featuredProducts.map((product, index) => (
-                <ProductCard key={product.product_id} product={product} index={index} />
+              {products.map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
               ))}
             </motion.div>
           )}
         </div>
       </section>
 
-      {/* ===== ABOUT / STORY SECTION ===== */}
       <section className="py-24 md:py-32 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
@@ -289,34 +267,18 @@ const Home = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-3">
                   <div className="aspect-square overflow-hidden">
-                    <img
-                      src={heroImages[0]}
-                      alt="Sac Artem Bordeaux"
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
-                    />
+                    <img src={heroImages[0]} alt="Sac Artem Bordeaux" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
                   </div>
                   <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={heroImages[3]}
-                      alt="Sac Artem Fuchsia"
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
-                    />
+                    <img src={heroImages[3]} alt="Sac Artem Fuchsia" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
                   </div>
                 </div>
                 <div className="space-y-3 mt-8">
                   <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={heroImages[1]}
-                      alt="Sac Artem Chocolat"
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
-                    />
+                    <img src={heroImages[1]} alt="Sac Artem Chocolat" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
                   </div>
                   <div className="aspect-square overflow-hidden">
-                    <img
-                      src={heroImages[4]}
-                      alt="Sac Artem Caramel"
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
-                    />
+                    <img src={heroImages[4]} alt="Sac Artem Caramel" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
                   </div>
                 </div>
               </div>
@@ -335,15 +297,12 @@ const Home = () => {
                 <span className="italic">fait main</span>
               </h2>
               <p className="font-body text-sm font-light text-charcoal/60 leading-relaxed mb-6">
-                Artem Créations est née d'une passion pour l'artisanat et le crochet. 
-                Chaque sac est confectionné avec amour, point par point, pour créer 
-                des pièces uniques qui vous accompagneront pendant des années.
+                Artem Créations est née d'une passion pour l'artisanat et le crochet. Chaque sac est confectionné avec amour, point par point, pour créer des pièces uniques qui vous accompagneront pendant des années.
               </p>
               <p className="font-body text-sm font-light text-charcoal/60 leading-relaxed mb-10">
-                Nous utilisons uniquement des fils de qualité premium pour garantir 
-                la durabilité et la beauté de nos créations.
+                Nous utilisons uniquement des fils de qualité premium pour garantir la durabilité et la beauté de nos créations.
               </p>
-              <Link 
+              <Link
                 to="/about"
                 className="font-body text-xs uppercase tracking-[0.15em] text-charcoal inline-flex items-center gap-3 group hover:text-terracotta transition-colors duration-500"
               >
@@ -355,7 +314,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== CTA SECTION ===== */}
       <section className="py-24 md:py-32 bg-charcoal text-stone-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -370,11 +328,10 @@ const Home = () => {
               <span className="italic">sur mesure ?</span>
             </h2>
             <p className="font-body text-sm font-light text-stone-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
-              Contactez-nous pour discuter de votre projet. Nous pouvons créer 
-              le sac de vos rêves, dans la couleur et le style de votre choix.
+              Contactez-nous pour discuter de votre projet. Nous pouvons créer le sac de vos rêves, dans la couleur et le style de votre choix.
             </p>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="bg-stone-white text-charcoal px-10 py-4 uppercase tracking-[0.15em] text-xs font-medium inline-flex items-center gap-3 hover:bg-terracotta hover:text-stone-white transition-colors duration-500"
             >
               Nous Contacter

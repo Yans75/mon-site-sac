@@ -2,65 +2,69 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Minus, Plus, Check } from 'lucide-react';
-import { toast } from 'sonner';
-import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import SEO from '../components/SEO';
 import Breadcrumb from '../components/Breadcrumb';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+import { getProductByHandle, formatMoney, getProductImages } from '../lib/shopify';
 
 const ProductDetail = () => {
-  const { productId } = useParams();
+  const { handle } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedVariantId, setSelectedVariantId] = useState(null);
   const [adding, setAdding] = useState(false);
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get(`${API}/products/${productId}`);
-        setProduct(response.data);
+        const data = await getProductByHandle(handle);
+        setProduct(data);
+        if (data?.variants?.edges?.length) {
+          const firstAvailable = data.variants.edges.find((e) => e.node.availableForSale);
+          setSelectedVariantId((firstAvailable || data.variants.edges[0]).node.id);
+        }
       } catch (error) {
         console.error('Error fetching product:', error);
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
-  }, [productId]);
+    if (handle) fetchProduct();
+  }, [handle]);
+
+  const variants = product?.variants?.edges?.map((e) => e.node) || [];
+  const selectedVariant = variants.find((v) => v.id === selectedVariantId) || variants[0];
+  const images = getProductImages(product);
+  const price = selectedVariant?.price || product?.priceRange?.minVariantPrice;
+  const compareAtPrice = selectedVariant?.compareAtPrice;
+  const maxQty = selectedVariant?.quantityAvailable || 99;
 
   const handleAddToCart = async () => {
+    if (!selectedVariantId) return;
     setAdding(true);
-    const success = await addToCart(productId, quantity);
-    if (success) {
-      toast.success('Ajouté au panier', {
-        description: `${product.name} × ${quantity}`,
-      });
-    } else {
-      toast.error("Impossible d'ajouter au panier");
+    try {
+      await addItem(selectedVariantId, quantity);
+    } finally {
+      setAdding(false);
     }
-    setAdding(false);
   };
 
   const productJsonLd = product ? {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.name,
+    name: product.title,
     description: product.description,
-    image: product.images?.[0],
-    brand: { '@type': 'Brand', name: 'Artem Creations' },
-    material: product.material || 'Polyester haut de gamme, fil de yarn',
+    image: images[0]?.url,
+    brand: { '@type': 'Brand', name: product.vendor || 'Artem Creations' },
     offers: {
       '@type': 'Offer',
-      price: product.price,
-      priceCurrency: 'EUR',
-      availability: product.stock > 0
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
+      price: price?.amount,
+      priceCurrency: price?.currencyCode || 'EUR',
+      availability: product.availableForSale ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       seller: { '@type': 'Organization', name: 'Artem Creations' },
     },
   } : null;
@@ -93,26 +97,27 @@ const ProductDetail = () => {
     );
   }
 
+  const hasVariantOptions = variants.length > 1;
+
   return (
     <div className="pt-28 pb-16">
       <SEO
-        title={product.name}
-        description={`${product.name} — Sac artisanal fait main par Artem Creations. ${product.description?.substring(0, 100)}`}
-        image={product.images?.[0]}
+        title={product.title}
+        description={`${product.title} — Sac artisanal fait main par Artem Creations. ${(product.description || '').substring(0, 100)}`}
+        image={images[0]?.url}
         type="product"
-        price={String(product.price)}
+        price={String(price?.amount || '')}
         jsonLd={productJsonLd}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Breadcrumb items={[
           { label: 'Accueil', to: '/' },
           { label: 'Boutique', to: '/shop' },
-          { label: product.name },
+          { label: product.title },
         ]} />
 
-        {/* Back Link */}
-        <Link 
-          to="/shop" 
+        <Link
+          to="/shop"
           data-testid="back-to-shop"
           className="inline-flex items-center gap-2 text-charcoal/30 hover:text-charcoal transition-colors duration-500 mb-10"
         >
@@ -121,7 +126,6 @@ const ProductDetail = () => {
         </Link>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
-          {/* Images */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -129,14 +133,14 @@ const ProductDetail = () => {
           >
             <div className="aspect-[3/4] overflow-hidden bg-pale-sand mb-4">
               <img
-                src={product.images?.[selectedImage] || 'https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85'}
-                alt={`${product.name} — Sac fait main en polyester et yarn, Artem Creations`}
+                src={images[selectedImage]?.url || 'https://images.unsplash.com/photo-1722510825571-8cdd1fe98ba4?crop=entropy&cs=srgb&fm=jpg&q=85'}
+                alt={images[selectedImage]?.altText || `${product.title} — Sac fait main par Artem Creations`}
                 className="w-full h-full object-cover"
               />
             </div>
-            {product.images?.length > 1 && (
-              <div className="flex gap-3">
-                {product.images.map((img, i) => (
+            {images.length > 1 && (
+              <div className="flex gap-3 flex-wrap">
+                {images.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
@@ -145,66 +149,91 @@ const ProductDetail = () => {
                       selectedImage === i ? 'ring-1 ring-charcoal' : 'opacity-40 hover:opacity-70'
                     }`}
                   >
-                    <img src={img} alt={`${product.name} vue ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                    <img src={img.url} alt={img.altText || `${product.title} vue ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
           </motion.div>
 
-          {/* Details */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:py-8"
           >
-            {product.limited_pieces && (
+            {product.totalInventory === 1 && product.availableForSale && (
               <span className="inline-block font-body text-[10px] uppercase tracking-[0.2em] text-terracotta border border-terracotta/20 px-4 py-1.5 mb-6">
-                Limité à {product.limited_pieces} pièces
+                Pièce unique
               </span>
             )}
 
             <h1 className="font-heading text-4xl md:text-5xl text-charcoal mb-4 tracking-tight">
-              {product.name}
+              {product.title}
             </h1>
 
-            <p className="font-heading text-2xl text-charcoal/80 mb-8">
-              {product.price?.toFixed(2)} €
-            </p>
-
-            <div className="w-12 h-px bg-charcoal/10 mb-8" />
-
-            <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed mb-10">
-              {product.description}
-            </p>
-
-            {/* Details List */}
-            <div className="border-t border-charcoal/5 py-6 mb-8 space-y-4">
-              {product.material && (
-                <div className="flex justify-between">
-                  <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Matière</span>
-                  <span className="font-body text-sm text-charcoal">{product.material}</span>
-                </div>
-              )}
-              {product.craftsmanship_time && (
-                <div className="flex justify-between">
-                  <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Temps de confection</span>
-                  <span className="font-body text-sm text-charcoal">{product.craftsmanship_time}</span>
-                </div>
-              )}
-              {product.stock !== undefined && (
-                <div className="flex justify-between">
-                  <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Disponibilité</span>
-                  <span className={`font-body text-sm ${product.stock <= 3 ? 'text-terracotta' : 'text-charcoal'}`}>
-                    {product.stock > 0 ? `${product.stock} en stock` : 'Épuisé'}
-                  </span>
-                </div>
+            <div className="flex items-baseline gap-4 mb-8">
+              <p className="font-heading text-2xl text-charcoal/80">{formatMoney(price)}</p>
+              {compareAtPrice && parseFloat(compareAtPrice.amount) > parseFloat(price.amount) && (
+                <p className="font-body text-sm text-charcoal/30 line-through">{formatMoney(compareAtPrice)}</p>
               )}
             </div>
 
-            {/* Quantity & Add to Cart */}
-            {product.stock > 0 ? (
+            <div className="w-12 h-px bg-charcoal/10 mb-8" />
+
+            <div
+              className="font-body text-sm font-light text-charcoal/60 leading-relaxed mb-10"
+              dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description || '' }}
+            />
+
+            {/* Variant selector */}
+            {hasVariantOptions && (
+              <div className="mb-8">
+                <p className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30 mb-3">Options</p>
+                <div className="flex flex-wrap gap-2">
+                  {variants.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => setSelectedVariantId(v.id)}
+                      disabled={!v.availableForSale}
+                      data-testid={`variant-${v.id}`}
+                      className={`px-5 py-2.5 font-body text-xs uppercase tracking-[0.12em] border transition-all duration-300 ${
+                        selectedVariantId === v.id
+                          ? 'bg-charcoal text-stone-white border-charcoal'
+                          : v.availableForSale
+                          ? 'border-charcoal/15 text-charcoal hover:border-charcoal'
+                          : 'border-charcoal/10 text-charcoal/30 line-through cursor-not-allowed'
+                      }`}
+                    >
+                      {v.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="border-t border-charcoal/5 py-6 mb-8 space-y-4">
+              {product.vendor && (
+                <div className="flex justify-between">
+                  <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Créateur</span>
+                  <span className="font-body text-sm text-charcoal">{product.vendor}</span>
+                </div>
+              )}
+              {product.productType && (
+                <div className="flex justify-between">
+                  <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Type</span>
+                  <span className="font-body text-sm text-charcoal">{product.productType}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Disponibilité</span>
+                <span className={`font-body text-sm ${product.availableForSale ? 'text-charcoal' : 'text-terracotta'}`}>
+                  {product.availableForSale ? 'En stock' : 'Épuisé'}
+                </span>
+              </div>
+            </div>
+
+            {product.availableForSale && selectedVariant?.availableForSale ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-6">
                   <span className="font-body text-xs uppercase tracking-[0.15em] text-charcoal/30">Quantité</span>
@@ -216,11 +245,9 @@ const ProductDetail = () => {
                     >
                       <Minus size={14} />
                     </button>
-                    <span className="px-6 font-body text-sm text-charcoal" data-testid="quantity-value">
-                      {quantity}
-                    </span>
+                    <span className="px-6 font-body text-sm text-charcoal" data-testid="quantity-value">{quantity}</span>
                     <button
-                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                      onClick={() => setQuantity(Math.min(maxQty, quantity + 1))}
                       data-testid="quantity-increase"
                       className="p-3 hover:bg-pale-sand transition-colors duration-300"
                     >
@@ -231,7 +258,7 @@ const ProductDetail = () => {
 
                 <button
                   onClick={handleAddToCart}
-                  disabled={adding}
+                  disabled={adding || !selectedVariantId}
                   data-testid="add-to-cart-btn"
                   className="w-full btn-primary py-5 flex items-center justify-center gap-3"
                 >
@@ -239,15 +266,11 @@ const ProductDetail = () => {
                 </button>
               </div>
             ) : (
-              <button
-                disabled
-                className="w-full bg-pale-sand text-charcoal/30 px-10 py-5 uppercase tracking-[0.15em] text-xs cursor-not-allowed"
-              >
+              <button disabled className="w-full bg-pale-sand text-charcoal/30 px-10 py-5 uppercase tracking-[0.15em] text-xs cursor-not-allowed">
                 Épuisé
               </button>
             )}
 
-            {/* Extra Info */}
             <div className="mt-10 pt-8 border-t border-charcoal/5 space-y-3">
               {['Livraison gratuite dès 200€', "Certificat d'authenticité inclus", "Signé par l'artisan"].map((text) => (
                 <p key={text} className="font-body text-xs text-charcoal/30 flex items-center gap-3">
