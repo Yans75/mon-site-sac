@@ -43,11 +43,14 @@ function App() {
               {/* Dynamic Shopify pages: /pages/:handle */}
               <Route path="pages/:handle" element={<Page />} />
 
-              {/* Legacy redirects for old hardcoded legal URLs */}
+              {/* Legacy redirects: map French URLs to actual Shopify handles */}
               <Route path="mentions-legales" element={<Navigate to="/pages/mentions-legales" replace />} />
-              <Route path="politique-de-confidentialite" element={<Navigate to="/pages/politique-de-confidentialite" replace />} />
-              <Route path="confidentialite" element={<Navigate to="/pages/politique-de-confidentialite" replace />} />
-              <Route path="cgv" element={<Navigate to="/pages/cgv" replace />} />
+              <Route path="politique-de-confidentialite" element={<Navigate to="/pages/privacy-policy" replace />} />
+              <Route path="confidentialite" element={<Navigate to="/pages/privacy-policy" replace />} />
+              <Route path="cgv" element={<Navigate to="/pages/terms-of-service" replace />} />
+              <Route path="conditions-generales-de-vente" element={<Navigate to="/pages/terms-of-service" replace />} />
+              <Route path="politique-de-remboursement" element={<Navigate to="/pages/refund-policy" replace />} />
+              <Route path="politique-de-livraison" element={<Navigate to="/pages/shipping-policy" replace />} />
 
               <Route path="*" element={<NotFound />} />
             </Route>

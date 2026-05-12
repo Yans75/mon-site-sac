@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, FileText } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumb from '../components/Breadcrumb';
-import { getPageByHandle } from '../lib/shopify';
+import { getInformationPageByHandle } from '../lib/shopify';
 
 const Page = () => {
   const { handle } = useParams();
@@ -15,7 +15,7 @@ const Page = () => {
     const fetchPage = async () => {
       setLoading(true);
       try {
-        const data = await getPageByHandle(handle);
+        const data = await getInformationPageByHandle(handle);
         setPage(data);
       } catch (error) {
         console.error('Error fetching page:', error);

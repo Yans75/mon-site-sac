@@ -185,6 +185,90 @@ export async function getPageByHandle(handle) {
   return data.page;
 }
 
+// ======================= SHOP POLICIES (auto-generated legal pages) =======================
+// Shopify creates these from Settings -> Policies. They live outside `pages`.
+
+const SHOP_POLICIES_QUERY = `
+  query ShopPolicies($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    shop {
+      privacyPolicy { id handle title body url }
+      refundPolicy { id handle title body url }
+      shippingPolicy { id handle title body url }
+      termsOfService { id handle title body url }
+      subscriptionPolicy { id handle title body url }
+    }
+  }
+`;
+
+// French translation of Shopify's English default policy titles
+const POLICY_TITLES_FR = {
+  'privacy-policy': 'Politique de Confidentialité',
+  'refund-policy': 'Politique de Remboursement',
+  'shipping-policy': 'Politique de Livraison',
+  'terms-of-service': 'Conditions Générales de Vente',
+  'subscription-policy': 'Politique d\u0027Abonnement',
+};
+
+function normalizePolicy(policy) {
+  if (!policy) return null;
+  return {
+    id: policy.id,
+    handle: policy.handle,
+    title: POLICY_TITLES_FR[policy.handle] || policy.title,
+    body: policy.body,
+    bodySummary: null,
+    updatedAt: null,
+    seo: null,
+    isPolicy: true,
+    externalUrl: policy.url,
+  };
+}
+
+export async function getShopPolicies() {
+  const data = await shopifyFetch({ query: SHOP_POLICIES_QUERY });
+  const s = data.shop || {};
+  return [
+    normalizePolicy(s.termsOfService),
+    normalizePolicy(s.refundPolicy),
+    normalizePolicy(s.shippingPolicy),
+    normalizePolicy(s.privacyPolicy),
+    normalizePolicy(s.subscriptionPolicy),
+  ].filter(Boolean);
+}
+
+/**
+ * Returns ALL information pages (custom pages + shop policies) merged.
+ * Used by the footer and as a single source of truth for legal content.
+ */
+export async function getAllInformationPages() {
+  const [pages, policies] = await Promise.all([
+    getPages({ first: 50 }).catch(() => []),
+    getShopPolicies().catch(() => []),
+  ]);
+  // Custom pages first, then policies. Filter out "contact" which has its own route.
+  const visiblePages = pages
+    .filter((p) => p.handle !== 'contact' && !/^contact$/i.test(p.title))
+    .map((p) => ({ ...p, isPolicy: false }));
+  return [...visiblePages, ...policies];
+}
+
+/**
+ * Resolve a handle to either a custom page or a shop policy.
+ */
+export async function getInformationPageByHandle(handle) {
+  // Try custom page first
+  try {
+    const page = await getPageByHandle(handle);
+    if (page) return { ...page, isPolicy: false };
+  } catch {
+    /* ignore, fall through to policies */
+  }
+  // Fall back to policies
+  const policies = await getShopPolicies();
+  return policies.find((p) => p.handle === handle) || null;
+}
+
 // ======================= CART =======================
 
 const CART_FRAGMENT = `

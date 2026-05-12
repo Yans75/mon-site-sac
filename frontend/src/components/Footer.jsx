@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Mail, ArrowUpRight } from 'lucide-react';
-import { getPages } from '../lib/shopify';
+import { getAllInformationPages } from '../lib/shopify';
 
 const Footer = () => {
   const [legalPages, setLegalPages] = useState([]);
 
   useEffect(() => {
     let active = true;
-    getPages({ first: 20 })
+    getAllInformationPages()
       .then((pages) => {
         if (active) setLegalPages(pages);
       })
@@ -16,10 +16,8 @@ const Footer = () => {
     return () => { active = false; };
   }, []);
 
-  // Filter out the "contact" page since we have a dedicated Contact route
-  const visibleLegalPages = legalPages.filter(
-    (p) => p.handle !== 'contact' && !/^contact$/i.test(p.title)
-  );
+  // Already filtered server-side, but keep a safety net
+  const visibleLegalPages = legalPages;
 
   return (
     <footer className="bg-charcoal text-stone-white mt-0">
