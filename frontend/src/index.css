@@ -247,3 +247,93 @@ input:focus, textarea:focus, select:focus {
         text-wrap: balance;
     }
 }
+
+/* Shopify rich-text page content (rendered from <page.body> HTML) */
+.shopify-page-content h1,
+.shopify-page-content h2,
+.shopify-page-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+.shopify-page-content h1 { font-size: 2.25rem; font-weight: 400; }
+.shopify-page-content h2 { font-size: 1.75rem; font-weight: 400; }
+.shopify-page-content h3 { font-size: 1.375rem; font-weight: 500; }
+.shopify-page-content h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--charcoal);
+    margin: 2rem 0 0.75rem;
+    font-weight: 500;
+}
+.shopify-page-content p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+    color: rgba(45, 45, 45, 0.78);
+}
+.shopify-page-content ul,
+.shopify-page-content ol {
+    padding-left: 1.5rem;
+    margin: 1rem 0 1.5rem;
+}
+.shopify-page-content ul li,
+.shopify-page-content ol li {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+    color: rgba(45, 45, 45, 0.78);
+}
+.shopify-page-content ul li { list-style: disc; }
+.shopify-page-content ol li { list-style: decimal; }
+.shopify-page-content a {
+    color: var(--terracotta);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: opacity 0.3s ease;
+}
+.shopify-page-content a:hover { opacity: 0.7; }
+.shopify-page-content strong { font-weight: 500; color: var(--charcoal); }
+.shopify-page-content em { font-style: italic; }
+.shopify-page-content blockquote {
+    border-left: 2px solid var(--terracotta);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(45, 45, 45, 0.7);
+}
+.shopify-page-content hr {
+    border: none;
+    border-top: 1px solid rgba(45, 45, 45, 0.08);
+    margin: 2.5rem 0;
+}
+.shopify-page-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+}
+.shopify-page-content table th,
+.shopify-page-content table td {
+    border: 1px solid rgba(45, 45, 45, 0.08);
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+.shopify-page-content table th {
+    background: var(--pale-sand);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+}
+.shopify-page-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+}

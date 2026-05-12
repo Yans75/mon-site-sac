@@ -135,6 +135,56 @@ export async function getProductByHandle(handle) {
   return data.product;
 }
 
+// ======================= PAGES (Shopify CMS pages) =======================
+
+const PAGES_LIST_QUERY = `
+  query Pages($country: CountryCode, $language: LanguageCode, $first: Int!)
+    @inContext(country: $country, language: $language) {
+    pages(first: $first, sortKey: TITLE) {
+      edges {
+        node {
+          id
+          handle
+          title
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+const PAGE_BY_HANDLE_QUERY = `
+  query PageByHandle($country: CountryCode, $language: LanguageCode, $handle: String!)
+    @inContext(country: $country, language: $language) {
+    page(handle: $handle) {
+      id
+      handle
+      title
+      body
+      bodySummary
+      createdAt
+      updatedAt
+      seo { title description }
+    }
+  }
+`;
+
+export async function getPages({ first = 50 } = {}) {
+  const data = await shopifyFetch({
+    query: PAGES_LIST_QUERY,
+    variables: { first },
+  });
+  return data.pages.edges.map((e) => e.node);
+}
+
+export async function getPageByHandle(handle) {
+  const data = await shopifyFetch({
+    query: PAGE_BY_HANDLE_QUERY,
+    variables: { handle },
+  });
+  return data.page;
+}
+
 // ======================= CART =======================
 
 const CART_FRAGMENT = `

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "sonner";
 import { CartProvider } from "./context/CartContext";
@@ -10,9 +10,8 @@ import About from "./pages/About";
 import Craftsmanship from "./pages/Craftsmanship";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
+import Page from "./pages/Page";
 import NotFound from "./pages/NotFound";
-import MentionsLegales from "./pages/MentionsLegales";
-import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 
 function App() {
   return (
@@ -40,8 +39,16 @@ function App() {
               <Route path="craftsmanship" element={<Craftsmanship />} />
               <Route path="contact" element={<Contact />} />
               <Route path="cart" element={<Cart />} />
-              <Route path="mentions-legales" element={<MentionsLegales />} />
-              <Route path="politique-de-confidentialite" element={<PolitiqueConfidentialite />} />
+
+              {/* Dynamic Shopify pages: /pages/:handle */}
+              <Route path="pages/:handle" element={<Page />} />
+
+              {/* Legacy redirects for old hardcoded legal URLs */}
+              <Route path="mentions-legales" element={<Navigate to="/pages/mentions-legales" replace />} />
+              <Route path="politique-de-confidentialite" element={<Navigate to="/pages/politique-de-confidentialite" replace />} />
+              <Route path="confidentialite" element={<Navigate to="/pages/politique-de-confidentialite" replace />} />
+              <Route path="cgv" element={<Navigate to="/pages/cgv" replace />} />
+
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
