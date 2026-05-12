@@ -669,40 +669,66 @@ async def get_order(order_id: str):
 
 @api_router.post("/contact")
 async def submit_contact(contact_data: ContactCreate):
-    from sendgrid import SendGridAPIClient
-    from sendgrid.helpers.mail import Mail
-    
+    import resend
+    import asyncio
+
     message = ContactMessage(**contact_data.model_dump())
     doc = message.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.contact_messages.insert_one(doc)
-    
-    # Send email via SendGrid
-    sendgrid_key = os.environ.get("SENDGRID_API_KEY")
-    if sendgrid_key:
+
+    # Send email via Resend
+    resend_key = os.environ.get("RESEND_API_KEY")
+    if resend_key:
         try:
-            sg = SendGridAPIClient(sendgrid_key)
-            recipient = os.environ.get("RECIPIENT_EMAIL", "yanskads@gmail.com")
-            
+            resend.api_key = resend_key
+            recipient = os.environ.get("RECIPIENT_EMAIL", "artemcreations2023@gmail.com")
+            sender = os.environ.get("SENDER_EMAIL", "onboarding@resend.dev")
+
             email_content = f"""
-            <h2>New Contact Form Submission - ArtemCreations</h2>
-            <p><strong>From:</strong> {contact_data.name} ({contact_data.email})</p>
-            <p><strong>Subject:</strong> {contact_data.subject or 'General Inquiry'}</p>
-            <hr>
-            <p>{contact_data.message}</p>
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #2D2D2D; border-bottom: 2px solid #C97B5D; padding-bottom: 10px;">
+                Nouveau message de contact &mdash; ArtemCreations
+              </h2>
+              <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <tr>
+                  <td style="padding: 8px 0; color: #666; width: 120px;"><strong>De :</strong></td>
+                  <td style="padding: 8px 0;">{contact_data.name}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #666;"><strong>Email :</strong></td>
+                  <td style="padding: 8px 0;"><a href="mailto:{contact_data.email}">{contact_data.email}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #666;"><strong>Sujet :</strong></td>
+                  <td style="padding: 8px 0;">{contact_data.subject or 'Demande generale'}</td>
+                </tr>
+              </table>
+              <div style="background: #F5F1EA; padding: 20px; border-left: 3px solid #C97B5D; margin: 20px 0;">
+                <p style="margin: 0; line-height: 1.6; color: #2D2D2D; white-space: pre-wrap;">{contact_data.message}</p>
+              </div>
+              <p style="font-size: 12px; color: #999; margin-top: 30px;">
+                Message recu via le formulaire de contact du site artemcreations.
+              </p>
+            </div>
             """
-            
-            mail = Mail(
-                from_email=os.environ.get("SENDER_EMAIL", "yanskads@gmail.com"),
-                to_emails=recipient,
-                subject=f"ArtemCreations Contact: {contact_data.subject or 'New Message'}",
-                html_content=email_content
-            )
-            sg.send(mail)
+
+            params = {
+                "from": sender,
+                "to": [recipient],
+                "reply_to": contact_data.email,
+                "subject": f"ArtemCreations Contact: {contact_data.subject or 'Nouveau message'}",
+                "html": email_content,
+            }
+            # Run sync SDK in thread to keep FastAPI non-blocking
+            result = await asyncio.to_thread(resend.Emails.send, params)
+            logger.info(f"Resend email sent: {result}")
         except Exception as e:
-            logger.error(f"SendGrid error: {e}")
-    
-    return {"message": "Thank you for your message. We'll be in touch soon.", "message_id": message.message_id}
+            logger.error(f"Resend error: {e}")
+    else:
+        logger.warning("RESEND_API_KEY not configured, email not sent (message stored in DB)")
+
+    return {"message": "Merci pour votre message. Nous vous repondrons rapidement.", "message_id": message.message_id}
 
 # ============== AUTH ROUTES ==============
 
