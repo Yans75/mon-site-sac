@@ -1,3 +1,10 @@
+## Prochaines Étapes (Backlog Priorisé) — au 16 Fév 2026
+- **P2** : Adapter le texte de la page d'accueil pour aligner avec l'histoire de Marlena
+- **P2** : Adapter le texte de la page Contact pour mentionner Marlena
+- **P3** : Optimisation SEO supplémentaire (OG images personnalisées par produit, balises hreflang si i18n)
+- **P3** : Tests E2E du tunnel Shopify (ajout panier → checkout)
+
+
 # ArtemCreations - PRD (Product Requirements Document)
 
 ## Énoncé du Problème Original
@@ -140,14 +147,6 @@ ADMIN_PASSWORD=ArtemAdmin2024!
   - Page Politique de Confidentialité (/politique-de-confidentialite)
   - Liens footer vers pages légales
 
-### 16 Fév 2026
-- Migration headless Shopify complète (produits, panier, checkout, pages légales)
-- Resend configuré pour `/api/contact`
-- Pages "Notre Histoire" et "Savoir-Faire" : textes Marlena + nouvelles images
-- **Règle stricte d'imagerie appliquée** : remplacement de TOUTES les images About et Craftsmanship par des visuels strictement sans visage/tête (mains uniquement, flat lays de laine, ou sacs au crochet finis). Hero About : sac au crochet beige avec franges (`photo-1696061873245-3acc4aecfdd9`).
-
-## Prochaines Étapes (Backlog Priorisé)
-- **P1** : Nettoyer `/app/backend/server.py` (~800 lignes de code mort : anciens endpoints produits, panier, admin, Stripe — remplacés par Shopify)
-- **P2** : Adapter le texte de la page d'accueil pour aligner avec l'histoire de Marlena
-- **P2** : Adapter le texte de la page Contact pour mentionner Marlena
-- **P3** : Optimisation SEO supplémentaire (sitemap, OG images personnalisées)
+### 16 Fév 2026 (suite)
+- Remplacement image étape 03 "Le montage" : nouvelle photo libre de bobines de fil polyester haute gamme (`photo-1562725380-6cc8ca44c992`, sans watermark Unsplash+, sans visage)
+- **Nettoyage backend (P1) DONE** : `/app/backend/server.py` réduit de 1074 → 195 lignes. Suppression de tous les endpoints obsolètes (`/products`, `/admin/*`, `/cart/*`, `/checkout/*`, `/webhook/stripe`, `/orders/{id}`, `/auth/*`, `/seed`, `/upload/*`) ainsi que des imports `bcrypt`, `jwt`, `shutil` et des modèles inutilisés. Le backend ne conserve plus que : POST /api/contact (Resend), GET /api/, GET /api/sitemap.xml, GET /api/robots.txt. Sitemap mis à jour avec les nouveaux chemins Shopify (`/pages/...`).

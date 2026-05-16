@@ -19,7 +19,7 @@ const Craftsmanship = () => {
       number: '03',
       title: 'Le montage',
       description: "C'est l'étape la plus longue, parfois plusieurs jours de travail patient. Le fil prend vie entre les mains, transformé maille après maille en un sac structuré et fidèle à son dessin initial.",
-      image: 'https://plus.unsplash.com/premium_photo-1765040758417-aaf03e113a3a?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
+      image: 'https://images.unsplash.com/photo-1562725380-6cc8ca44c992?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '04',
