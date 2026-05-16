@@ -5,27 +5,27 @@ const Craftsmanship = () => {
   const steps = [
     {
       number: '01',
-      title: 'Sélection du Fil',
-      description: 'Nous sélectionnons uniquement les fils biologiques et recyclés les plus fins. Chaque fibre est choisie pour sa texture, sa durabilité et sa beauté.',
-      image: 'https://images.unsplash.com/photo-1666112512232-f763ceeb5ec8?crop=entropy&cs=srgb&fm=jpg&q=85'
+      title: 'Le choix des matières',
+      description: "Tout commence par la sélection des fils : yarn et polyester haute gamme, choisis pour leur résistance, leur rendu visuel et leur toucher. Aucune fibre n'entre dans l'atelier sans avoir été testée.",
+      image: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '02',
-      title: 'Conception du Design',
-      description: 'Chaque sac commence par une vision. Croquis, études de couleurs et planification des motifs garantissent que chaque pièce sera belle et fonctionnelle.',
-      image: 'https://images.unsplash.com/photo-1636545767112-27892db3d13f?crop=entropy&cs=srgb&fm=jpg&q=85'
+      title: 'La conception',
+      description: "Chaque forme, chaque détail est pensé à la main, sans patron industriel. Une création Artem naît d'une intuition, d'un dessin, d'une couleur — puis se construit point par point.",
+      image: 'https://images.unsplash.com/photo-1626784579980-db39c1a13aa9?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '03',
-      title: 'La Confection',
-      description: "C'est là que la magie opère. Heure après heure de travail minutieux transforment le fil brut en oeuvre d'art.",
-      image: 'https://images.unsplash.com/photo-1647032713597-1dcfaa15b725?crop=entropy&cs=srgb&fm=jpg&q=85'
+      title: 'Le montage',
+      description: "C'est l'étape la plus longue, parfois plusieurs jours de travail patient. Le fil prend vie entre les mains, transformé maille après maille en un sac structuré et fidèle à son dessin initial.",
+      image: 'https://images.unsplash.com/photo-1632649027900-389e810204e6?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '04',
-      title: 'Les Finitions',
-      description: "Les accessoires sont fixés, les doublures cousues, et chaque sac est inspecté pour atteindre la perfection. L'artisan signe son oeuvre.",
-      image: 'https://images.unsplash.com/photo-1737888828619-96e0f50302f4?crop=entropy&cs=srgb&fm=jpg&q=85'
+      title: 'Les finitions',
+      description: "Anses, fermetures, doublures, dernières retouches : chaque étape est réalisée avec soin et précision. Le sac est alors inspecté, signé, et prêt à partir vivre sa vie.",
+      image: 'https://images.unsplash.com/photo-1596939082030-301c0d17b5b3?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     }
   ];
 
@@ -33,8 +33,9 @@ const Craftsmanship = () => {
     <div className="pt-24 lg:pt-28">
       <SEO
         title="Savoir-Faire Artisanal"
-        description="Découvrez le savoir-faire derrière nos sacs crochet faits main. 40+ heures par pièce, fils de yarn premium, confection artisanale française."
+        description="Le savoir-faire derrière chaque sac Artem : fils yarn et polyester premium, conception sans patron industriel, fabrication entièrement à la main par Marlena."
       />
+
       {/* Hero */}
       <section className="py-16 md:py-24 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,13 +46,13 @@ const Craftsmanship = () => {
           >
             <p className="font-body text-xs uppercase tracking-[0.25em] text-charcoal/30 mb-4">Savoir-Faire</p>
             <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-charcoal tracking-tighter leading-none mb-8">
-              Un savoir-faire qui
+              Un processus entier,
               <br />
-              <span className="italic">raconte une histoire</span>
+              <span className="italic">du fil au sac fini</span>
             </h1>
-            <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed max-w-lg">
-              Chaque sac naît d'heures de travail patient. Pas de raccourcis, pas de machines. 
-              Juste du fil, des mains et du temps.
+            <p className="font-body text-sm font-light text-charcoal/60 leading-relaxed max-w-lg">
+              Créer un sac Artem, c'est un processus entier qui peut prendre plusieurs jours.
+              Pas de raccourcis, pas de machines. Juste du fil, des mains et du temps.
             </p>
           </motion.div>
         </div>
@@ -62,12 +63,12 @@ const Craftsmanship = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 text-center">
             {[
-              { value: '40+', label: 'Heures en moyenne' },
-              { value: '200+', label: 'Noeuds au centimètre' },
-              { value: '100%', label: 'Fait Main' },
+              { value: 'Plusieurs', label: 'Jours par sac' },
+              { value: '100%', label: 'Fait à la main' },
+              { value: 'Sans', label: 'Patron industriel' },
             ].map((stat, i) => (
               <div key={i}>
-                <p className="font-heading text-5xl md:text-6xl tracking-tight">{stat.value}</p>
+                <p className="font-heading text-4xl md:text-5xl tracking-tight">{stat.value}</p>
                 <p className="font-body text-[10px] uppercase tracking-[0.25em] text-stone-white/25 mt-2">{stat.label}</p>
               </div>
             ))}
@@ -75,7 +76,7 @@ const Craftsmanship = () => {
         </div>
       </section>
 
-      {/* Process Steps */}
+      {/* Étapes */}
       <section className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-28 md:space-y-40">
@@ -92,7 +93,7 @@ const Craftsmanship = () => {
                   <div className="aspect-[4/3] overflow-hidden group">
                     <img
                       src={step.image}
-                      alt={step.title}
+                      alt={`Étape ${step.number} — ${step.title}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
                   </div>
@@ -105,7 +106,7 @@ const Craftsmanship = () => {
                   <h2 className="font-heading text-3xl md:text-4xl text-charcoal -mt-12 mb-5 relative z-10 tracking-tight">
                     {step.title}
                   </h2>
-                  <p className="font-body text-sm font-light text-charcoal/50 leading-relaxed max-w-md">
+                  <p className="font-body text-sm font-light text-charcoal/60 leading-relaxed max-w-md">
                     {step.description}
                   </p>
                 </div>
@@ -115,7 +116,7 @@ const Craftsmanship = () => {
         </div>
       </section>
 
-      {/* Materials */}
+      {/* Matières */}
       <section className="py-24 md:py-32 bg-pale-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -131,11 +132,16 @@ const Craftsmanship = () => {
             <div className="w-12 h-px bg-terracotta mt-6" />
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {[
-              { name: 'Coton Biologique', description: 'Doux, respirant et cultivé sans produits chimiques nocifs. Notre choix pour les sacs du quotidien.' },
-              { name: 'Fibres Recyclées', description: 'Donner une nouvelle vie aux déchets textiles. Beau, durable et respectueux de la planète.' },
-              { name: 'Laine Premium', description: "Provenant de fermes éthiques. Parfaite pour les pièces qui nécessitent chaleur et texture." }
+              {
+                name: 'Fil de Yarn premium',
+                description: "Un fil souple, dense et résistant, choisi pour sa tenue dans le temps et la richesse de ses coloris. Il offre aux sacs leur structure et leur main caractéristique."
+              },
+              {
+                name: 'Polyester haute gamme',
+                description: "Un polyester d'exception, doux au toucher mais résistant à l'usure. Sa brillance subtile sublime les couleurs et garantit la durabilité de chaque création."
+              }
             ].map((material, index) => (
               <motion.div
                 key={material.name}
@@ -148,7 +154,7 @@ const Craftsmanship = () => {
                 <h3 className="font-heading text-2xl text-charcoal mb-4 tracking-tight">
                   {material.name}
                 </h3>
-                <p className="font-body text-xs font-light text-charcoal/40 leading-relaxed">
+                <p className="font-body text-xs font-light text-charcoal/50 leading-relaxed">
                   {material.description}
                 </p>
               </motion.div>
@@ -157,7 +163,7 @@ const Craftsmanship = () => {
         </div>
       </section>
 
-      {/* Quote */}
+      {/* Citation */}
       <section className="py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.blockquote
@@ -166,12 +172,12 @@ const Craftsmanship = () => {
             viewport={{ once: true }}
           >
             <p className="font-heading text-3xl md:text-4xl text-charcoal italic leading-snug mb-10 tracking-tight">
-              "La beauté du fait main réside dans les imperfections — les subtiles variations 
-              qui prouvent que des mains humaines étaient là."
+              "Un sac qui ne ressemble à aucun autre,
+              conçu pour durer et pour être remarqué."
             </p>
             <div className="w-12 h-px bg-terracotta mx-auto mb-6" />
             <cite className="font-accent text-xl text-terracotta not-italic">
-              — Elena, Maître Artisane
+              — Marlena, Créatrice
             </cite>
           </motion.blockquote>
         </div>
