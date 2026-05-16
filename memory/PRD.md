@@ -140,9 +140,14 @@ ADMIN_PASSWORD=ArtemAdmin2024!
   - Page Politique de Confidentialité (/politique-de-confidentialite)
   - Liens footer vers pages légales
 
-## Prochaines Étapes
-1. Fournir la clé API SendGrid pour activer les emails
-2. Vérifier Google Auth end-to-end
-3. Vérifier Stripe payment flow
-4. Gestion des statuts de commande dans le panel admin
-5. Optimiser pour le SEO
+### 16 Fév 2026
+- Migration headless Shopify complète (produits, panier, checkout, pages légales)
+- Resend configuré pour `/api/contact`
+- Pages "Notre Histoire" et "Savoir-Faire" : textes Marlena + nouvelles images
+- **Règle stricte d'imagerie appliquée** : remplacement de TOUTES les images About et Craftsmanship par des visuels strictement sans visage/tête (mains uniquement, flat lays de laine, ou sacs au crochet finis). Hero About : sac au crochet beige avec franges (`photo-1696061873245-3acc4aecfdd9`).
+
+## Prochaines Étapes (Backlog Priorisé)
+- **P1** : Nettoyer `/app/backend/server.py` (~800 lignes de code mort : anciens endpoints produits, panier, admin, Stripe — remplacés par Shopify)
+- **P2** : Adapter le texte de la page d'accueil pour aligner avec l'histoire de Marlena
+- **P2** : Adapter le texte de la page Contact pour mentionner Marlena
+- **P3** : Optimisation SEO supplémentaire (sitemap, OG images personnalisées)

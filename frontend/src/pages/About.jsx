@@ -2,8 +2,9 @@ import { motion } from 'framer-motion';
 import { Heart, Sparkles, Hand, MapPin } from 'lucide-react';
 import SEO from '../components/SEO';
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1635617045254-f7c84052672c?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200';
-const PORTRAIT_IMAGE = 'https://images.unsplash.com/photo-1668072587859-f0f30c8fa938?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200';
+// Images strictement sans visage — mains, laine et atelier uniquement
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1696061873245-3acc4aecfdd9?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200';
+const PORTRAIT_IMAGE = 'https://images.unsplash.com/photo-1486129273931-27820249c615?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200';
 
 const About = () => {
   const values = [
@@ -71,7 +72,7 @@ const About = () => {
               <div className="aspect-[4/5] overflow-hidden">
                 <img
                   src={HERO_IMAGE}
-                  alt="Marlena, fondatrice d'Artem Créations, tricotant un sac à la main"
+                  alt="Sac au crochet artisanal Artem Créations — pièce unique faite main"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -99,7 +100,7 @@ const About = () => {
               <div className="aspect-square overflow-hidden">
                 <img
                   src={PORTRAIT_IMAGE}
-                  alt="Marlena entourée de fils de yarn colorés dans son atelier"
+                  alt="Pelotes de fils de yarn premium dans l'atelier d'Artem Créations"
                   className="w-full h-full object-cover"
                 />
               </div>

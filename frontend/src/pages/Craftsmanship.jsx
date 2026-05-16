@@ -7,25 +7,25 @@ const Craftsmanship = () => {
       number: '01',
       title: 'Le choix des matières',
       description: "Tout commence par la sélection des fils : yarn et polyester haute gamme, choisis pour leur résistance, leur rendu visuel et leur toucher. Aucune fibre n'entre dans l'atelier sans avoir été testée.",
-      image: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
+      image: 'https://images.unsplash.com/photo-1598871956222-26b66d6559fe?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '02',
       title: 'La conception',
       description: "Chaque forme, chaque détail est pensé à la main, sans patron industriel. Une création Artem naît d'une intuition, d'un dessin, d'une couleur — puis se construit point par point.",
-      image: 'https://images.unsplash.com/photo-1626784579980-db39c1a13aa9?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
+      image: 'https://images.unsplash.com/photo-1715870342598-7b54d6832204?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '03',
       title: 'Le montage',
       description: "C'est l'étape la plus longue, parfois plusieurs jours de travail patient. Le fil prend vie entre les mains, transformé maille après maille en un sac structuré et fidèle à son dessin initial.",
-      image: 'https://images.unsplash.com/photo-1632649027900-389e810204e6?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
+      image: 'https://plus.unsplash.com/premium_photo-1765040758417-aaf03e113a3a?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     },
     {
       number: '04',
       title: 'Les finitions',
       description: "Anses, fermetures, doublures, dernières retouches : chaque étape est réalisée avec soin et précision. Le sac est alors inspecté, signé, et prêt à partir vivre sa vie.",
-      image: 'https://images.unsplash.com/photo-1596939082030-301c0d17b5b3?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
+      image: 'https://images.unsplash.com/photo-1645475401635-88f088f224d6?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200'
     }
   ];
 
